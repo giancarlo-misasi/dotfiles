@@ -21,7 +21,6 @@ local options = {
   incsearch = true,
   hlsearch = true,
   inccommand = 'nosplit',
-  clipboard = 'unnamed,unnamedplus',
   tabstop = 2,
   softtabstop = -1,
   shiftwidth = 0,
