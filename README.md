@@ -8,6 +8,8 @@ My barebones NeoVIM configuration.
 git clone --depth 1 https://github.com/grmisasi/nvim-config-lua ~/.config/nvim/
 cp ~/.config/nvim/.nvim_paste .
 chmod u+x .nvim_paste
+sudo apt-get install ripgrep
+sudo apt-get install fd-find
 ```
 
 ## Uninstall
