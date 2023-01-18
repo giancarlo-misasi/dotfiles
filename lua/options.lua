@@ -37,6 +37,7 @@ local options = {
   keymodel = 'startsel',
   backspace = 'indent,eol,start',
   whichwrap = 'b,s,<,>,[,]',
+  clipboard = 'unnamed', -- combined with clipboard.lua to enable sync to wsl system clipboard
 }
 
 -- Set the options

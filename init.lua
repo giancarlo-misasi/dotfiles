@@ -4,64 +4,150 @@ local utils = require('utils').start_script(name)
 -- Debugging setup scripts
 utils.debugging_enabled = false
 
--- Load general settings and key mappings
-require 'options'
-require 'commands'
-require 'keymaps'
-
--- Global function to run default setup after loading module
-function s(module, opts)
+-- Global function to simplify safe loading plugins
+function setup(module, opts)
   local ok, m = require('utils').pcall(module)
   if ok then
     m.setup(opts or {})
   end
+  return m
 end
 
--- Global function to run custom setup after loading module
-function c(plugin_module, setup_module)
-  local plugin_module_ok, m = require('utils').pcall(plugin_module)
-  if not plugin_module_ok then
-    return
-  end
-
-  local setup_module_ok, s = require('utils').pcall(setup_module)
-  if setup_module_ok then
-    s.setup(m)
-  end
+-- Bootstrap lazy.nvim
+local path = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(path) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    path,
+  })
 end
+vim.opt.rtp:prepend(path)
 
--- The list of plugins we will use
-local function specify_plugins(use)
-  -- Required libraries
-  use 'wbthomason/packer.nvim'
-  
+-- Load plugins using lazy.nvim
+setup('lazy', {
   -- Basic editing
-  use 'tpope/vim-repeat'
-  use 'tpope/vim-surround'
-  use 'tpope/vim-commentary'
-  use {'gbprod/cutlass.nvim', config = function() s('cutlass', { override_del = true }) end}
-  use {'gbprod/substitute.nvim', config = function() s('substitute') end}
-end
+  'tpope/vim-repeat',
+  'tpope/vim-surround',
+  'tpope/vim-commentary',
+  { 'gbprod/substitute.nvim', config = true },
+  { 'gbprod/cutlass.nvim', config = function() 
+      setup('cutlass', { override_del = true })
+    end
+  },
+  
+  -- Telescope
+  { 'nvim-lua/plenary.nvim', lazy = true },
+  { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+  { 'nvim-telescope/telescope.nvim', version = '0.1.1', dependencies = { 'nvim-lua/plenary.nvim' }, config = function() 
+      local telescope = require("telescope")
+      local config = require("telescope.config")
+      
+      -- Clone the default Telescope configuration
+      local vimgrep_arguments = { unpack(config.values.vimgrep_arguments) }
+      
+      -- I want to search in hidden/dot files.
+      table.insert(vimgrep_arguments, "--hidden")
+      
+      -- I don't want to search in the `.git` directory.
+      table.insert(vimgrep_arguments, "--glob")
+      table.insert(vimgrep_arguments, "!**/.git/*")
+      
+      -- Configure telescope
+      telescope.setup({
+        defaults = {
+          vimgrep_arguments = vimgrep_arguments,
+        },
+        pickers = {
+          find_files = {
+            find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
+          },
+        },
+      })
 
--- Load packer to allow the use of these plugins
-local ok, packer = pcall(require, 'packer')
-if ok then
-  local packer_compile_path = vim.fn.stdpath('config') .. '/lua/packer_compiled.lua'
+      -- Setup fzf
+      telescope.load_extension('fzf')
+    end
+  },
 
-  packer.init {
-    display = {
-      open_fn = function()
-        return require("packer.util").float { border = "rounded" }
+  -- LSP
+  { 'VonHeikemen/lsp-zero.nvim', dependencies = {
+      -- LSP Support
+      {'neovim/nvim-lspconfig'},
+      {'williamboman/mason.nvim'},
+      {'williamboman/mason-lspconfig.nvim'},
+
+      -- Autocompletion
+      {'hrsh7th/nvim-cmp'},
+      {'hrsh7th/cmp-nvim-lsp'},
+      {'hrsh7th/cmp-buffer'},
+      {'hrsh7th/cmp-path'},
+      {'saadparwaiz1/cmp_luasnip'},
+      {'hrsh7th/cmp-nvim-lua'},
+
+      -- Snippets
+      {'L3MON4D3/LuaSnip'},
+      {'rafamadriz/friendly-snippets'},
+    }, config = function()
+        local lsp = require('lsp-zero')
+        lsp.preset('recommended')
+
+        -- Intellij style completion
+        local cmp = require('cmp')
+        local cmp_mappings = lsp.defaults.cmp_mappings()
+        cmp_mappings['<Tab>'] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            local entry = cmp.get_selected_entry()
+            if not entry then
+              cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+            else
+              cmp.confirm()
+            end
+          else
+            fallback()
+          end
+        end, {"i","s","c",})
+
+        lsp.setup_nvim_cmp({
+          mapping = cmp_mappings
+        })
+
+        -- Make sure languages are installed
+        lsp.ensure_installed({
+          'cmake', 'clangd',  -- c++
+          'gopls',            -- go
+          'jdtls',            -- java
+          'sumneko_lua',      -- lua
+          'marksman'          -- markdown
+        })
+
+        lsp.setup()
       end
-    }
-  }
+    },
+  
+  -- Treesitter
+  { 'nvim-treesitter/nvim-treesitter', build = ":TSUpdate" },
 
-  packer.startup {
-    specify_plugins, 
-    config = { compile_path = packer_compile_path }
-  }
+  -- Trouble
+  { 'folke/trouble.nvim', requires = 'kyazdani42/nvim-web-devicons', config = true },
 
-  require 'packer_compiled'
-end
+  -- Twilight
+  { 'folke/twilight.nvim', config = true },
+
+  -- Dashboard
+  { 'goolord/alpha-nvim', dependencies = { 'nvim-tree/nvim-web-devicons' }, config = function()
+    require 'dashboard'
+    end
+  },
+})
+
+-- Load general settings and keymaps after plugins
+require 'options'
+require 'commands'
+require 'clipboard'
+require 'keymaps'
 
 utils.end_script(name)
