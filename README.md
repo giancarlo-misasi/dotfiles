@@ -6,9 +6,6 @@ My barebones NeoVIM configuration.
 
 ```shell
 git clone --depth 1 https://github.com/grmisasi/nvim-config-lua ~/.config/nvim/
-git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-vim
-:PackerSync
 ```
 
 ## Uninstall
@@ -16,5 +13,4 @@ vim
 
 ```shell
 rm -rf ~/.config/nvim
-rm -rf ~/.local/share/nvim/site/pack
 ```
