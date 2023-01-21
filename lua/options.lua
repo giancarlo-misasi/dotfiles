@@ -1,6 +1,5 @@
 local name = 'options'
 local utils = require('utils').start_script(name)
-local icons = require 'icons'
 
 local options = {
   backup = false,
@@ -50,27 +49,5 @@ for k, v in pairs(options) do
     print('failed to set opt ' .. k .. ': ' .. exception)
   end
 end
-
-local signs = {
-  { name = "DiagnosticSignError", text = icons.sign_icons.Error },
-  { name = "DiagnosticSignWarn", text = icons.sign_icons.Warn },
-  { name = "DiagnosticSignHint", text = icons.sign_icons.Hint },
-  { name = "DiagnosticSignInfo", text = icons.sign_icons.Info },
-}
-
--- Set the signs
-for _, sign in ipairs(signs) do
-  vim.fn.sign_define(sign.name, {
-    texthl = sign.name,
-    text = sign.text,
-    numhl = ""
-  })
-end
-
--- Highlighting
-vim.cmd [[
-  set guicursor=n-v-c:block,i-ci-ve:ver30-Cursor/lCursor,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250,sm:block-blinkwait175-blinkoff150-blinkon175
-  hi CursorLine guibg=#363C46
-]]
 
 utils.end_script(name)
