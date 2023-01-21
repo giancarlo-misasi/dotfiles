@@ -8,16 +8,8 @@ m.setup {
     -- A list of parser names, or "all" (the four listed parsers should always be installed)
     ensure_installed = lang.treesitter_languages,
     auto_install = true,
+    indent = false,
     highlight = {
-        enable = true,
-    },
-    autotag = { 
-        enable = true
-    },
-    indent = {
-        enable = true,
-    },
-    context_commentstring = {
         enable = true,
     },
     incremental_selection = {
@@ -60,5 +52,10 @@ vim.opt.foldcolumn = 'auto'
 vim.opt.foldlevel = 99
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+-- Fold workaround for treesitter bug https://github.com/nvim-telescope/telescope.nvim/issues/699
+vim.api.nvim_create_autocmd({ "BufEnter" }, {
+    pattern = { "*" },
+    command = "normal zx",
+})
 
 utils.end_script(name)

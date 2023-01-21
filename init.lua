@@ -2,7 +2,7 @@ local name = 'init.lua'
 local utils = require('utils').start_script(name)
 
 -- Debugging setup scripts
-utils.debugging_enabled = true
+utils.debugging_enabled = false
 
 -- s = Setup
 -- Requires the module and if successful, calls setup with opts
