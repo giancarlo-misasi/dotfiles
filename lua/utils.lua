@@ -31,6 +31,10 @@ M.extend = function(original, extension)
   return vim.tbl_deep_extend('force', extension, original)
 end
 
+M.cwd = function()
+  return vim.api.nvim_exec(':pwd', true)
+end
+
 M.buffer_directory = function(bufname)
   return vim.fn.fnamemodify(bufname, ':p:h')
 end

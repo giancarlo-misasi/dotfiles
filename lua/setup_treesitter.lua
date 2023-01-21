@@ -5,16 +5,12 @@ local m = require('nvim-treesitter.configs')
 local keymaps = require('keymaps')
 local lang = require('languages')
 m.setup {
-    -- A list of parser names, or "all" (the four listed parsers should always be installed)
     ensure_installed = lang.treesitter_languages,
     auto_install = true,
     indent = false,
+    incremental_selection = false,
     highlight = {
         enable = true,
-    },
-    incremental_selection = {
-        enable = true,
-        keymaps = keymaps.incremental_selection_keymaps,
     },
     textobjects = {
         swap = false,
@@ -35,23 +31,15 @@ m.setup {
     },
 }
 
-local ts_repeat_move = require 'nvim-treesitter.textobjects.repeatable_move'
-
--- Repeat movement with ; and ,
--- ensure ; goes forward and , goes backward regardless of the last direction
-vim.keymap.set({ 'n', 'x', 'o' }, ';', ts_repeat_move.repeat_last_move_next)
-vim.keymap.set({ 'n', 'x', 'o' }, ',', ts_repeat_move.repeat_last_move_previous)
--- Make builtin f, F, t, T also repeatable with ; and ,
-vim.keymap.set({ 'n', 'x', 'o' }, 'f', ts_repeat_move.builtin_f)
-vim.keymap.set({ 'n', 'x', 'o' }, 'F', ts_repeat_move.builtin_F)
-vim.keymap.set({ 'n', 'x', 'o' }, 't', ts_repeat_move.builtin_t)
-vim.keymap.set({ 'n', 'x', 'o' }, 'T', ts_repeat_move.builtin_T)
+-- Enable repeats
+keymaps.set_treesitter_repeat_keymaps()
 
 -- Folding
 vim.opt.foldcolumn = 'auto'
 vim.opt.foldlevel = 99
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+
 -- Fold workaround for treesitter bug https://github.com/nvim-telescope/telescope.nvim/issues/699
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
     pattern = { "*" },

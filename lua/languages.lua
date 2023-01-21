@@ -11,6 +11,8 @@ M.treesitter_languages = {
     'jq',
     'java',
     'lua',
+    'python',
+    'ruby',
     'markdown',
 }
 
@@ -20,6 +22,12 @@ M.lsp_languages = {
 
     -- go
     'gopls',
+
+    -- python
+    'jedi_language_server',
+
+    -- ruby
+    'ruby_ls',
 
     -- markdown
     'marksman',

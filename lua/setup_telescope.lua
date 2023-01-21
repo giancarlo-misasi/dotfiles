@@ -2,6 +2,7 @@ local name = 'setup_telescope'
 local utils = require('utils').start_script(name)
 
 local m = require("telescope")
+local actions = require "telescope.actions"
 local config = require("telescope.config")
 local builtin = require('telescope.builtin')
 local keymaps = require('keymaps')
@@ -20,6 +21,7 @@ table.insert(vimgrep_arguments, "!**/.git/*")
 m.setup {
   defaults = {
     vimgrep_arguments = vimgrep_arguments,
+    mappings = keymaps.telescope_dialog_keymaps(actions, config)
   },
   pickers = {
     find_files = {

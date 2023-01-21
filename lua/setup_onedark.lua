@@ -3,7 +3,13 @@ local utils = require('utils').start_script(name)
 
 local m = require('onedark')
 m.setup {
-    style = 'warmer'
+    style = 'warmer',
+    lualine = {
+        transparent = true,
+    },
+    code_style = {
+        comments = 'none'
+    },
 }
 m.load() 
 

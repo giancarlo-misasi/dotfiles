@@ -2,7 +2,7 @@ local name = 'init.lua'
 local utils = require('utils').start_script(name)
 
 -- Debugging setup scripts
-utils.debugging_enabled = false
+utils.debugging_enabled = true
 
 -- s = Setup
 -- Requires the module and if successful, calls setup with opts
@@ -38,11 +38,7 @@ vim.opt.rtp:prepend(path)
 require 'options'
 require 'commands'
 require 'clipboard'
-local k = require 'keymaps'
-
--- Initialize basic keymaps and leader key
-k.set_leader()
-k.set_keymaps(k.basic_keymaps)
+require 'keymaps'
 
 -- Load plugins using lazy.nvim
 s('lazy', {
@@ -50,8 +46,11 @@ s('lazy', {
   'tpope/vim-repeat',
   'tpope/vim-sensible',
   'tpope/vim-surround',
-  { 'gbprod/cutlass.nvim', config = r('setup_cutlass') }, -- change deletes to not affect clipboard
+  { 'gbprod/cutlass.nvim', config = r('setup_cutlass') },
   { 'numToStr/Comment.nvim', config = r('setup_comment') },
+
+  -- Learning keymaps
+  { 'folke/which-key.nvim', config = r('setup_which_key') },
 
   -- Theme
   { 'navarasu/onedark.nvim', config = r('setup_onedark'),
@@ -59,14 +58,7 @@ s('lazy', {
         'kyazdani42/nvim-web-devicons'
       },
   },
-
-  -- Landing page
-  { 'goolord/alpha-nvim', config = r('setup_alpha'),
-      dependencies = { 
-        'kyazdani42/nvim-web-devicons'
-      },
-  },
-
+  
   -- Tabs
   {'romgrk/barbar.nvim', config = r('setup_barbar'),
       dependencies = {
@@ -77,7 +69,8 @@ s('lazy', {
   -- Status line
   { 'nvim-lualine/lualine.nvim', config = r('setup_lualine'),
       dependencies = {
-        'kyazdani42/nvim-web-devicons'
+        'kyazdani42/nvim-web-devicons',
+        'arkav/lualine-lsp-progress',
       },
   },
 
@@ -88,7 +81,7 @@ s('lazy', {
       },
   },
 
-  -- File serch
+  -- File search
   { 'nvim-telescope/telescope-fzf-native.nvim', config = r('setup_telescope'), build = 'make',
       dependencies = {
         'nvim-lua/plenary.nvim',
@@ -113,6 +106,7 @@ s('lazy', {
         'hrsh7th/cmp-path',
         'saadparwaiz1/cmp_luasnip',
         'hrsh7th/cmp-nvim-lua',
+        'onsails/lspkind.nvim',
         -- Snippets
         'L3MON4D3/LuaSnip',
         'rafamadriz/friendly-snippets',
@@ -135,7 +129,7 @@ s('lazy', {
       },
   },
 
-    -- Auto pairing brackets
+  -- Auto pairing brackets
   { 'windwp/nvim-autopairs', config = r('setup_autopairs'),
       dependencies = {
         'nvim-treesitter/nvim-treesitter',
