@@ -2,7 +2,7 @@ local name = 'init.lua'
 local utils = require('utils').start_script(name)
 
 -- Debugging setup scripts
-utils.debugging_enabled = false
+utils.debugging_enabled = true
 
 -- s = Setup
 -- Requires the module and if successful, calls setup with opts
@@ -89,6 +89,15 @@ s('lazy', {
       },
   },
 
+  -- Syntax tree for fast non lsp language features
+  -- NOTE: Replaces need for 'vim-scripts/argtextobj.vim'
+  { 'nvim-treesitter/nvim-treesitter', config = r('setup_treesitter'), build = ":TSUpdate",
+      dependencies = {
+        'nvim-treesitter/nvim-treesitter-textobjects',
+        'JoosepAlviste/nvim-ts-context-commentstring',
+      },
+  },
+
   -- Language servers
   { 'VonHeikemen/lsp-zero.nvim', config = r('setup_lsp'), branch = 'v1.x',
       dependencies = {
@@ -110,15 +119,6 @@ s('lazy', {
         -- Snippets
         'L3MON4D3/LuaSnip',
         'rafamadriz/friendly-snippets',
-      },
-  },
-  
-  -- Syntax tree for fast non lsp language features
-  -- NOTE: Replaces need for 'vim-scripts/argtextobj.vim'
-  { 'nvim-treesitter/nvim-treesitter', config = r('setup_treesitter'), build = ":TSUpdate",
-      dependencies = {
-        'nvim-treesitter/nvim-treesitter-textobjects',
-        'JoosepAlviste/nvim-ts-context-commentstring',
       },
   },
 

@@ -61,6 +61,9 @@ M.basic_keymaps = {
   { desc = 'Reverse indent',  mode = 'n', lhs = '<S-Tab>',    rhs = '<<'},
   { desc = 'Reverse indent',  mode = 'x', lhs = '<S-Tab>',    rhs = '<gv' },
   { desc = 'Reverse indent',  mode = 'i', lhs = '<S-Tab>',    rhs = '<C-D>'  },
+  { desc = 'Find folders',    mode = 'n', lhs = '<leader>w',  rhs = function() vim.cmd(':Texplore ' .. utils.cwd() .. '<cr>') end },
+  { desc = 'CD to buf dir',   mode = 'n', lhs = '<leader>c',  rhs = function() vim.cmd(':cd ' .. utils.current_buffer_directory()) end },
+  { desc = 'CD up 1 dir',     mode = 'n', lhs = '<leader><Up>',rhs = function() vim.cmd(':cd ..') end },
 --         'clear highlighting'           lhs = '<C-l'>''     note: this is inherited from tpope/sensible
 }
 
@@ -72,8 +75,7 @@ M.lsp_keymaps = function(buffer) return {
   -- { desc = 'find references', mode = 'n', lhs = 'gr',         rhs = '<cmd>lua vim.lsp.buf.references()<cr>', buffer = buffer },
   { desc = 'Goto decl',       mode = 'n', lhs = 'gD',         rhs = '<cmd>lua vim.lsp.buf.declaration()<cr>', buffer = buffer },
   { desc = 'Goto impl',       mode = 'n', lhs = 'gi',         rhs = '<cmd>lua vim.lsp.buf.implementation()<cr>', buffer = buffer },
-  { desc = 'Code action',     mode = 'n', lhs = 'ca',         rhs = '<cmd>lua vim.lsp.buf.code_action()<cr>', buffer = buffer },
-  { desc = 'Code action',     mode = 'x', lhs = 'ca',         rhs = '<cmd>lua vim.lsp.buf.range_code_action()<cr>', buffer = buffer },
+  { desc = 'Code action',     mode = 'n', lhs = '<leader>a',  rhs = '<cmd>lua vim.lsp.buf.code_action()<cr>', buffer = buffer },
   { desc = 'Hover',           mode = 'n', lhs = 'K',          rhs = '<cmd>lua vim.lsp.buf.hover()<cr>', buffer = buffer },
   { desc = 'Signature',       mode = 'n', lhs = '<C-k>',      rhs = '<cmd>lua vim.lsp.buf.signature_help()<cr>', buffer = buffer },
   { desc = 'Rename',          mode = 'n', lhs = '<F2>',       rhs = '<cmd>lua vim.lsp.buf.rename()<cr>', buffer = buffer },
@@ -89,11 +91,9 @@ M.trouble_keymaps = {
 
 M.telescope_keymaps = function(builtin) return {
   { desc = 'Find files',      mode = 'n', lhs = '<leader>f',  rhs = function() builtin.find_files({ cwd = utils.cwd() }) end },
-  { desc = 'Find recent',     mode = 'n', lhs = '<leader>r',  rhs = builtin.oldfiles },
+  { desc = 'Find recent',     mode = 'n', lhs = '<leader>o',  rhs = builtin.oldfiles },
   { desc = 'Find paste',      mode = 'n', lhs = '<leader>p',  rhs = builtin.registers },
   { desc = 'Find ast',        mode = 'n', lhs = '<leader>t',  rhs = builtin.treesitter },
-  { desc = 'Find folders',    mode = 'n', lhs = '<leader>ww',  rhs = function() vim.cmd(':Texplore ' .. utils.cwd() .. '<cr>') end }, -- use cwd
-  { desc = 'Find folders',    mode = 'n', lhs = '<leader>wc',  rhs = function() vim.cmd(':Texplore<cr>') end }, -- use buffer directory
 } end
 
 M.cmp_keymaps = function(cmp, luasnip) return {

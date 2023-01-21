@@ -21,7 +21,7 @@ local function lsp_client_item()
     if client then
         return client.name
     else
-        return [[]]
+        return [[NO LSP]]
     end
 end
 
