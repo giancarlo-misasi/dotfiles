@@ -7,10 +7,24 @@ local keymaps = require('keymaps')
 local cmp = require('cmp')
 local luasnip = require('luasnip')
 local mason_null_ls = require('mason-null-ls')
+local null_ls = require('null-ls')
 local lspkind = require('lspkind')
 
 lsp.preset('recommended')
 lsp.ensure_installed(lang.lsp_languages)
+
+-- fix for lua language server
+lsp.configure('sumneko_lua', {
+  settings = {
+    Lua = {
+        diagnostics = {
+            globals = { 'vim' }
+        }
+    }
+  }
+})
+
+-- setup cmp auto-completion
 lsp.setup_nvim_cmp({ 
   mapping = keymaps.cmp_keymaps(cmp, luasnip), 
   formatting = {
@@ -21,8 +35,12 @@ lsp.setup_nvim_cmp({
     }),
   }
 })
+
+-- setup buffer keymaps
 lsp.set_preferences({ set_lsp_keymaps = false })
 lsp.on_attach(function(client, bufnr) keymaps.set_buf_keymaps(keymaps.lsp_keymaps(bufnr)) end)
+
+-- initialize lsp-zero which wires everything together
 lsp.setup()
 
 -- Auto-wire in formatters for null-ls
@@ -30,8 +48,7 @@ mason_null_ls.setup({
   ensure_installed = lang.lsp_linters_and_formatters,
   automatic_setup = true,
 })
-
--- limit number of completions
-vim.opt.pumheight = 6
+null_ls.setup()
+mason_null_ls.setup_handlers()
 
 utils.end_script(name)

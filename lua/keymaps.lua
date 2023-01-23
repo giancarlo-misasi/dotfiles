@@ -64,6 +64,7 @@ M.basic_keymaps = {
   { desc = 'Find folders',    mode = 'n', lhs = '<leader>w',  rhs = function() vim.cmd(':Texplore ' .. utils.cwd() .. '<cr>') end },
   { desc = 'CD to buf dir',   mode = 'n', lhs = '<leader>c',  rhs = function() vim.cmd(':cd ' .. utils.current_buffer_directory()) end },
   { desc = 'CD up 1 dir',     mode = 'n', lhs = '<leader><Up>',rhs = function() vim.cmd(':cd ..') end },
+  { desc = 'Format',          mode = 'n', lhs = '<A-f>',      rhs = function() vim.cmd(':LspZeroFormat!') end },
 --         'clear highlighting'           lhs = '<C-l'>''     note: this is inherited from tpope/sensible
 }
 

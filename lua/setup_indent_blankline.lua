@@ -4,7 +4,7 @@ local utils = require('utils').start_script(name)
 local m = require('indent_blankline')
 vim.opt.list = true
 vim.opt.listchars:append "space:⋅"
-vim.opt.listchars:append "eol:↴"
+-- vim.opt.listchars:append "eol:↴"
 vim.g["indent_blankline_char"] = "⁞"
 vim.g["indent_blankline_context_char"] = "⁞"
 m.setup {

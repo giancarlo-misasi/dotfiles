@@ -8,12 +8,19 @@ M.treesitter_languages = {
     'c',
     'cpp',
     'go',
-    'jq',
-    'java',
-    'lua',
     'python',
     'ruby',
+    'rust',
+    'lua',
     'markdown',
+    'java',
+    'kotlin',
+    'scala',
+    'javascript',
+    'c_sharp',
+    'regex',
+    'jq',
+    'yaml',
 }
 
 M.lsp_languages = {
@@ -29,12 +36,17 @@ M.lsp_languages = {
     -- ruby
     'ruby_ls',
 
+    -- rust
+    'rust_analyzer',
+
+    -- lua
+    'sumneko_lua',
+
     -- markdown
     'marksman',
 }
 
 M.lsp_linters_and_formatters = {
-    'cpplint',
     'gofumpt',
 }
 

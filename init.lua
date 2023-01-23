@@ -2,7 +2,7 @@ local name = 'init.lua'
 local utils = require('utils').start_script(name)
 
 -- Debugging setup scripts
-utils.debugging_enabled = true
+utils.debugging_enabled = false
 
 -- s = Setup
 -- Requires the module and if successful, calls setup with opts
@@ -54,88 +54,91 @@ s('lazy', {
 
   -- Theme
   { 'navarasu/onedark.nvim', config = r('setup_onedark'),
-      dependencies = {
-        'kyazdani42/nvim-web-devicons'
-      },
+    dependencies = {
+      'kyazdani42/nvim-web-devicons'
+    },
   },
-  
+
   -- Tabs
-  {'romgrk/barbar.nvim', config = r('setup_barbar'),
-      dependencies = {
-        'kyazdani42/nvim-web-devicons'
-      },
+  { 'romgrk/barbar.nvim', config = r('setup_barbar'),
+    dependencies = {
+      'kyazdani42/nvim-web-devicons'
+    },
   },
 
   -- Status line
   { 'nvim-lualine/lualine.nvim', config = r('setup_lualine'),
-      dependencies = {
-        'kyazdani42/nvim-web-devicons',
-        'arkav/lualine-lsp-progress',
-      },
+    dependencies = {
+      'kyazdani42/nvim-web-devicons',
+      'arkav/lualine-lsp-progress',
+    },
   },
 
   -- Diagnostics and references
   { 'folke/trouble.nvim', config = r('setup_trouble'),
-      dependencies = {
-        'kyazdani42/nvim-web-devicons'
-      },
+    dependencies = {
+      'kyazdani42/nvim-web-devicons'
+    },
   },
 
   -- File search
   { 'nvim-telescope/telescope-fzf-native.nvim', config = r('setup_telescope'), build = 'make',
-      dependencies = {
-        'nvim-lua/plenary.nvim',
-        'nvim-telescope/telescope.nvim',
-      },
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim',
+    },
   },
 
   -- Syntax tree for fast non lsp language features
   -- NOTE: Replaces need for 'vim-scripts/argtextobj.vim'
   { 'nvim-treesitter/nvim-treesitter', config = r('setup_treesitter'), build = ":TSUpdate",
-      dependencies = {
-        'nvim-treesitter/nvim-treesitter-textobjects',
-        'JoosepAlviste/nvim-ts-context-commentstring',
-      },
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter-textobjects',
+      'JoosepAlviste/nvim-ts-context-commentstring',
+    },
   },
 
   -- Language servers
   { 'VonHeikemen/lsp-zero.nvim', config = r('setup_lsp'), branch = 'v1.x',
-      dependencies = {
-        -- LSP Support
-        'neovim/nvim-lspconfig',
-        'williamboman/mason.nvim',
-        'williamboman/mason-lspconfig.nvim',
-        -- Formatters and linters
-        "jose-elias-alvarez/null-ls.nvim",
-        "jay-babu/mason-null-ls.nvim",
-        -- Autocompletion
-        'hrsh7th/nvim-cmp',
-        'hrsh7th/cmp-nvim-lsp',
-        'hrsh7th/cmp-buffer',
-        'hrsh7th/cmp-path',
-        'saadparwaiz1/cmp_luasnip',
-        'hrsh7th/cmp-nvim-lua',
-        'onsails/lspkind.nvim',
-        -- Snippets
-        'L3MON4D3/LuaSnip',
-        'rafamadriz/friendly-snippets',
-      },
+    dependencies = {
+      -- LSP Support
+      'neovim/nvim-lspconfig',
+      'williamboman/mason.nvim',
+      'williamboman/mason-lspconfig.nvim',
+      -- Formatters and linters
+      "jose-elias-alvarez/null-ls.nvim",
+      "jay-babu/mason-null-ls.nvim",
+      -- Autocompletion
+      'hrsh7th/nvim-cmp',
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+      'saadparwaiz1/cmp_luasnip',
+      'hrsh7th/cmp-nvim-lua',
+      'onsails/lspkind.nvim',
+      -- Snippets
+      'L3MON4D3/LuaSnip',
+      'rafamadriz/friendly-snippets',
+    },
   },
 
   -- Indent guides
   { 'lukas-reineke/indent-blankline.nvim', config = r('setup_indent_blankline'),
-      dependencies = {
-        'nvim-treesitter/nvim-treesitter',
-      },
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter',
+    },
   },
 
   -- Auto pairing brackets
   { 'windwp/nvim-autopairs', config = r('setup_autopairs'),
-      dependencies = {
-        'nvim-treesitter/nvim-treesitter',
-        'hrsh7th/nvim-cmp',
-      },
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter',
+      'hrsh7th/nvim-cmp',
+    },
   },
+
+  -- Lightbulb for code actions
+  { 'kosayoda/nvim-lightbulb', config = r('setup_light_bulb') },
 })
 
 utils.end_script(name)
