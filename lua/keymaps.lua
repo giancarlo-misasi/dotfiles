@@ -11,8 +11,14 @@ local function setup()
   vim.cmd('noremap <Leader>q q')
   vim.cmd('noremap q <Nop>')
 
+  -- I can't use u for undo, I just can't
+  vim.cmd('noremap u <Nop>')
+
+  -- Mouse sets jumps
+  vim.cmd("nnoremap <LeftMouse> m'<LeftMouse>'")
+
   -- load the basic keymaps
-   M.set_keymaps(M.basic_keymaps)
+   M.set_keymaps(M.basic_keymaps())
 end
 
 M.set_keymaps = function(keymap_pairs)
@@ -33,40 +39,42 @@ end
 --   visual_mode = x
 --   command_mode = c
 
-M.basic_keymaps = {
+M.basic_keymaps = function() return {
+  { desc = 'Select all',      mode = 'n', lhs = '<C-a>',      rhs = 'ggVG' },
+  { desc = 'Select all',      mode = 'i', lhs = '<C-a>',      rhs = '<Esc>ggVG' },
+  { desc = 'Select all',      mode = 'x', lhs = '<C-a>',      rhs = '<Esc>ggVG' },
   { desc = 'Copy',            mode = 'x', lhs = '<C-c>',      rhs = '"+y' },
   { desc = 'Cut',             mode = 'x', lhs = '<C-x>',      rhs = '"+x' },
   { desc = 'Paste',           mode = 'i', lhs = '<C-v>',      rhs = '"+gP' },
   { desc = 'Paste',           mode = 'c', lhs = '<C-v>',      rhs = '<C-r><C-r>+' },
   { desc = 'Paste register',  mode = 'n', lhs = '<C-p>',      rhs = '"' },
   { desc = 'Paste register',  mode = 'i', lhs = '<C-p>',      rhs = '<C-o>"' },
-  { desc = 'Redo',            mode = 'i', lhs = '<C-r>',      rhs = '<C-o><C-r>'  },
-  { desc = 'Undo',            mode = 'n', lhs = '<C-z>',      rhs = 'u'  },
-  { desc = 'Undo',            mode = 'i', lhs = '<C-z>',      rhs = '<C-o>u'  },
-  { desc = 'Save',            mode = 'n', lhs = '<C-s>',      rhs = ':update<CR>'  },
+  { desc = 'Undo',            mode = 'n', lhs = '<C-z>',      rhs = 'u' },
+  { desc = 'Undo',            mode = 'i', lhs = '<C-z>',      rhs = '<C-o>u' },
+  { desc = 'Redo',            mode = 'i', lhs = '<C-r>',      rhs = '<C-o><C-r>' },
+  { desc = 'Save',            mode = 'n', lhs = '<C-s>',      rhs = ':update<CR>' },
   { desc = 'Save',            mode = 'i', lhs = '<C-s>',      rhs = '<Esc>:update<CR>gi' },
-  { desc = 'Save',            mode = 'x', lhs = '<C-s>',      rhs = '<C-c>:update<CR>'  },
-  { desc = 'Split right',     mode = 'n', lhs = '<C-Right>',  rhs = ':vsp<Enter>'  },
-  { desc = 'Split down',      mode = 'n', lhs = '<C-Down>',   rhs = ':sp<Enter>'  },
-  { desc = 'Move text down',  mode = 'n', lhs = '<A-Down>',   rhs = ':m .+1<CR>=='},
-  { desc = 'Move text up',    mode = 'n', lhs = '<A-Up>',     rhs = ':m .-2<CR>=='},
+  { desc = 'Save',            mode = 'x', lhs = '<C-s>',      rhs = '<C-c>:update<CR>' },
+  { desc = 'Jump back',       mode = 'n', lhs = '<C-Left>',   rhs = 'b' },
+  { desc = 'Jump back',       mode = 'i', lhs = '<C-Left>',   rhs = '<Esc>b' },
+  { desc = 'Jump fwd',        mode = 'n', lhs = '<C-Right>',  rhs = 'w' },
+  { desc = 'Jump fwd',        mode = 'i', lhs = '<C-Right>',  rhs = '<Esc>w' },
+  { desc = 'Move text down',  mode = 'n', lhs = '<A-Down>',   rhs = ':m .+1<CR>==' },
+  { desc = 'Move text up',    mode = 'n', lhs = '<A-Up>',     rhs = ':m .-2<CR>==' },
   { desc = 'Move text down',  mode = 'i', lhs = '<A-Down>',   rhs = '<Esc>:m .+1<CR>==gi' },
   { desc = 'Move text up',    mode = 'i', lhs = '<A-Up>',     rhs = '<Esc>:m .-2<CR>==gi' },
   { desc = 'Move text down',  mode = 'x', lhs = '<A-Down>',   rhs = ":m '>+1<CR>gv=gv" },
   { desc = 'Move text up',    mode = 'x', lhs = '<A-Up>',     rhs = ":m '<-2<CR>gv=gv" },
-  { desc = 'Jump back',       mode = 'n', lhs = '<A-Left>',   rhs = '<C-o>'  },
-  { desc = 'Jump forward',    mode = 'n', lhs = '<A-Right>',  rhs = '<C-i>'  },
-  { desc = 'Indent',          mode = 'n', lhs = '<Tab>',      rhs = '>>'},
+  { desc = 'Jump list bck',   mode = 'n', lhs = '<A-Left>',   rhs = '<C-o>' },
+  { desc = 'Jump list fwd',   mode = 'n', lhs = '<A-Right>',  rhs = '<C-i>' },
+  { desc = 'Indent',          mode = 'n', lhs = '<Tab>',      rhs = '>>' },
   { desc = 'Indent',          mode = 'x', lhs = '<Tab>',      rhs = '>gv' },
-  { desc = 'Reverse indent',  mode = 'n', lhs = '<S-Tab>',    rhs = '<<'},
+  { desc = 'Reverse indent',  mode = 'n', lhs = '<S-Tab>',    rhs = '<<' },
   { desc = 'Reverse indent',  mode = 'x', lhs = '<S-Tab>',    rhs = '<gv' },
-  { desc = 'Reverse indent',  mode = 'i', lhs = '<S-Tab>',    rhs = '<C-D>'  },
-  { desc = 'Find folders',    mode = 'n', lhs = '<leader>w',  rhs = function() vim.cmd(':Texplore ' .. utils.cwd() .. '<cr>') end },
-  { desc = 'CD to buf dir',   mode = 'n', lhs = '<leader>c',  rhs = function() vim.cmd(':cd ' .. utils.current_buffer_directory()) end },
-  { desc = 'CD up 1 dir',     mode = 'n', lhs = '<leader><Up>',rhs = function() vim.cmd(':cd ..') end },
-  { desc = 'Format',          mode = 'n', lhs = '<A-f>',      rhs = function() vim.cmd(':LspZeroFormat!') end },
---         'clear highlighting'           lhs = '<C-l'>''     note: this is inherited from tpope/sensible
-}
+  { desc = 'Reverse indent',  mode = 'i', lhs = '<S-Tab>',    rhs = '<C-D>' },
+  { desc = 'Format',          mode = 'n', lhs = '<leader>f',  rhs = function() vim.cmd(':LspZeroFormat!') end },
+--         'Clear highlighting'           lhs = '<C-l'>''     note: this is inherited from tpope/sensible
+} end
 
 setup() -- Setup the basic keybinds, all others setup in respective setup_ files
 
@@ -82,16 +90,17 @@ M.lsp_keymaps = function(buffer) return {
   { desc = 'Rename',          mode = 'n', lhs = '<F2>',       rhs = '<cmd>lua vim.lsp.buf.rename()<cr>', buffer = buffer },
 } end
 
-M.trouble_keymaps = {
+M.trouble_keymaps = function() return {
   { desc = 'Goto definition', mode = 'n', lhs = 'gd',         rhs = '<cmd>Trouble lsp_definitions<cr>' },
   { desc = 'Goto typedef',    mode = 'n', lhs = 'gy',         rhs = '<cmd>Trouble lsp_type_definitions<cr>' },
   { desc = 'List references', mode = 'n', lhs = 'gr',         rhs = '<cmd>Trouble lsp_references<cr>' },
   { desc = 'List quickfix',   mode = 'n', lhs = '<leader>x',  rhs = '<cmd>Trouble quickfix<cr>' },
   { desc = 'List locations',  mode = 'n', lhs = '<leader>l',  rhs = '<cmd>Trouble loclist<cr>' },
-}
+} end
 
 M.telescope_keymaps = function(builtin) return {
-  { desc = 'Find files',      mode = 'n', lhs = '<leader>f',  rhs = function() builtin.find_files({ cwd = utils.cwd() }) end },
+  { desc = 'Find files',      mode = 'n', lhs = '<leader>c',  rhs = function() builtin.find_files({ cwd = utils.cwd() }) end },
+  { desc = 'Find recent',     mode = 'n', lhs = '<leader>g',  rhs = function() builtin.live_grep({ cwd = utils.cwd() }) end },
   { desc = 'Find recent',     mode = 'n', lhs = '<leader>o',  rhs = builtin.oldfiles },
   { desc = 'Find paste',      mode = 'n', lhs = '<leader>p',  rhs = builtin.registers },
   { desc = 'Find ast',        mode = 'n', lhs = '<leader>t',  rhs = builtin.treesitter },
@@ -137,7 +146,7 @@ M.cmp_keymaps = function(cmp, luasnip) return {
     end, {'i','s'}),
 } end
 
-M.comment_keymaps = {
+M.comment_keymaps = function() return {
   toggler = {
       line = '<C-_>', -- vim sees <C-/> as <C-_>
       block = 'gbc',
@@ -150,18 +159,18 @@ M.comment_keymaps = {
       basic = true,
       extra = false,
   },
-}
+} end
 
-M.textobjects_select_keymaps = {
+M.textobjects_select_keymaps = function() return {
   ["aa"] = "@parameter.outer",
   ["ia"] = "@parameter.inner",
   ["af"] = "@function.outer",
   ["if"] = "@function.inner",
-}
+} end
 
 -- NOTE: Uses ; and , for foward and backward repeats
 -- also supports repeats for f, F, t, T
-M.textobjects_move_keymaps = {
+M.textobjects_move_keymaps = function() return {
   goto_next_start = {
     ["]aa"] = "@parameter.outer",
     ["]ia"] = "@parameter.inner",
@@ -188,7 +197,7 @@ M.textobjects_move_keymaps = {
   },
   goto_next = {},
   goto_previous = {},
-}
+} end
 
 M.set_treesitter_repeat_keymaps = function()
   local ts_repeat_move = require 'nvim-treesitter.textobjects.repeatable_move'
@@ -235,7 +244,7 @@ M.telescope_dialog_keymaps = function(actions, config) return {
     ["<C-_>"] = actions.which_key, -- keys from pressing <C-/>
     ["<C-w>"] = { "<c-s-w>", type = "command" },
 
-    -- disable c-j because we dont want to allow new lines #2123
+    -- disable c-j because we dont want to allow new lines #2131
     ["<C-j>"] = actions.nop,
   },
 
@@ -271,6 +280,21 @@ M.telescope_dialog_keymaps = function(actions, config) return {
 
     ["?"] = actions.which_key,
   },
+} end
+
+M.oil_keymaps = function() return {
+    ["g?"] = "actions.show_help",
+    ["<CR>"] = "actions.select",
+    ["<C-s>"] = "actions.select_vsplit",
+    ["<C-h>"] = "actions.select_split",
+    ["<C-p>"] = "actions.preview",
+    ["<C-c>"] = "actions.close",
+    ["<C-l>"] = "actions.refresh",
+    ["-"] = "actions.parent",
+    ["_"] = "actions.open_cwd",
+    ["`"] = "actions.cd",
+    ["~"] = "actions.tcd",
+    ["g."] = "actions.toggle_hidden",
 } end
 
 utils.end_script(name)

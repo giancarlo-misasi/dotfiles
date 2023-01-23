@@ -18,7 +18,7 @@ m.setup {
           enable = true,
           lookahead = true,
           include_surrounding_whitespace = true,
-          keymaps = keymaps.textobjects_select_keymaps,
+          keymaps = keymaps.textobjects_select_keymaps(),
           selection_modes = {
             ['@parameter.outer'] = 'v', -- charwise
             ['@function.outer'] = 'V',  -- linewise
@@ -27,7 +27,7 @@ m.setup {
         move = utils.extend({
             enable = true,
             set_jumps = true,
-        }, keymaps.textobjects_move_keymaps),
+        }, keymaps.textobjects_move_keymaps(),
     },
 }
 

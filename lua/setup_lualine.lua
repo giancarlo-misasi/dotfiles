@@ -3,9 +3,13 @@ local utils = require('utils').start_script(name)
 
 local m = require('lualine')
 
+local function in_snippet_mode(luasnip)
+  return luasnip.jumpable(1) or luasnip.jumpable(-1)
+end
+
 local function snippet_status()
     local luasnip = require('luasnip')
-    if luasnip and luasnip.get_active_snip() and luasnip.in_snippet() then
+    if luasnip and in_snippet_mode(luasnip) then
         return [[]]
     else
         return [[]]
@@ -21,8 +25,13 @@ local function current_folder()
   return utils.cwd()
 end
 
-local function change_folders()
-    vim.cmd(':Texplore')
+local function find_files()
+    local builtin = require('telescope.builtin')
+    if builtin then
+        builtin.find_files({
+            cwd = utils.cwd()
+        })
+    end
 end
 
 local function current_folder_component() return {
@@ -31,7 +40,7 @@ local function current_folder_component() return {
     icons_enabled = true,
     icon = { '', color = { fg = '#E5C07B' } },
     separator = { right = '' },
-    on_click = change_folders
+    on_click = find_files
 } end
 
 local function set_file_type()
@@ -90,15 +99,6 @@ local function show_diagnostics()
     local trouble = require('trouble')
     if trouble then
         trouble.open("document_diagnostics")
-    end
-end
-
-local function find_files()
-    local builtin = require('telescope.builtin')
-    if builtin then
-        builtin.find_files({
-            cwd = utils.cwd()
-        })
     end
 end
 
