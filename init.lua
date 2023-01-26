@@ -46,6 +46,7 @@ s('lazy', {
   'tpope/vim-repeat',
   'tpope/vim-sensible',
   'tpope/vim-surround',
+  'ojroques/nvim-osc52', -- clipboard
   { 'gbprod/cutlass.nvim', config = r('setup_cutlass') },
   { 'numToStr/Comment.nvim', config = r('setup_comment') },
 
