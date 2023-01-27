@@ -27,7 +27,7 @@ m.setup {
         move = utils.extend({
             enable = true,
             set_jumps = true,
-        }, keymaps.textobjects_move_keymaps(),
+        }, keymaps.textobjects_move_keymaps()),
     },
 }
 
