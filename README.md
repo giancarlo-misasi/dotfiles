@@ -1,20 +1,13 @@
 ## Summary
-My barebones NeoVIM configuration.
+Installs neovim, neovim configuration + all dependencies and tools needed
 
 ## Quickstart
 > Unix, Linux, Wsl Installation
 
 ```shell
-git clone --depth 1 https://github.com/grmisasi/nvim-config-lua ~/.config/nvim/
-cp ~/.config/nvim/.nvim_paste .
-chmod u+x .nvim_paste
-sudo apt-get install ripgrep
-sudo apt-get install fd-find
-```
-
-## Uninstall
-> Unix, Linux, Wsl Installation
-
-```shell
-rm -rf ~/.config/nvim
+apt -y -qq update && apt -y -qq install git
+git clone https://github.com/grmisasi/nvim-config-lua ~/.config/nvim/
+cd ~/.config/nvim
+chmod u+x install.sh
+./install.sh
 ```

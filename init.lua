@@ -90,6 +90,12 @@ s('lazy', {
     },
   },
 
+  -- Session management
+  { 'olimorris/persisted.nvim', config = r('setup_persisted'), dependencies = {
+      'nvim-telescope/telescope.nvim',
+    } 
+  },
+
   -- Syntax tree for fast non lsp language features
   -- NOTE: Replaces need for 'vim-scripts/argtextobj.vim'
   { 'nvim-treesitter/nvim-treesitter', config = r('setup_treesitter'), build = ":TSUpdate",
