@@ -21,6 +21,7 @@ M.treesitter_languages = {
     'regex',
     'jq',
     'yaml',
+    'vim',
 }
 
 M.lsp_languages = {
