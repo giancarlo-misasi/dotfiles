@@ -6,7 +6,7 @@ ln -snf /usr/share/zoneinfo/America/Vancouver /etc/localtime
 
 # Install dependencies
 echo "Checking for dependencies"
-apt-get -qq -y install \
+apt-get -qq -o=Dpkg::Use-Pty=0 -y install \
 autoconf \
 bear \
 bison \

@@ -1,0 +1,15 @@
+# Add home and local bin directories to the path
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# Update the prompt to show a prefix
+PROFILE_PROMPT_PREFIX="grm-local"
+PROMPT="$PROFILE_PROMPT_PREFIX %(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
+PROMPT+=' %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info)'
+
+# Setup vim aliases
+alias vim="nvim"
+alias vi="nvim"
+export EDITOR=nvim
+
+# Fix go proxy issue
+export GOPROXY=direct

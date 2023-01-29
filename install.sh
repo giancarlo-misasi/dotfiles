@@ -18,8 +18,10 @@ chmod -R u+x install/
 # Install and setup asdf version manager
 ./install/asdf.sh
 
-# Setup profile
-./install/profile.sh
+# Install tools
+./install/tools.sh
 
-# Install tools and change shell to zsh
-exec install/tools.sh
+#nvim --headless "+Lazy! sync" +qa
+
+# Change to zsh shell
+exec zsh -l

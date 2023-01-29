@@ -6,4 +6,5 @@ if ! [ -d ~/.oh-my-zsh ]; then
     echo "Installing OH-MY-ZSH"
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
     sed -i 's/plugins=(git)/plugins=(git asdf vscode docker aws)/' ~/.zshrc
+    echo "source ~/.config/nvim/install/.zshrc-customizations" >> ~/.zshrc
 fi
