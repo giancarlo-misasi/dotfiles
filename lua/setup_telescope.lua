@@ -21,7 +21,6 @@ table.insert(vimgrep_arguments, "!**/.git/*")
 m.setup {
   defaults = {
     vimgrep_arguments = vimgrep_arguments,
-    mappings = keymaps.telescope_dialog_keymaps(actions, config)
   },
   pickers = {
     find_files = {
@@ -30,8 +29,9 @@ m.setup {
   },
 }
 
--- Setup fzf
+-- Load telescope extensions
 m.load_extension('fzf')
+m.load_extension('file_browser')
 
 -- Setup keymaps
 keymaps.set_keymaps(keymaps.telescope_keymaps(builtin))

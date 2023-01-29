@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Set timezone
+echo "Checking for timezone"
+ln -snf /usr/share/zoneinfo/America/Vancouver /etc/localtime
+
 # Install dependencies
 echo "Checking for dependencies"
 apt-get -qq -y install \
@@ -33,3 +37,6 @@ uuid-dev \
 xz-utils \
 zip \
 zlib1g-dev
+
+# Generate locale
+locale-gen en_US.UTF-8

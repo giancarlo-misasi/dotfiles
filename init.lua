@@ -87,6 +87,7 @@ s('lazy', {
     dependencies = {
       'nvim-lua/plenary.nvim',
       'nvim-telescope/telescope.nvim',
+      'nvim-telescope/telescope-file-browser.nvim',
     },
   },
 
@@ -101,7 +102,6 @@ s('lazy', {
   { 'nvim-treesitter/nvim-treesitter', config = r('setup_treesitter'), build = ":TSUpdate",
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
-      'JoosepAlviste/nvim-ts-context-commentstring',
     },
   },
 

@@ -18,13 +18,6 @@ chmod -R u+x install/
 # Install required dependencies
 ./install/dependencies.sh
 
-# Set timezone
-echo "Checking for timezone"
-ln -snf /usr/share/zoneinfo/America/Vancouver /etc/localtime
-
-# Generate locale
-locale-gen en_US.UTF-8
-
 # Install and setup oh-my-zsh shell awesomizer
 ./install/oh-my-zsh.sh $1
 
