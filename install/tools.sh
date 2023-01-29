@@ -26,13 +26,14 @@ install_latest golang kennyp/asdf-golang
 # Install neovim from appimage - more compatible than asdf plugin
 # install_latest neovim richin13/asdf-neovim
 echo "Installing neovim"
-curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
-chmod u+x nvim.appimage
-./nvim.appimage --appimage-extract
-./squashfs-root/AppRun --version
-mv squashfs-root /
-ln -s /squashfs-root/AppRun /usr/bin/nvim
-nvim --headless +"Lazy! sync" +"TSUpdate"  +"qa"
+if ! [-d /]; then
+    curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+    chmod u+x nvim.appimage
+    ./nvim.appimage --appimage-extract
+    mv squashfs-root /usr/local/neovim
+    ln -s /usr/local/neovim/AppRun /usr/bin/nvim
+    nvim --headless +"Lazy! sync" +"TSUpdate"  +"qa"
+fi
 
 # Install AWS Cli
 if ! [ -f /usr/local/bin/aws ]; then
