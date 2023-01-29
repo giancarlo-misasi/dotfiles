@@ -2,7 +2,7 @@
 
 # Install dependencies
 echo "Checking for dependencies"
-apt-get -qq -o=Dpkg::Use-Pty=0 -y install \
+apt-get -qq -y install \
 autoconf \
 bear \
 bison \

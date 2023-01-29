@@ -11,7 +11,7 @@ install_latest() {
 }
 
 # Make sure profile is loaded
-source ~/.zshrc
+source $HOME/.zshrc
 
 # Install the SDKs
 echo "Checking for SDKs"
@@ -21,7 +21,6 @@ if begins_with "asdf ()" "$which_asdf_result"; then
     cargo install ripgrep
     cargo install fd-find
     cargo install tree-sitter-cli
-
     install_latest python asdf-community/asdf-python
     install_latest ruby asdf-vm/asdf-ruby
     install_latest nodejs asdf-vm/asdf-nodejs

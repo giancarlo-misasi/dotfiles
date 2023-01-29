@@ -6,7 +6,6 @@ export LC_ALL=en_US.utf-8
 export LANG=en_US.utf-8
 
 # Update the prompt to show a prefix
-PROFILE_PROMPT_PREFIX="CHANGETHIS"
 PROMPT="$PROFILE_PROMPT_PREFIX %(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
 PROMPT+=' %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info)'
 
