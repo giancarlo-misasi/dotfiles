@@ -2,7 +2,7 @@
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Update the prompt to show a prefix
-PROFILE_PROMPT_PREFIX="grm-local"
+PROFILE_PROMPT_PREFIX="CHANGETHIS"
 PROMPT="$PROFILE_PROMPT_PREFIX %(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
 PROMPT+=' %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info)'
 

@@ -1,5 +1,7 @@
 #!/bin/zsh
 
+source ~/.zshrc
+
 add_to_default_cargo_crate() {
     echo "$1" >> ~/.default-cargo-crates
 }
@@ -18,7 +20,7 @@ install_latest() {
 
 # Setup default cargo crates
 echo "Checking for default rust crates"
-if ! [ -d ~/.default-cargo-crates ]; then
+if ! [ -f ~/.default-cargo-crates ]; then
     echo "Setting up default rust crates"
     touch ~/.default-cargo-crates
     add_to_default_cargo_crate ripgrep
@@ -29,8 +31,8 @@ fi
 # Install the SDKs
 echo "Checking for SDKs"
 which_asdf_result=$(which asdf)
-if begins_with "asdf () {" "$which_asdf_result"; then
-    install_latest rust code-lever/asdf-rust
+if begins_with "asdf ()" "$which_asdf_result"; then
+    install_latest rust asdf-community/asdf-rust
     install_latest nodejs asdf-vm/asdf-nodejs
     install_latest python asdf-community/asdf-python
     install_latest lua Stratus3D/asdf-lua
