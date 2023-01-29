@@ -1,9 +1,5 @@
 #!/bin/zsh
 
-begins_with() {
-    case $2 in "$1"*) true;; *) false;; esac;
-}
-
 install_latest() {
     asdf plugin add $1 "https://github.com/$2.git"
     asdf install $1 latest

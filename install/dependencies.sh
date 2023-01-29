@@ -9,8 +9,8 @@ source /etc/os-release
 if [[ "$ID_LIKE" == *"debian"* ]]; then
 
     echo "Checking for dependencies - debian"
-    apt-get -qq -y update
-    apt-get -qq -y install \
+    apt-get -y update
+    apt-get -y install \
     build-essential \
     autoconf \
     bison \
@@ -46,14 +46,16 @@ if [[ "$ID_LIKE" == *"debian"* ]]; then
 elif [[ "$ID_LIKE" == *"fedora"* ]]; then
 
     echo "Checking for dependencies - fedora"
-    yum -q -y update
-    yum -q -y groupinstall "Development Tools"
-    yum -q -y install \
+    yum -y update
+    yum -y groupinstall "Development Tools"
+    yum -y install \
     bzip2 \
     bzip2-devel  \
     cmake \
     curl \
     gdbm-devel \
+    glibc-locale-source \
+    glibc-langpack-en \
     libffi-devel \
     libyaml-devel \
     ncurses-devel \
