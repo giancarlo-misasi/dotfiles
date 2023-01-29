@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# Set timezone
-echo "Checking for timezone"
-ln -snf /usr/share/zoneinfo/America/Vancouver /etc/localtime
-
 # Install dependencies
 echo "Checking for dependencies"
 apt-get -qq -o=Dpkg::Use-Pty=0 -y install \
@@ -15,6 +11,7 @@ bzip2 \
 cmake \
 coreutils \
 git \
+locales \
 libbz2-dev \
 libdb-dev \
 libffi-dev \
