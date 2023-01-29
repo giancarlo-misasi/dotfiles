@@ -22,9 +22,16 @@ install_latest ruby asdf-vm/asdf-ruby
 install_latest nodejs asdf-vm/asdf-nodejs
 install_latest lua Stratus3D/asdf-lua
 install_latest golang kennyp/asdf-golang
-install_latest neovim richin13/asdf-neovim
 
-# Attempt to update neovim plugins
+# Install neovim from appimage - more compatible than asdf plugin
+# install_latest neovim richin13/asdf-neovim
+echo "Installing neovim"
+curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+chmod u+x nvim.appimage
+./nvim.appimage --appimage-extract
+./squashfs-root/AppRun --version
+mv squashfs-root /
+ln -s /squashfs-root/AppRun /usr/bin/nvim
 nvim --headless +"Lazy! sync" +"TSUpdate"  +"qa"
 
 # Install AWS Cli

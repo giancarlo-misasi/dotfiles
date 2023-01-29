@@ -59,7 +59,7 @@ elif [[ "$ID_LIKE" == *"fedora"* ]]; then
     libffi-devel \
     libyaml-devel \
     ncurses-devel \
-    openssl-devel \
+    openssl11-devel \
     patch \
     readline-devel \
     sqlite \

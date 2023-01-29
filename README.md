@@ -13,7 +13,7 @@ chmod u+x install.sh
 ./install.sh
 ```
 
-> Centos / Fedora Installation
+> Fedora Installation
 
 ```shell
 yum -y update
