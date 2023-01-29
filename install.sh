@@ -6,12 +6,6 @@ if [ "$#" -ne 1 ]; then
   exit 1
 fi
 
-# Check that we are up to date and have basic requirements
-echo "Checking for curl and wget"
-apt-get -qq -y update
-apt-get -qq -y install curl wget git zsh
-chsh -s /bin/zsh
-
 # Set permissions for install script folder
 chmod -R u+x install/
 

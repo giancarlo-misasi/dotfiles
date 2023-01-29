@@ -6,6 +6,9 @@ if [ "$#" -ne 1 ]; then
   exit 1
 fi
 
+# Make sure default shell is zsh
+chsh -s /bin/zsh
+
 # Install OH-MY-ZSH
 echo "Checking for OH-MY-ZSH"
 if ! [ -d $HOME/.oh-my-zsh ]; then

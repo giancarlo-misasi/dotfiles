@@ -15,22 +15,25 @@ source $HOME/.zshrc
 
 # Install the SDKs
 echo "Checking for SDKs"
-which_asdf_result=$(which asdf)
-if begins_with "asdf ()" "$which_asdf_result"; then
-    install_latest rust asdf-community/asdf-rust
-    cargo install ripgrep
-    cargo install fd-find
-    cargo install tree-sitter-cli
-    install_latest python asdf-community/asdf-python
-    install_latest ruby asdf-vm/asdf-ruby
-    install_latest nodejs asdf-vm/asdf-nodejs
-    install_latest lua Stratus3D/asdf-lua
-    install_latest golang kennyp/asdf-golang
-    install_latest neovim richin13/asdf-neovim
-    nvim --headless +"Lazy! sync" +"TSUpdate"  +"qa"
-else
-    echo "ASDF not sourced, run ./install/tools.sh manually"
-fi
+install_latest rust asdf-community/asdf-rust
+cargo install ripgrep # for neovim searches
+cargo install fd-find # for neovim searches
+cargo install tree-sitter-cli # for neovim tree-sitter plugin
+install_latest python asdf-community/asdf-python
+pip install compiledb # for generating compilation database
+pip install boto3 # for aws sdk access
+install_latest ruby asdf-vm/asdf-ruby
+install_latest nodejs asdf-vm/asdf-nodejs
+install_latest lua Stratus3D/asdf-lua
+install_latest golang kennyp/asdf-golang
+install_latest neovim richin13/asdf-neovim
+
+# Attempt to update neovim plugins
+nvim --headless +"Lazy! sync" +"TSUpdate"  +"qa"
 
 # Install AWS Cli
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && unzip -q awscliv2.zip && ./aws/install
+if ! [ -f /usr/local/bin/aws ]; then
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+    && unzip -q awscliv2.zip \
+    && ./aws/install
+fi
