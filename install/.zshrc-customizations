@@ -1,6 +1,10 @@
 # Add home and local bin directories to the path
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+# Set locales
+export LC_ALL=en_US.utf-8
+export LANG=en_US.utf-8
+
 # Update the prompt to show a prefix
 PROFILE_PROMPT_PREFIX="CHANGETHIS"
 PROMPT="$PROFILE_PROMPT_PREFIX %(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
