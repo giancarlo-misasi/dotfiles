@@ -21,23 +21,17 @@ if begins_with "asdf ()" "$which_asdf_result"; then
     cargo install ripgrep
     cargo install fd-find
     cargo install tree-sitter-cli
+
     install_latest python asdf-community/asdf-python
     install_latest ruby asdf-vm/asdf-ruby
     install_latest nodejs asdf-vm/asdf-nodejs
     install_latest lua Stratus3D/asdf-lua
     install_latest golang kennyp/asdf-golang
     install_latest neovim richin13/asdf-neovim
+    nvim --headless +"Lazy! sync" +"TSUpdate"  +"qa"
 else
     echo "ASDF not sourced, run ./install/tools.sh manually"
 fi
 
-# Install NeoVIM configuration
-# echo "Checking for NeoVIM configuration"
-# if ! [ -d ~/.config/nvim ]; then
-#     echo "Installing NeoVIM configuration"
-#     git clone --depth 1 https://github.com/grmisasi/nvim-config-lua ~/.config/nvim/
-#     #nvim --headless "+Lazy! sync" +qa
-# fi
-
-# [Optional] Install AWS Cli
-# curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && unzip -q awscliv2.zip && ./aws/install
+# Install AWS Cli
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && unzip -q awscliv2.zip && ./aws/install

@@ -21,7 +21,5 @@ chmod -R u+x install/
 # Install tools
 ./install/tools.sh
 
-#nvim --headless "+Lazy! sync" +qa
-
 # Change to zsh shell
 exec zsh -l
