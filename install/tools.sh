@@ -23,18 +23,6 @@ install_latest nodejs asdf-vm/asdf-nodejs
 install_latest lua Stratus3D/asdf-lua
 install_latest golang kennyp/asdf-golang
 
-# Install neovim from appimage - more compatible than asdf plugin
-# install_latest neovim richin13/asdf-neovim
-echo "Installing neovim"
-if ! [-d /]; then
-    curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
-    chmod u+x nvim.appimage
-    ./nvim.appimage --appimage-extract
-    mv squashfs-root /usr/local/neovim
-    ln -s /usr/local/neovim/AppRun /usr/bin/nvim
-    nvim --headless +"Lazy! sync" +"TSUpdate"  +"qa"
-fi
-
 # Install AWS Cli
 if ! [ -f /usr/local/bin/aws ]; then
     curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \

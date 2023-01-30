@@ -18,3 +18,13 @@ if ! [ -d $HOME/.oh-my-zsh ]; then
     echo "export PROFILE_PROMPT_PREFIX=$1" >> $HOME/.zshrc
     echo "source $HOME/.config/nvim/install/.zshrc-customizations" >> $HOME/.zshrc
 fi
+
+# Install neovim from appimage - more compatible than asdf plugin
+echo "Installing neovim"
+if ! [-d $HOME/.neovim]; then
+    curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+    chmod u+x nvim.appimage
+    ./nvim.appimage --appimage-extract
+    mv squashfs-root $HOME/.neovim
+    ln -s $HOME/.neovim/AppRun /usr/bin/nvim
+fi
