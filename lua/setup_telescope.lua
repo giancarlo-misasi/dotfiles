@@ -27,11 +27,42 @@ m.setup {
       find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
     },
   },
+  extensions = {
+    menu = {
+      file_menu = {
+        items = {
+          {'Find files', 'FindFiles'},
+          {'Live grep', 'LiveGrep'},
+          {'Old files', 'OldFiles'},
+          {'Buffers', 'Buffers'},
+          {'Registers', 'Registers'},
+          {'New tab', 'NewTab'},
+          {'Split right', 'SplitRight'},
+          {'Split down', 'SplitDown'},
+        },
+      },
+      lsp_menu = {
+        items = {
+          { 'Goto definition', 'GotoDefinition' },
+          { 'Goto type definition', 'GotoTypeDefinition' },
+          { 'Goto declaration', 'GotoDeclaration' },
+          { 'Goto implementation', 'GotoImplementation' },
+          { 'Find references', 'FindReferences' },
+          { 'Hover', 'Hover' },
+          { 'Signature help', 'SignatureHelp'},
+          { 'Code actions', 'CodeActions' },
+          { 'Quick Fixes', 'QuickFixes'},
+          { 'Locations', 'Locations'},
+          { 'Rename', 'Rename' },
+        },
+      },
+    }
+  },
 }
 
 -- Load telescope extensions
 m.load_extension('fzf')
-m.load_extension('file_browser')
+m.load_extension('menu')
 
 -- Setup keymaps
 keymaps.set_keymaps(keymaps.telescope_keymaps(builtin))

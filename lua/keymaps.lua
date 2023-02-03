@@ -11,11 +11,11 @@ local function setup()
   vim.cmd('noremap <Leader>q q')
   vim.cmd('noremap q <Nop>')
 
-  -- I can't use u for undo, I just can't
+  -- Other remaps I need and can't stand the defaults
   vim.cmd('noremap u <Nop>')
-
-  -- Mouse sets jumps
-  vim.cmd("nnoremap <LeftMouse> m'<LeftMouse>'")
+  vim.cmd('noremap <C-f> <Nop>')
+  vim.cmd('noremap <C-b> <Nop>')
+  vim.cmd('noremap <C-h> <Nop>')
 
   -- load the basic keymaps
    M.set_keymaps(M.basic_keymaps())
@@ -72,39 +72,36 @@ M.basic_keymaps = function() return {
   { desc = 'Reverse indent',  mode = 'n', lhs = '<S-Tab>',    rhs = '<<' },
   { desc = 'Reverse indent',  mode = 'x', lhs = '<S-Tab>',    rhs = '<gv' },
   { desc = 'Reverse indent',  mode = 'i', lhs = '<S-Tab>',    rhs = '<C-D>' },
-  { desc = 'Format',          mode = 'n', lhs = '<leader>f',  rhs = function() vim.cmd(':LspZeroFormat!') end },
+  { desc = 'Find',            mode = 'n', lhs = '<C-f>',      rhs = ':SearchBoxMatchAll show_matches=true <CR>' },
+  { desc = 'Find',            mode = 'x', lhs = '<C-f>',      rhs = 'y:<C-U>SearchBoxMatchAll -- <C-r>"<CR>' },
+  { desc = 'Replace',         mode = 'n', lhs = '<C-h>',      rhs = ':SearchBoxReplace<CR>' },
+  { desc = 'Replace',         mode = 'x', lhs = '<C-h>',      rhs = 'y:<C-U>SearchBoxReplace -- <C-r>"<CR>' },
+  { desc = 'Commands',        mode = 'n', lhs = '<F1>',       rhs = ':Commands<cr>' },
+  { desc = 'Commands',        mode = 'x', lhs = '<F1>',       rhs = ':<C-U>Commands<cr>' },
+  { desc = 'File actions',    mode = 'n', lhs = '<F2>',       rhs = ':Telescope menu file_menu<cr>' },
+  { desc = 'Tree actions',    mode = 'n', lhs = '<F3>',       rhs = ':NeoTreeShowToggle<cr>' },
+  { desc = 'Lsp actions',     mode = 'n', lhs = '<F4>',       rhs = ':Telescope menu lsp_menu theme=cursor<cr>' },
+  { desc = 'Lsp actions',     mode = 'x', lhs = '<F4>',       rhs = ':<C-U>Telescope menu lsp_menu theme=cursor<cr>' },
 --         'Clear highlighting'           lhs = '<C-l'>''     note: this is inherited from tpope/sensible
 } end
 
 setup() -- Setup the basic keybinds, all others setup in respective setup_ files
 
 M.lsp_keymaps = function(buffer) return {
-  -- { desc = 'goto def',        mode = 'n', lhs = 'gd',         rhs = '<cmd>lua vim.lsp.buf.definition()<cr>', buffer = buffer },
-  -- { desc = 'goto typedef',    mode = 'n', lhs = 'gy',         rhs = '<cmd>lua vim.lsp.buf.type_definition()<cr>', buffer = buffer },
-  -- { desc = 'find references', mode = 'n', lhs = 'gr',         rhs = '<cmd>lua vim.lsp.buf.references()<cr>', buffer = buffer },
   { desc = 'Goto decl',       mode = 'n', lhs = 'gD',         rhs = '<cmd>lua vim.lsp.buf.declaration()<cr>', buffer = buffer },
   { desc = 'Goto impl',       mode = 'n', lhs = 'gi',         rhs = '<cmd>lua vim.lsp.buf.implementation()<cr>', buffer = buffer },
-  { desc = 'Code action',     mode = 'n', lhs = '<leader>a',  rhs = '<cmd>lua vim.lsp.buf.code_action()<cr>', buffer = buffer },
   { desc = 'Hover',           mode = 'n', lhs = 'K',          rhs = '<cmd>lua vim.lsp.buf.hover()<cr>', buffer = buffer },
   { desc = 'Signature',       mode = 'n', lhs = '<C-k>',      rhs = '<cmd>lua vim.lsp.buf.signature_help()<cr>', buffer = buffer },
-  { desc = 'Rename',          mode = 'n', lhs = '<F2>',       rhs = '<cmd>lua vim.lsp.buf.rename()<cr>', buffer = buffer },
 } end
 
 M.trouble_keymaps = function() return {
   { desc = 'Goto definition', mode = 'n', lhs = 'gd',         rhs = '<cmd>Trouble lsp_definitions<cr>' },
   { desc = 'Goto typedef',    mode = 'n', lhs = 'gy',         rhs = '<cmd>Trouble lsp_type_definitions<cr>' },
   { desc = 'List references', mode = 'n', lhs = 'gr',         rhs = '<cmd>Trouble lsp_references<cr>' },
-  { desc = 'List quickfix',   mode = 'n', lhs = '<leader>x',  rhs = '<cmd>Trouble quickfix<cr>' },
-  { desc = 'List locations',  mode = 'n', lhs = '<leader>l',  rhs = '<cmd>Trouble loclist<cr>' },
 } end
 
 M.telescope_keymaps = function(builtin) return {
-  { desc = 'Find files',      mode = 'n', lhs = '<leader>i',  rhs = function() builtin.find_files({ cwd = utils.cwd() }) end },
-  { desc = 'File browser',    mode = 'n', lhs = '<leader>b',  rhs = ":Telescope file_browser<cr>" },
-  { desc = 'Grep files',      mode = 'n', lhs = '<leader>g',  rhs = function() builtin.live_grep({ cwd = utils.cwd() }) end },
-  { desc = 'Recent files',    mode = 'n', lhs = '<leader>o',  rhs = builtin.oldfiles },
-  { desc = 'Registers',       mode = 'n', lhs = '<leader>p',  rhs = builtin.registers },
-  { desc = 'Find ast',        mode = 'n', lhs = '<leader>t',  rhs = builtin.treesitter },
+  -- using commands with custom menus to reduce keymap knowledge
 } end
 
 M.cmp_keymaps = function(cmp, luasnip) return {

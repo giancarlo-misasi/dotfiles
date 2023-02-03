@@ -51,5 +51,9 @@ M.lsp_linters_and_formatters = {
     'gofumpt',
 }
 
+M.debuggers = {
+    'cppdbg',
+}
+
 utils.end_script(name)
 return M

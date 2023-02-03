@@ -14,7 +14,7 @@ local options = {
   showmode = true,
   showcmd = true,
   number = true,
-  relativenumber = true,
+  -- relativenumber = true,
   ignorecase = true,
   smartcase = true,
   incsearch = true,
@@ -36,7 +36,7 @@ local options = {
   keymodel = 'startsel',
   backspace = 'indent,eol,start',
   whichwrap = 'b,s,<,>,[,]',
-  clipboard = 'unnamed', -- combined with clipboard.lua to enable sync to wsl system clipboard
+  clipboard = 'unnamed',
 }
 
 -- Set the options
@@ -49,12 +49,6 @@ for k, v in pairs(options) do
     print('failed to set opt ' .. k .. ': ' .. exception)
   end
 end
-
--- configure netrw to look like a file tree
-vim.g.netrw_banner = 0
-vim.g.netrw_liststyle = 3
-vim.g.netrw_browse_split = 0
-vim.g.netrw_altv = 1
 
 -- setup auto-complete options
 vim.opt.pumheight = 6

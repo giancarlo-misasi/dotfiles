@@ -1,5 +1,5 @@
 # Add home and local bin directories to the path
-export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:$HOME/.local/bin:$PATH
 
 # Set locales
 export LC_ALL=en_US.utf-8

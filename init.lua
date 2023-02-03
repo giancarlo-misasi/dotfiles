@@ -4,9 +4,8 @@ local utils = require('utils').start_script(name)
 -- Debugging setup scripts
 utils.debugging_enabled = false
 
--- s = Setup
 -- Requires the module and if successful, calls setup with opts
-function s(module, opts)
+function setup(module, opts)
   local ok, m = require('utils').pcall(module)
   if ok then
     m.setup(opts or {})
@@ -14,10 +13,14 @@ function s(module, opts)
   return m
 end
 
--- r = Require only
--- Returns a function that when run will require a module for setup_ scripts
-function r(module)
-  return function() require('utils').pcall(module) end
+-- How to declare a plugin
+function p(repoOwner, repoName, dependencies, build)
+  local src = repoOwner .. '/' .. repoName
+  local plugin = string.gsub(repoName, ".nvim", "")
+  local config = function()
+    require('utils').pcall('setup_' .. plugin)
+  end
+  return { src, config = config, dependencies = dependencies, build = build }
 end
 
 -- Bootstrap lazy.nvim
@@ -41,111 +44,85 @@ require 'clipboard'
 require 'keymaps'
 
 -- Load plugins using lazy.nvim
-s('lazy', {
-  -- Basic editing
-  'tpope/vim-repeat',
-  'tpope/vim-sensible',
-  'tpope/vim-surround',
-  'ojroques/nvim-osc52', -- clipboard
-  { 'gbprod/cutlass.nvim', config = r('setup_cutlass') },
-  { 'numToStr/Comment.nvim', config = r('setup_comment') },
+setup('lazy', {
+  -- basic editing
+  p('tpope', 'vim-repeat'),
+  p('tpope', 'vim-sensible'),
+  p('tpope', 'vim-surround'),
+  p('numtostr', 'comment.nvim'),
 
-  -- Learning keymaps
-  { 'folke/which-key.nvim', config = r('setup_which_key') },
+  -- clipboard, cut and delete
+  p('ojroques', 'nvim-osc52'),
+  p('gbprod', 'cutlass.nvim'),
 
-  -- Theme
-  { 'navarasu/onedark.nvim', config = r('setup_onedark'),
-    dependencies = {
-      'kyazdani42/nvim-web-devicons'
-    },
-  },
+  -- theme
+  p('navarasu', 'onedark.nvim', { 'kyazdani42/nvim-web-devicons' }),
+  
+  -- keymaps
+  p('folke', 'which-key.nvim'),
+  
+  -- session management
+  p('folke', 'persistence.nvim'),
 
-  -- Tabs
-  { 'romgrk/barbar.nvim', config = r('setup_barbar'),
-    dependencies = {
-      'kyazdani42/nvim-web-devicons'
-    },
-  },
+  -- ux improvements
+  p('nvim-lualine', 'lualine.nvim', { 'kyazdani42/nvim-web-devicons' }),
+  p('lukas-reineke', 'indent-blankline.nvim'),
+  p('vonheikemen', 'searchbox.nvim', { 'muniftanjim/nui.nvim' }),
+  p('dstein64', 'nvim-scrollview'),
+  p('stevearc', 'dressing.nvim'),
+  p('folke', 'trouble.nvim', { 'kyazdani42/nvim-web-devicons' }),
+  p('folke', 'noice.nvim', { 
+    'nvim-lualine/lualine.nvim', --lualine must finish first to avoid cmdheight bug
+    'muniftanjim/nui.nvim', 
+    'rcarriga/nvim-notify',
+  }),
 
-  -- Status line
-  { 'nvim-lualine/lualine.nvim', config = r('setup_lualine'),
-    dependencies = {
-      'kyazdani42/nvim-web-devicons',
-      'arkav/lualine-lsp-progress',
-    },
-  },
+  -- search and selection
+  p('nvim-telescope', 'telescope-fzf-native.nvim', {}, 'make'),
+  p('nvim-telescope', 'telescope.nvim', { 
+    'nvim-lua/plenary.nvim', 
+    'nvim-telescope/telescope-fzf-native.nvim', 
+    'octarect/telescope-menu.nvim',
+  }),
+  
+  -- syntax tree for fast non lsp language features
+  -- note: replaces need for 'vim-scripts/argtextobj.vim'
+  p('nvim-treesitter', 'nvim-treesitter', { 'nvim-treesitter/nvim-treesitter-textobjects' }, ':TSUpdate'),
 
-  -- Diagnostics and references
-  { 'folke/trouble.nvim', config = r('setup_trouble'),
-    dependencies = {
-      'kyazdani42/nvim-web-devicons'
-    },
-  },
-
-  -- File search
-  { 'nvim-telescope/telescope-fzf-native.nvim', config = r('setup_telescope'), build = 'make',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'nvim-telescope/telescope.nvim',
-      'nvim-telescope/telescope-file-browser.nvim',
-    },
-  },
-
-  -- Session management
-  { 'olimorris/persisted.nvim', config = r('setup_persisted'), dependencies = {
-      'nvim-telescope/telescope.nvim',
-    } 
-  },
-
-  -- Syntax tree for fast non lsp language features
-  -- NOTE: Replaces need for 'vim-scripts/argtextobj.vim'
-  { 'nvim-treesitter/nvim-treesitter', config = r('setup_treesitter'), build = ":TSUpdate",
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter-textobjects',
-    },
-  },
-
-  -- Language servers
-  { 'VonHeikemen/lsp-zero.nvim', config = r('setup_lsp'), branch = 'v1.x',
-    dependencies = {
-      -- LSP Support
+  -- language servers
+  p('vonheikemen', 'lsp-zero.nvim', {
+      -- lsp support
       'neovim/nvim-lspconfig',
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
-      -- Formatters and linters
+      -- debugging
+      'mfussenegger/nvim-dap',
+      'jay-babu/mason-nvim-dap.nvim',
+      -- formatters and linters
       "jose-elias-alvarez/null-ls.nvim",
       "jay-babu/mason-null-ls.nvim",
-      -- Autocompletion
+      -- autocompletion
       'hrsh7th/nvim-cmp',
       'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-buffer',
-      'hrsh7th/cmp-path',
+      -- 'hrsh7th/cmp-buffer',
+      -- 'hrsh7th/cmp-path',
       'saadparwaiz1/cmp_luasnip',
       'hrsh7th/cmp-nvim-lua',
       'onsails/lspkind.nvim',
-      -- Snippets
-      'L3MON4D3/LuaSnip',
+      -- snippets
+      'l3mon4d3/luasnip',
       'rafamadriz/friendly-snippets',
-    },
-  },
+      -- auto-pairing brackets
+      'windwp/nvim-autopairs',
+      'kosayoda/nvim-lightbulb',
+  }),
 
-  -- Indent guides
-  { 'lukas-reineke/indent-blankline.nvim', config = r('setup_indent_blankline'),
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter',
-    },
-  },
-
-  -- Auto pairing brackets
-  { 'windwp/nvim-autopairs', config = r('setup_autopairs'),
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter',
-      'hrsh7th/nvim-cmp',
-    },
-  },
-
-  -- Lightbulb for code actions
-  { 'kosayoda/nvim-lightbulb', config = r('setup_light_bulb') },
+  -- Tree view for when I'm not familiar with a project
+  p('nvim-neo-tree', 'neo-tree.nvim', {
+    'nvim-lua/plenary.nvim',
+    'kyazdani42/nvim-web-devicons',
+    'muniftanjim/nui.nvim'
+  }),
 })
 
 utils.end_script(name)
