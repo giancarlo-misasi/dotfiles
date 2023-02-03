@@ -37,4 +37,11 @@ vim.cmd [[
   :command Quit qa!
 ]]
 
+-- debug signs
+vim.fn.sign_define('DapBreakpoint', { text='', texthl='TroubleSignError', numhl='TroubleSignError' })
+vim.fn.sign_define('DapBreakpointCondition', { text='ﳁ', texthl='TroubleSignError', numhl='TroubleSignError' })
+vim.fn.sign_define('DapBreakpointRejected', { text='', texthl='TroubleSignError', numhl= 'TroubleSignError' })
+vim.fn.sign_define('DapLogPoint', { text='', texthl='TroubleSignHint', numhl= 'TroubleSignHint' })
+vim.fn.sign_define('DapStopped', { text='', texthl='TroubleSignOther', numhl= 'TroubleSignOther' })
+
 utils.end_script(name)

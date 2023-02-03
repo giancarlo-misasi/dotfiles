@@ -56,7 +56,7 @@ setup('lazy', {
   p('gbprod', 'cutlass.nvim'),
 
   -- theme
-  p('navarasu', 'onedark.nvim', { 'kyazdani42/nvim-web-devicons' }),
+  p('navarasu', 'onedark.nvim', { 'kyazdani42/nvim-web-devicons', 'folke/lsp-colors.nvim' }),
   
   -- keymaps
   p('folke', 'which-key.nvim'),

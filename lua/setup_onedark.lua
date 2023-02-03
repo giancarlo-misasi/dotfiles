@@ -2,6 +2,7 @@ local name = 'setup_onedark'
 local utils = require('utils').start_script(name)
 
 local m = require('onedark')
+local colors = require('lsp-colors')
 m.setup {
     style = 'warmer',
     lualine = {
@@ -11,6 +12,7 @@ m.setup {
         comments = 'none'
     },
 }
-m.load() 
+m.load()
+colors.setup()
 
 utils.end_script(name)
