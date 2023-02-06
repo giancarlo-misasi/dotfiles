@@ -48,6 +48,23 @@ local function prompt_chain(inputs, n, i, results, doneCallback)
     end)
 end
 
+local function filter_inputs_to_command(cmd, inputs)
+    local results = {}
+    for _, input in pairs(inputs) do
+        if string.find(cmd, input.id) then
+            table.insert(results, input)
+        end
+    end
+    return results
+end
+
+local function populate_command_with_inputs(cmd, inputs)
+    for _, input in pairs(inputs) do
+        cmd = string.gsub(cmd, "${input:" .. input.id .. "}", input.value)
+    end
+    return cmd
+end
+
 -- sample option json
 -- {
 --     "id": "input1",
@@ -64,10 +81,13 @@ end
 --     "description": "prompt for input2"
 -- }
 
-local function process_vscode_inputs(configJson, inputsReadyCallback)
-    local inputs = configJson["inputs"]
+local function process_vscode_inputs(inputs, inputsReadyCallback)
     local n = table.getn(inputs)
-    prompt_chain(inputs, n, 1, {}, inputsReadyCallback)
+    if n < 1 then
+        inputsReadyCallback({})
+    else
+        prompt_chain(inputs, n, 1, {}, inputsReadyCallback)
+    end
 end
 
 -- sample task json
@@ -79,8 +99,7 @@ end
 -- },
 -- note: for now, only support shell tasks
 
-local function process_vscode_tasks(configJson, taskSelectedCallback)
-    local tasks = configJson["tasks"]
+local function process_vscode_tasks(tasks, taskSelectedCallback)
     local options = {}
     for _, task in pairs(tasks) do
         local option = {}
@@ -124,14 +143,17 @@ M.launch_new_task = function()
     local ok, json = utils.parse_json(path)
     if not ok then return end
 
-    -- collect inputs and then launch the command in a terminal
-    process_vscode_inputs(json, function(inputs)
-        -- input format: { id, value }
-        process_vscode_tasks(json, function(command)
-            local cmd = string.gsub(command, "${workspaceFolder}", utils.cwd())
-            for _, input in pairs(inputs) do
-                cmd = string.gsub(cmd, "${input:" .. input.id .. "}", input.value)
-            end
+    process_vscode_tasks(json["tasks"], function(command)
+        local cmd = string.gsub(command, "${workspaceFolder}", utils.cwd())
+        print('a: ' .. cmd)
+
+        local filtered_inputs = filter_inputs_to_command(cmd, json["inputs"])
+        print('b: ' .. vim.inspect(filtered_inputs))
+
+        process_vscode_inputs(filtered_inputs, function(inputs)
+            cmd = populate_command_with_inputs(cmd, inputs)
+            print('c' .. cmd)
+
             run_cmd(cmd)
         end)
     end)
@@ -141,7 +163,6 @@ end
 M.launch_old_task = function()
     local history = get_task_history()
     if table.getn(history) > 0 then
-        -- we have history, show it first in case its helpful
         prompt(history, "Would you like to re-run a task?", function(cmd)
             run_cmd(cmd)
         end)
