@@ -20,6 +20,7 @@ pip install compiledb # for generating compilation database
 pip install boto3 # for aws sdk access
 install_latest ruby asdf-vm/asdf-ruby
 install_latest nodejs asdf-vm/asdf-nodejs
+npm install -g @devcontainers/cli # for devcontainer api
 install_latest lua Stratus3D/asdf-lua
 install_latest golang kennyp/asdf-golang
 

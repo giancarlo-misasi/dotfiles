@@ -63,4 +63,18 @@ vim.g.loaded_node_provider = 0
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
+-- split style
+vim.opt.fillchars = {
+  horiz = '━',
+  horizup = '┻',
+  horizdown = '┳',
+  vert = '┃',
+  vertleft  = '┫',
+  vertright = '┣',
+  verthoriz = '╋',
+}
+
+-- enable termguicolors
+vim.opt.termguicolors = true
+
 utils.end_script(name)

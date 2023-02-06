@@ -136,7 +136,11 @@ local statusline_sections = {
 
 m.setup {
   options = {
-    theme = 'onedark'
+    theme = 'onedark',
+    disabled_filetypes = {
+      winbar = { 'toggleterm' },
+      statusline = { 'dapui_scopes', 'dapui_breakpoints', 'dapui_stacks', 'dapui_watches', 'dap-repl', 'dapui_console', },
+    }
   },
   tabline = tab_sections,
   winbar = winbar_sections,

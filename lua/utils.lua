@@ -98,5 +98,14 @@ M.reformat_lines = function(lines, format_string)
   return reformatted_lines
 end
 
+M.parse_json = function(path)
+  local ok, json = pcall(vim.fn.json_decode, vim.fn.readfile(path))
+  if not ok and M.debugging_enabled then
+    print('read json at ' .. path .. ' failed')
+    print(json)
+  end
+  return ok, json
+end
+
 M.end_script(name)
 return M

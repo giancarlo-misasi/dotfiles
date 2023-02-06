@@ -16,7 +16,7 @@ end
 -- How to declare a plugin
 function p(repoOwner, repoName, dependencies, build)
   local src = repoOwner .. '/' .. repoName
-  local plugin = string.gsub(repoName, ".nvim", "")
+  local plugin = string.gsub(string.gsub(repoName, ".nvim", ""), ".lua", "")
   local config = function()
     require('utils').pcall('setup_' .. plugin)
   end
@@ -56,7 +56,7 @@ setup('lazy', {
   p('gbprod', 'cutlass.nvim'),
 
   -- theme
-  p('navarasu', 'onedark.nvim', { 'kyazdani42/nvim-web-devicons', 'folke/lsp-colors.nvim' }),
+  p('olimorris', 'onedarkpro.nvim'),
   
   -- keymaps
   p('folke', 'which-key.nvim'),
@@ -97,7 +97,8 @@ setup('lazy', {
       'williamboman/mason-lspconfig.nvim',
       -- debugging
       'mfussenegger/nvim-dap',
-      'jay-babu/mason-nvim-dap.nvim',
+      'rcarriga/nvim-dap-ui',
+      'theHamsta/nvim-dap-virtual-text',
       -- formatters and linters
       "jose-elias-alvarez/null-ls.nvim",
       "jay-babu/mason-null-ls.nvim",
@@ -123,6 +124,12 @@ setup('lazy', {
     'kyazdani42/nvim-web-devicons',
     'muniftanjim/nui.nvim'
   }),
+
+  -- Colorizer for showing html color codes
+  p('norcalli', 'nvim-colorizer.lua'),
+
+  -- Terminal for nvim (for running commands and such)
+  p('akinsho', 'toggleterm.nvim')
 })
 
 utils.end_script(name)

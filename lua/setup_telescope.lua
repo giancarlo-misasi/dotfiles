@@ -39,6 +39,7 @@ m.setup {
           {'New tab', 'NewTab'},
           {'Split right', 'SplitRight'},
           {'Split down', 'SplitDown'},
+          {'Restore session', 'RestoreSession'}
         },
       },
       lsp_menu = {

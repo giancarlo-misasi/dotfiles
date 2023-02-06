@@ -82,6 +82,12 @@ M.basic_keymaps = function() return {
   { desc = 'Tree actions',    mode = 'n', lhs = '<F3>',       rhs = ':NeoTreeShowToggle<cr>' },
   { desc = 'Lsp actions',     mode = 'n', lhs = '<F4>',       rhs = ':Telescope menu lsp_menu theme=cursor<cr>' },
   { desc = 'Lsp actions',     mode = 'x', lhs = '<F4>',       rhs = ':<C-U>Telescope menu lsp_menu theme=cursor<cr>' },
+  { desc = 'Debug',           mode = 'n', lhs = '<F5>',       rhs = ':DapContinue<cr>' },
+  { desc = 'Step Over',       mode = 'n', lhs = '<F6>',       rhs = ':DapStepOver<cr>' },
+  { desc = 'Step Into',       mode = 'n', lhs = '<F7>',       rhs = ':DapStepInto<cr>' },
+  { desc = 'Step Out',        mode = 'n', lhs = '<F8>',       rhs = ':DapStepOut<cr>' },
+  { desc = 'Breakpoint',      mode = 'n', lhs = '<F9>',       rhs = ':DapToggleBreakpoint<cr>' },
+  { desc = 'Terminate debug', mode = 'n', lhs = '<F12>',      rhs = ':DapTerminate<cr>:lua require("dapui").close()<cr>' },
 --         'Clear highlighting'           lhs = '<C-l'>''     note: this is inherited from tpope/sensible
 } end
 
@@ -211,6 +217,17 @@ M.set_treesitter_repeat_keymaps = function()
   vim.keymap.set({ 'n', 'x', 'o' }, 't', ts_repeat_move.builtin_t)
   vim.keymap.set({ 'n', 'x', 'o' }, 'T', ts_repeat_move.builtin_T)
 end
+
+-- dap debugging keybinds
+-- https://github.com/rcarriga/nvim-dap-ui
+-- mappings = {
+--   edit = "e",
+--   expand = { "<CR>", "<2-LeftMouse>" },
+--   open = "o",
+--   remove = "d",
+--   repl = "r",
+--   toggle = "t"
+-- },
 
 utils.end_script(name)
 return M

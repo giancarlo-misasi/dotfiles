@@ -13,7 +13,9 @@ local lspkind = require('lspkind')
 local pairs = require('nvim-autopairs')
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 local lightbulb = require('nvim-lightbulb')
-local mason_nvim_dap = require("mason-nvim-dap")
+local dap = require('dap')
+local dap_ui = require('dapui')
+local dap_virtual_text = require('nvim-dap-virtual-text')
 
 lsp.preset('recommended')
 lsp.ensure_installed(lang.lsp_languages)
@@ -54,12 +56,32 @@ mason_null_ls.setup({
 null_ls.setup()
 mason_null_ls.setup_handlers()
 
--- mason nvim-dap setup
-mason_nvim_dap.setup({
-  ensure_installed = lang.debuggers,
-  automatic_setup = true
-})
-mason_nvim_dap.setup_handlers()
+-- dap setup
+-- enable cpptools
+-- vim.cmd('MasonInstall cpptools') -- todo: setup ensure installed for this
+dap.adapters.cppdbg = {
+  id = 'cppdbg',
+  type = 'executable',
+  command = 'OpenDebugAD7',
+}
+
+-- enable reading vscode launch.json
+require('dap.ext.vscode').load_launchjs(nil, { cppdbg = {'c', 'cpp'} })
+
+-- enable dap ui
+dap_ui.setup()
+dap_virtual_text.setup()
+dap.listeners.after.event_initialized["dapui_config"] = function()
+  dap_ui.open()
+end
+
+-- define debug icons
+vim.api.nvim_set_hl(0, "DapStoppedLinehl", { bg = "#460000" })
+vim.fn.sign_define('DapBreakpoint', { text='', texthl='Error', numhl='Error' })
+vim.fn.sign_define('DapBreakpointCondition', { text='ﳁ', texthl='Error', numhl='Error' })
+vim.fn.sign_define('DapBreakpointRejected', { text='', texthl='Warning', numhl= 'Warning' })
+vim.fn.sign_define('DapLogPoint', { text='', texthl='Information', numhl= 'Information' })
+vim.fn.sign_define('DapStopped', { text='', texthl='Hint', numhl= 'Hint', linehl='DapStoppedLinehl' })
 
 -- setup auto-pairs
 pairs.setup { check_ts = true }

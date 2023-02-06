@@ -27,7 +27,7 @@ M.treesitter_languages = {
 M.lsp_languages = {
     -- c++
     'clangd',
-
+    
     -- go
     'gopls',
 
@@ -49,10 +49,6 @@ M.lsp_languages = {
 
 M.lsp_linters_and_formatters = {
     'gofumpt',
-}
-
-M.debuggers = {
-    'cppdbg',
 }
 
 utils.end_script(name)
