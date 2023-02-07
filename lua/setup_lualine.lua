@@ -140,7 +140,8 @@ m.setup {
     disabled_filetypes = {
       winbar = { 'toggleterm' },
       statusline = { 'dapui_scopes', 'dapui_breakpoints', 'dapui_stacks', 'dapui_watches', 'dap-repl', 'dapui_console', },
-    }
+    },
+    globalstatus = true,
   },
   tabline = tab_sections,
   winbar = winbar_sections,

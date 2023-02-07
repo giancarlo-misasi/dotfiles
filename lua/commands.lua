@@ -7,6 +7,7 @@ vim.cmd [[
     au FileType qf,help,man,netrw,lspinfo nnoremap <silent> <buffer> q :close<CR> 
     au TextYankPost * silent!lua require('vim.highlight').on_yank() 
     au BufWinEnter * :set formatoptions-=cro
+    autocmd WinEnter,TabEnter,BufWinEnter,WinLeave,TabLeave,BufLeave * stopinsert
   augroup end
 
   set guicursor=n-v-c:block,i-ci-ve:ver30-Cursor/lCursor,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250,sm:block-blinkwait175-blinkoff150-blinkon175
