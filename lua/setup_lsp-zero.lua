@@ -70,19 +70,19 @@ require('dap.ext.vscode').load_launchjs(nil, { cppdbg = {'c', 'cpp'} })
 
 -- enable dap ui
 dap_ui.setup({
-  layouts = {
-    {
-      elements = { -- console is hidden since it doesn't do much
-        { id = "stacks", size = 0.2 },
-        { id = "scopes", size = 0.2, },
-        { id = "watches", size = 0.2 },
-        { id = "breakpoints", size = 0.2 },
-        { id = "repl", size = 0.2 },
-      },
-      size = 40,
-      position = "left",
-    },
-  },
+  -- layouts = {
+  --   {
+  --     elements = { -- console is hidden since it doesn't do much
+  --       { id = "stacks", size = 0.2 },
+  --       { id = "scopes", size = 0.2, },
+  --       { id = "watches", size = 0.2 },
+  --       { id = "breakpoints", size = 0.2 },
+  --       { id = "repl", size = 0.2 },
+  --     },
+  --     size = 40,
+  --     position = "left",
+  --   },
+  -- },
 })
 dap_virtual_text.setup()
 dap.listeners.after.event_initialized["dapui_config"] = function()
