@@ -38,6 +38,7 @@ vim.cmd [[
   :command Terminal ToggleTerm size=15 dir=. direction=horizontal
   :command LaunchNewTask lua require('vscode').launch_new_task()
   :command LaunchOldTask lua require('vscode').launch_old_task()
+  :command ReconfigureCppDebug lua require('dap.ext.vscode').load_launchjs(nil, { cppdbg = {'c', 'cpp'} })
   :command Quit qa!
 ]]
 

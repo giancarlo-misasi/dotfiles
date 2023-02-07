@@ -20,13 +20,13 @@ local function select_option(option, callback)
 end
 
 -- uses vscode option format to create select or input prompts
-local function prompt(options, prompt, valueCallback)
+local function prompt(options, promptStr, valueCallback)
     if options ~= nil then
-        vim.ui.select(options, { prompt = prompt, format_item = format_option }, function(option)
+        vim.ui.select(options, { prompt = promptStr, format_item = format_option }, function(option)
             select_option(option, valueCallback)
         end)
     else
-        vim.ui.input({ prompt = prompt }, function(option)
+        vim.ui.input({ prompt = promptStr }, function(option)
             select_option(option, valueCallback)
         end)
     end
@@ -82,7 +82,7 @@ end
 -- }
 
 local function process_vscode_inputs(inputs, inputsReadyCallback)
-    local n = table.getn(inputs)
+    local n = #inputs
     if n < 1 then
         inputsReadyCallback({})
     else
@@ -115,7 +115,7 @@ local cmd_history = {}
 
 local function get_task_history()
     local result = {}
-    for k,v in pairs(cmd_history) do
+    for k,_ in pairs(cmd_history) do
         local option = {}
         option["label"] = k
         option["value"] = k
@@ -162,7 +162,7 @@ end
 -- launches an existing task
 M.launch_old_task = function()
     local history = get_task_history()
-    if table.getn(history) > 0 then
+    if #history > 0 then
         prompt(history, "Would you like to re-run a task?", function(cmd)
             run_cmd(cmd)
         end)
