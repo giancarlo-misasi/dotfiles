@@ -144,16 +144,10 @@ M.launch_new_task = function()
     if not ok then return end
 
     process_vscode_tasks(json["tasks"], function(command)
-        local cmd = string.gsub(command, "${workspaceFolder}", utils.cwd())
-        print('a: ' .. cmd)
-
+        local cmd = string.gsub(command, "${workspaceFolder}", vim.fn.getcwd())
         local filtered_inputs = filter_inputs_to_command(cmd, json["inputs"])
-        print('b: ' .. vim.inspect(filtered_inputs))
-
         process_vscode_inputs(filtered_inputs, function(inputs)
             cmd = populate_command_with_inputs(cmd, inputs)
-            print('c' .. cmd)
-
             run_cmd(cmd)
         end)
     end)

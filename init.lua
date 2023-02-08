@@ -56,7 +56,7 @@ setup('lazy', {
   p('gbprod', 'cutlass.nvim'),
 
   -- theme
-  p('olimorris', 'onedarkpro.nvim'),
+  { "olimorris/onedarkpro.nvim", priority = 1000, config = function() require('setup_theme') end },
   
   -- keymaps
   p('folke', 'which-key.nvim'),
@@ -125,11 +125,11 @@ setup('lazy', {
     'muniftanjim/nui.nvim'
   }),
 
+  -- git stuff
+  p('sindrets', 'diffview.nvim', { 'nvim-lua/plenary.nvim' }),
+
   -- Colorizer for showing html color codes
   p('norcalli', 'nvim-colorizer.lua'),
-
-  -- Terminal for nvim (for running commands and such)
-  p('akinsho', 'toggleterm.nvim')
 })
 
 utils.end_script(name)

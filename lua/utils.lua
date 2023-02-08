@@ -31,10 +31,6 @@ M.extend = function(original, extension)
   return vim.tbl_deep_extend('force', extension, original)
 end
 
-M.cwd = function()
-  return vim.api.nvim_exec(':pwd', true)
-end
-
 M.buffer_directory = function(bufname)
   return vim.fn.fnamemodify(bufname, ':p:h')
 end
@@ -88,14 +84,6 @@ M.read_lines = function(file_path)
     file:close()
   end
   return lines
-end
-
-M.reformat_lines = function(lines, format_string)
-  local reformatted_lines = {}
-  for _, line in ipairs(lines) do
-    table.insert(reformatted_lines, string.format(format_string, line))
-  end
-  return reformatted_lines
 end
 
 M.parse_json = function(path)
