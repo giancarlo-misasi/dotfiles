@@ -71,11 +71,11 @@ setup('lazy', {
   p('dstein64', 'nvim-scrollview'),
   p('stevearc', 'dressing.nvim'),
   p('folke', 'trouble.nvim', { 'kyazdani42/nvim-web-devicons' }),
-  p('folke', 'noice.nvim', { 
-    'nvim-lualine/lualine.nvim', --lualine must finish first to avoid cmdheight bug
-    'muniftanjim/nui.nvim', 
-    'rcarriga/nvim-notify',
-  }),
+  -- p('folke', 'noice.nvim', { 
+  --   'nvim-lualine/lualine.nvim', --lualine must finish first to avoid cmdheight bug
+  --   'muniftanjim/nui.nvim', 
+  --   'rcarriga/nvim-notify',
+  -- }),
 
   -- search and selection
   p('nvim-telescope', 'telescope-fzf-native.nvim', {}, 'make'),
