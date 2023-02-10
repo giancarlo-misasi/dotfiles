@@ -16,6 +16,7 @@ if [[ "$ID_LIKE" == *"debian"* ]]; then
     bison \
     cmake \
     curl \
+    fuse \
     libbz2-dev \
     libdb-dev \
     libffi-dev \
@@ -53,6 +54,7 @@ elif [[ "$ID_LIKE" == *"fedora"* ]]; then
     bzip2-devel  \
     cmake \
     curl \
+    fuse \
     gdbm-devel \
     glibc-locale-source \
     glibc-langpack-en \

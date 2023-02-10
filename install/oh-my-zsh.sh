@@ -22,9 +22,8 @@ fi
 # Install neovim from appimage - more compatible than asdf plugin
 echo "Installing neovim"
 if ! [-d $HOME/.neovim]; then
-    curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
-    chmod u+x nvim.appimage
-    ./nvim.appimage --appimage-extract
-    mv squashfs-root $HOME/.neovim
-    ln -s $HOME/.neovim/AppRun /usr/bin/nvim
+    mkdir -p $HOME/.neovim
+    curl -o $HOME/.neovim/nvim.appimage -L https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+    chmod u+x $HOME/.neovim/nvim.appimage
+    ln -s $HOME/.neovim/nvim.appimage /usr/bin/nvim
 fi
