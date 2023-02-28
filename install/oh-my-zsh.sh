@@ -25,5 +25,5 @@ if ! [-d $HOME/.neovim]; then
     mkdir -p $HOME/.neovim
     curl -o $HOME/.neovim/nvim.appimage -L https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
     chmod u+x $HOME/.neovim/nvim.appimage
-    ln -s $HOME/.neovim/nvim.appimage /usr/bin/nvim
+    sudo ln -s $HOME/.neovim/nvim.appimage /usr/local/bin/nvim
 fi
