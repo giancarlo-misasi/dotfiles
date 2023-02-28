@@ -18,6 +18,7 @@ if [[ "$ID_LIKE" == *"debian"* ]]; then
     curl \
     fuse \
     gdb \
+    libglfw3-dev \
     libbz2-dev \
     libdb-dev \
     libffi-dev \
@@ -57,6 +58,7 @@ elif [[ "$ID_LIKE" == *"fedora"* ]]; then
     curl \
     fuse \
     gdb \
+    libglfw3-dev \
     gdbm-devel \
     glibc-locale-source \
     glibc-langpack-en \
