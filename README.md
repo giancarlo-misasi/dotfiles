@@ -12,7 +12,7 @@ cd $HOME/.config/nvim
 chmod -R u+x install/
 sudo ./install/dependencies.sh
 ./install/oh-my-zsh.sh MACHINE_PROMPT
-./install/asdf
+./install/asdf.sh
 ./install/tools.sh
 ```
 
