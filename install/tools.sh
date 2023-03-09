@@ -1,11 +1,5 @@
 #!/bin/zsh
 
-install_latest() {
-    asdf plugin add $1 "https://github.com/$2.git"
-    asdf install $1 latest
-    asdf global $1 latest
-}
-
 # Make sure profile is loaded
 source $HOME/.zshrc
 
