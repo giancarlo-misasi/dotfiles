@@ -5,7 +5,7 @@ source $HOME/.zshrc
 
 # Install the SDKs
 echo "Checking for SDKs"
-asdf_install_latest rust asdf-community/asdf-rust
+asdf_install_latest rust code-lever/asdf-rust # asdf-community/asdf-rust - codelever uses rustup which is better
 cargo install ripgrep # for neovim searches
 cargo install fd-find # for neovim searches
 cargo install tree-sitter-cli # for neovim tree-sitter plugin
