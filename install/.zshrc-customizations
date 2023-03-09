@@ -19,3 +19,10 @@ export GOPROXY=direct
 
 # Add rust cargo bin to path
 export PATH=$HOME/.cargo/bin:$PATH
+
+# Helper function to install rust plugins
+asdf_install_latest() {
+    asdf plugin add $1 "https://github.com/$2.git"
+    asdf install $1 latest
+    asdf global $1 latest
+}
