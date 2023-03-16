@@ -17,6 +17,9 @@ export EDITOR=nvim
 # Fix go proxy issue
 export GOPROXY=direct
 
+# python pip fix
+alias pip="python -m pip"
+
 # Add rust cargo bin to path
 export PATH=$HOME/.cargo/bin:$PATH
 
