@@ -17,6 +17,7 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 brew install neovim fzf ripgrep fd compiledb asdf
 
 # Install languages with asdf
+unset ASDF_DIR
 . /home/linuxbrew/.linuxbrew/opt/asdf/libexec/asdf.sh
 asdf_install_latest() {
     asdf plugin add $1 "https://github.com/$2/asdf-$1.git" && asdf install $1 latest && asdf global $1 latest
@@ -48,6 +49,7 @@ alias pip="python -m pip"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 # ASDF
+unset ASDF_DIR
 . /home/linuxbrew/.linuxbrew/opt/asdf/libexec/asdf.sh
 EOF
 
