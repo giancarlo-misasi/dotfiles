@@ -46,37 +46,21 @@ require 'keymaps'
 -- Load plugins using lazy.nvim
 setup('lazy', {
   -- basic editing
-  p('tpope', 'vim-repeat'),
-  p('tpope', 'vim-sensible'),
   p('tpope', 'vim-surround'),
   p('numtostr', 'comment.nvim'),
-
-  -- clipboard, cut and delete
   p('ojroques', 'nvim-osc52'),
   p('gbprod', 'cutlass.nvim'),
 
   -- theme
-  { "olimorris/onedarkpro.nvim", priority = 1000, config = function() require('setup_theme') end },
-  
-  -- keymaps
-  p('folke', 'which-key.nvim'),
-  
-  -- session management
-  p('folke', 'persistence.nvim'),
+  { 'olimorris/onedarkpro.nvim', priority = 1000, config = function() require('setup_theme') end },
+  { 'lukas-reineke/indent-blankline.nvim', main = 'ibl', config = function() require('setup_indent-blankline') end },
 
   -- ux improvements
   p('nvim-lualine', 'lualine.nvim', { 'kyazdani42/nvim-web-devicons' }),
-  p('lukas-reineke', 'indent-blankline.nvim'),
   p('vonheikemen', 'searchbox.nvim', { 'muniftanjim/nui.nvim' }),
   p('dstein64', 'nvim-scrollview'),
   p('stevearc', 'dressing.nvim'),
-  p('folke', 'trouble.nvim', { 'kyazdani42/nvim-web-devicons' }),
-  -- p('folke', 'noice.nvim', { 
-  --   'nvim-lualine/lualine.nvim', --lualine must finish first to avoid cmdheight bug
-  --   'muniftanjim/nui.nvim', 
-  --   'rcarriga/nvim-notify',
-  -- }),
-
+  
   -- search and selection
   p('nvim-telescope', 'telescope-fzf-native.nvim', {}, 'make'),
   p('nvim-telescope', 'telescope.nvim', { 
@@ -84,52 +68,10 @@ setup('lazy', {
     'nvim-telescope/telescope-fzf-native.nvim', 
     'octarect/telescope-menu.nvim',
   }),
-  
+
   -- syntax tree for fast non lsp language features
   -- note: replaces need for 'vim-scripts/argtextobj.vim'
   p('nvim-treesitter', 'nvim-treesitter', { 'nvim-treesitter/nvim-treesitter-textobjects' }, ':TSUpdate'),
-
-  -- language servers
-  p('vonheikemen', 'lsp-zero.nvim', {
-      -- lsp support
-      'neovim/nvim-lspconfig',
-      'williamboman/mason.nvim',
-      'williamboman/mason-lspconfig.nvim',
-      -- debugging
-      'mfussenegger/nvim-dap',
-      'rcarriga/nvim-dap-ui',
-      'theHamsta/nvim-dap-virtual-text',
-      -- formatters and linters
-      "jose-elias-alvarez/null-ls.nvim",
-      "jay-babu/mason-null-ls.nvim",
-      -- autocompletion
-      'hrsh7th/nvim-cmp',
-      'hrsh7th/cmp-nvim-lsp',
-      -- 'hrsh7th/cmp-buffer',
-      -- 'hrsh7th/cmp-path',
-      'saadparwaiz1/cmp_luasnip',
-      'hrsh7th/cmp-nvim-lua',
-      'onsails/lspkind.nvim',
-      -- snippets
-      'l3mon4d3/luasnip',
-      'rafamadriz/friendly-snippets',
-      -- auto-pairing brackets
-      'windwp/nvim-autopairs',
-      'kosayoda/nvim-lightbulb',
-  }),
-
-  -- Tree view for when I'm not familiar with a project
-  p('nvim-neo-tree', 'neo-tree.nvim', {
-    'nvim-lua/plenary.nvim',
-    'kyazdani42/nvim-web-devicons',
-    'muniftanjim/nui.nvim'
-  }),
-
-  -- git stuff
-  p('sindrets', 'diffview.nvim', { 'nvim-lua/plenary.nvim' }),
-
-  -- Colorizer for showing html color codes
-  p('norcalli', 'nvim-colorizer.lua'),
 })
 
 utils.end_script(name)

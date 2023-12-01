@@ -79,76 +79,68 @@ M.basic_keymaps = function() return {
   { desc = 'Commands',        mode = 'n', lhs = '<F1>',       rhs = ':Commands<cr>' },
   { desc = 'Commands',        mode = 'x', lhs = '<F1>',       rhs = ':<C-U>Commands<cr>' },
   { desc = 'File actions',    mode = 'n', lhs = '<F2>',       rhs = ':Telescope menu file_menu<cr>' },
-  { desc = 'Tree actions',    mode = 'n', lhs = '<F3>',       rhs = ':NeoTreeShowToggle<cr>' },
-  { desc = 'Lsp actions',     mode = 'n', lhs = '<F4>',       rhs = ':Telescope menu lsp_menu theme=cursor<cr>' },
-  { desc = 'Lsp actions',     mode = 'x', lhs = '<F4>',       rhs = ':<C-U>Telescope menu lsp_menu theme=cursor<cr>' },
-  { desc = 'Debug',           mode = 'n', lhs = '<F5>',       rhs = ':DapContinue<cr>' },
-  { desc = 'Step Over',       mode = 'n', lhs = '<F6>',       rhs = ':DapStepOver<cr>' },
-  { desc = 'Step Into',       mode = 'n', lhs = '<F7>',       rhs = ':DapStepInto<cr>' },
-  { desc = 'Step Out',        mode = 'n', lhs = '<F8>',       rhs = ':DapStepOut<cr>' },
-  { desc = 'Breakpoint',      mode = 'n', lhs = '<F9>',       rhs = ':DapToggleBreakpoint<cr>' },
-  { desc = 'Terminate debug', mode = 'n', lhs = '<F12>',      rhs = ':DapTerminate<cr>:lua require("dapui").close()<cr>' },
---         'Clear highlighting'           lhs = '<C-l'>''     note: this is inherited from tpope/sensible
+  -- { desc = 'Lsp actions',     mode = 'n', lhs = '<F4>',       rhs = ':Telescope menu lsp_menu theme=cursor<cr>' },
+  -- { desc = 'Lsp actions',     mode = 'x', lhs = '<F4>',       rhs = ':<C-U>Telescope menu lsp_menu theme=cursor<cr>' },
+  -- { desc = 'Debug',           mode = 'n', lhs = '<F5>',       rhs = ':DapContinue<cr>' },
+  -- { desc = 'Step Over',       mode = 'n', lhs = '<F6>',       rhs = ':DapStepOver<cr>' },
+  -- { desc = 'Step Into',       mode = 'n', lhs = '<F7>',       rhs = ':DapStepInto<cr>' },
+  -- { desc = 'Step Out',        mode = 'n', lhs = '<F8>',       rhs = ':DapStepOut<cr>' },
+  -- { desc = 'Breakpoint',      mode = 'n', lhs = '<F9>',       rhs = ':DapToggleBreakpoint<cr>' },
+  -- { desc = 'Terminate debug', mode = 'n', lhs = '<F12>',      rhs = ':DapTerminate<cr>:lua require("dapui").close()<cr>' },
 } end
 
 setup() -- Setup the basic keybinds, all others setup in respective setup_ files
 
-M.lsp_keymaps = function(buffer) return {
-  { desc = 'Goto decl',       mode = 'n', lhs = 'gD',         rhs = '<cmd>lua vim.lsp.buf.declaration()<cr>', buffer = buffer },
-  { desc = 'Goto impl',       mode = 'n', lhs = 'gi',         rhs = '<cmd>lua vim.lsp.buf.implementation()<cr>', buffer = buffer },
-  { desc = 'Hover',           mode = 'n', lhs = 'K',          rhs = '<cmd>lua vim.lsp.buf.hover()<cr>', buffer = buffer },
-  { desc = 'Signature',       mode = 'n', lhs = '<C-k>',      rhs = '<cmd>lua vim.lsp.buf.signature_help()<cr>', buffer = buffer },
-} end
-
-M.trouble_keymaps = function() return {
-  { desc = 'Goto definition', mode = 'n', lhs = 'gd',         rhs = '<cmd>Trouble lsp_definitions<cr>' },
-  { desc = 'Goto typedef',    mode = 'n', lhs = 'gy',         rhs = '<cmd>Trouble lsp_type_definitions<cr>' },
-  { desc = 'List references', mode = 'n', lhs = 'gr',         rhs = '<cmd>Trouble lsp_references<cr>' },
-} end
+-- M.lsp_keymaps = function(buffer) return {
+--   { desc = 'Goto decl',       mode = 'n', lhs = 'gD',         rhs = '<cmd>lua vim.lsp.buf.declaration()<cr>', buffer = buffer },
+--   { desc = 'Goto impl',       mode = 'n', lhs = 'gi',         rhs = '<cmd>lua vim.lsp.buf.implementation()<cr>', buffer = buffer },
+--   { desc = 'Hover',           mode = 'n', lhs = 'K',          rhs = '<cmd>lua vim.lsp.buf.hover()<cr>', buffer = buffer },
+--   { desc = 'Signature',       mode = 'n', lhs = '<C-k>',      rhs = '<cmd>lua vim.lsp.buf.signature_help()<cr>', buffer = buffer },
+-- } end
 
 M.telescope_keymaps = function(builtin) return {
   -- using commands with custom menus to reduce keymap knowledge
 } end
 
-M.cmp_keymaps = function(cmp, luasnip) return {
-    -- confirm selection
-    ['<CR>'] = cmp.mapping.confirm({select = false}),
-    ['<Up>'] = cmp.mapping.select_prev_item({behavior = cmp.SelectBehavior.Select}),
-    ['<Down>'] = cmp.mapping.select_next_item({behavior = cmp.SelectBehavior.Select}),
+-- M.cmp_keymaps = function(cmp, luasnip) return {
+--     -- confirm selection
+--     ['<CR>'] = cmp.mapping.confirm({select = false}),
+--     ['<Up>'] = cmp.mapping.select_prev_item({behavior = cmp.SelectBehavior.Select}),
+--     ['<Down>'] = cmp.mapping.select_next_item({behavior = cmp.SelectBehavior.Select}),
 
-    -- scroll up and down in the completion documentation
-    ['<C-f>'] = cmp.mapping.scroll_docs(5),
-    ['<C-u>'] = cmp.mapping.scroll_docs(-5),
+--     -- scroll up and down in the completion documentation
+--     ['<C-f>'] = cmp.mapping.scroll_docs(5),
+--     ['<C-u>'] = cmp.mapping.scroll_docs(-5),
 
-    -- toggle completion
-    ['<C-Space>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.abort()
-      else
-        cmp.complete()
-      end
-    end),
+--     -- toggle completion
+--     ['<C-Space>'] = cmp.mapping(function(fallback)
+--       if cmp.visible() then
+--         cmp.abort()
+--       else
+--         cmp.complete()
+--       end
+--     end),
 
-    -- tab completion
-    ['<Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.confirm()
-      elseif luasnip.jumpable(1) then
-        luasnip.jump(1)
-      else
-        fallback()
-      end
-    end, {'i','s'}),
+--     -- tab completion
+--     ['<Tab>'] = cmp.mapping(function(fallback)
+--       if cmp.visible() then
+--         cmp.confirm()
+--       elseif luasnip.jumpable(1) then
+--         luasnip.jump(1)
+--       else
+--         fallback()
+--       end
+--     end, {'i','s'}),
 
-    -- reverse snippet jumping
-    ['<S-Tab>'] = cmp.mapping(function(fallback)
-      if luasnip.jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end, {'i','s'}),
-} end
+--     -- reverse snippet jumping
+--     ['<S-Tab>'] = cmp.mapping(function(fallback)
+--       if luasnip.jumpable(-1) then
+--         luasnip.jump(-1)
+--       else
+--         fallback()
+--       end
+--     end, {'i','s'}),
+-- } end
 
 M.comment_keymaps = function() return {
   toggler = {
@@ -217,17 +209,6 @@ M.set_treesitter_repeat_keymaps = function()
   vim.keymap.set({ 'n', 'x', 'o' }, 't', ts_repeat_move.builtin_t)
   vim.keymap.set({ 'n', 'x', 'o' }, 'T', ts_repeat_move.builtin_T)
 end
-
--- dap debugging keybinds
--- https://github.com/rcarriga/nvim-dap-ui
--- mappings = {
---   edit = "e",
---   expand = { "<CR>", "<2-LeftMouse>" },
---   open = "o",
---   remove = "d",
---   repl = "r",
---   toggle = "t"
--- },
 
 utils.end_script(name)
 return M

@@ -38,25 +38,24 @@ m.setup {
           {'Registers', 'Registers'},
           {'New tab', 'NewTab'},
           {'Split right', 'SplitRight'},
-          {'Split down', 'SplitDown'},
-          {'Restore session', 'RestoreSession'}
+          {'Split down', 'SplitDown'}
         },
       },
-      lsp_menu = {
-        items = {
-          { 'Goto definition', 'GotoDefinition' },
-          { 'Goto type definition', 'GotoTypeDefinition' },
-          { 'Goto declaration', 'GotoDeclaration' },
-          { 'Goto implementation', 'GotoImplementation' },
-          { 'Find references', 'FindReferences' },
-          { 'Hover', 'Hover' },
-          { 'Signature help', 'SignatureHelp'},
-          { 'Code actions', 'CodeActions' },
-          { 'Quick Fixes', 'QuickFixes'},
-          { 'Locations', 'Locations'},
-          { 'Rename', 'Rename' },
-        },
-      },
+      -- lsp_menu = {
+      --   items = {
+      --     { 'Goto definition', 'GotoDefinition' },
+      --     { 'Goto type definition', 'GotoTypeDefinition' },
+      --     { 'Goto declaration', 'GotoDeclaration' },
+      --     { 'Goto implementation', 'GotoImplementation' },
+      --     { 'Find references', 'FindReferences' },
+      --     { 'Hover', 'Hover' },
+      --     { 'Signature help', 'SignatureHelp'},
+      --     { 'Code actions', 'CodeActions' },
+      --     { 'Quick Fixes', 'QuickFixes'},
+      --     { 'Locations', 'Locations'},
+      --     { 'Rename', 'Rename' },
+      --   },
+      -- },
     }
   },
 }
