@@ -317,6 +317,10 @@ local plugins = {
   {
     'olimorris/onedarkpro.nvim', priority = 1000,
     cond = enable_ux_plugins,
+    config = function()
+      require('onedarkpro').setup()
+      vim.cmd('colorscheme onedark')
+    end
   },
   {
     'lukas-reineke/indent-blankline.nvim', main = "ibl",
@@ -380,6 +384,24 @@ local plugins = {
     },
   },
   {
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    opts = {
+      modes = {
+        char = {
+          jump_labels = true
+        }
+      }
+    },
+    keys = {
+      { 's', mode = { 'n', 'x', 'o' }, function() require('flash').jump() end, desc = 'Flash' },
+      { 'S', mode = { 'n', 'x', 'o' }, function() require('flash').treesitter() end, desc = 'Flash Treesitter' },
+      { 'r', mode = 'o', function() require('flash').remote() end, desc = 'Remote Flash' },
+      { 'R', mode = { 'o', 'x' }, function() require('flash').treesitter_search() end, desc = 'Treesitter Search' },
+      -- { '<c-s>', mode = { 'c' }, function() require('flash').toggle() end, desc = 'Toggle Flash Search' },
+    },
+  },
+  {
     'nvim-treesitter/nvim-treesitter', build = ':TSUpdate', dependencies = { 'nvim-treesitter/nvim-treesitter-textobjects' },
     lazy = false,
     config = function()
@@ -414,6 +436,26 @@ local plugins = {
           },
         }
       })
+      
+      local ts_repeat_move = require('nvim-treesitter.textobjects.repeatable_move')
+      if ts_repeat_move then
+        -- Repeat movement with ; and ,
+        -- ensure ; goes forward and , goes backward regardless of the last direction
+        vim.keymap.set({ 'n', 'x', 'o' }, ';', ts_repeat_move.repeat_last_move_next)
+        vim.keymap.set({ 'n', 'x', 'o' }, ',', ts_repeat_move.repeat_last_move_previous)
+
+        -- Make builtin f, F, t, T also repeatable with ; and ,
+        vim.keymap.set({ 'n', 'x', 'o' }, 'f', ts_repeat_move.builtin_f)
+        vim.keymap.set({ 'n', 'x', 'o' }, 'F', ts_repeat_move.builtin_F)
+        vim.keymap.set({ 'n', 'x', 'o' }, 't', ts_repeat_move.builtin_t)
+        vim.keymap.set({ 'n', 'x', 'o' }, 'T', ts_repeat_move.builtin_T)
+      end
+
+      -- Folding
+      vim.opt.foldcolumn = 'auto'
+      vim.opt.foldlevel = 99
+      vim.opt.foldmethod = 'expr'
+      vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
     end,
   },
 }
@@ -516,42 +558,6 @@ local function setup_clipboard()
   end
 end
 
-local function setup_telescope()
-  local telescope = require('telescope')
-  if telescope then
-    telescope.load_extension('menu')
-    telescope.load_extension('fzf')
-  end
-end
-
-local function setup_treesitter()
-  local ts_repeat_move = require('nvim-treesitter.textobjects.repeatable_move')
-  if ts_repeat_move then
-    -- Repeat movement with ; and ,
-    -- ensure ; goes forward and , goes backward regardless of the last direction
-    vim.keymap.set({ 'n', 'x', 'o' }, ';', ts_repeat_move.repeat_last_move_next)
-    vim.keymap.set({ 'n', 'x', 'o' }, ',', ts_repeat_move.repeat_last_move_previous)
-
-    -- Make builtin f, F, t, T also repeatable with ; and ,
-    vim.keymap.set({ 'n', 'x', 'o' }, 'f', ts_repeat_move.builtin_f)
-    vim.keymap.set({ 'n', 'x', 'o' }, 'F', ts_repeat_move.builtin_F)
-    vim.keymap.set({ 'n', 'x', 'o' }, 't', ts_repeat_move.builtin_t)
-    vim.keymap.set({ 'n', 'x', 'o' }, 'T', ts_repeat_move.builtin_T)
-  end
-
-  -- Folding
-  vim.opt.foldcolumn = 'auto'
-  vim.opt.foldlevel = 99
-  vim.opt.foldmethod = 'expr'
-  vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
-
-  -- Fold workaround for treesitter bug https://github.com/nvim-telescope/telescope.nvim/issues/699
-  vim.api.nvim_create_autocmd({ "BufEnter" }, {
-      pattern = { "*" },
-      command = "normal zx",
-  })
-end
-
 vim.cmd [[
   augroup _general_settings
     au!
@@ -568,9 +574,3 @@ setup_remaps(remaps)
 setup_keymaps(keymaps)
 setup_plugin_manager()
 setup_clipboard()
-setup_treesitter()
-
-if not vim.g.vscode then
-  setup_telescope()
-  vim.cmd('colorscheme onedark')
-end
