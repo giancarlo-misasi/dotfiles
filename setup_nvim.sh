@@ -1,3 +1,3 @@
 mkdir -p ~/.config/nvim/
 cp init.lua ~/.config/nvim/
-cp -r lua/ ~/.config/nvim/lua/
+cp -ru lua/* ~/.config/nvim/lua/
