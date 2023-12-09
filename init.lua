@@ -1,5 +1,27 @@
 local enable_ux_plugins = not vim.g.vscode
 
+local globals = {
+  mapleader = ' ',
+  maplocalleader = ' ',
+  loaded_python3_provider = 0,
+  loaded_ruby_provider = 0,
+  loaded_perl_provider = 0,
+  loaded_node_provider = 0,
+  loaded_netrw = 1,
+  loaded_netrwPlugin = 1,
+  -- loaded_matchit = 1,
+}
+
+local external_commands = {
+  find_command = {
+    "rg",
+    "--files",
+    "--hidden",
+    "--glob",
+    "!**/.git/*"
+  },
+}
+
 local options = {
   clipboard = 'unnamedplus',
   writebackup = false,
@@ -46,22 +68,13 @@ local options = {
   },
 }
 
-local globals = {
-  mapleader = ' ',
-  maplocalleader = ' ',
-  loaded_python3_provider = 0,
-  loaded_ruby_provider = 0,
-  loaded_perl_provider = 0,
-  loaded_node_provider = 0,
-  loaded_netrw = 1,
-  loaded_netrwPlugin = 1,
-}
-
 local commands = {
-  'command! NewTab tabnew',
-  'command! CloseTab tabclose',
   'command! SplitRight vsplit',
   'command! SplitDown split',
+  'command! CloseSplit q!',
+  'command! NewTab tabnew',
+  'command! CloseTab tabclose',
+
   'command! FindFiles Telescope find_files',
   'command! LiveGrep Telescope live_grep',
   'command! OldFiles Telescope oldfiles',
@@ -72,6 +85,11 @@ local commands = {
   'command! CommandHistory Telescope command_history',
   'command! Buffers Telescope buffers',
   'command! Actions Telescope menu action_menu',
+
+  'command! FlashJump lua require("flash").jump()',
+  'command! FlashTreesitter lua require("flash").treesitter()',
+  'command! FlashTreesitterSearch lua require("flash").treesitter_search()',
+
   'command! GotoDeclaration lua vim.lsp.buf.declaration()',
   'command! GotoImplementation lua vim.lsp.buf.implementation()',
   'command! FindReferences lua vim.lsp.buf.references()',
@@ -80,15 +98,17 @@ local commands = {
   'command! SignatureHelp lua vim.lsp.buf.signature_help()',
   'command! CodeActions lua vim.lsp.buf.code_action()',
   'command! Rename lua vim.lsp.buf.rename()',
+
   'command! Quit qa!',
 }
 
 local menus = {
   action_items = {
-    {'New tab', 'NewTab'},
-    {'Close tab', 'CloseTab'},
     {'Split right', 'SplitRight'},
     {'Split down', 'SplitDown'},
+    {'Close split', 'CloseSplit'},
+    {'New tab', 'NewTab'},
+    {'Close tab', 'CloseTab'},
     {'Find files', 'FindFiles'},
     {'Live grep', 'LiveGrep'},
     {'Old files', 'OldFiles'},
@@ -98,6 +118,11 @@ local menus = {
     {'Commands', 'Commands'},
     {'Command history', 'CommandHistory'},
     {'Buffers', 'Buffers'},
+
+    {'Flash jump', 'FlashJump'},
+    {'Flash treesitter', 'FlashTreesitter'},
+    {'Flash treesitter search', 'FlashTreesitterSearch'},
+
     {'Goto declaration', 'GotoDeclaration'},
     {'Goto implementation', 'GotoImplementation'},
     {'Find references', 'FindReferences'},
@@ -106,17 +131,26 @@ local menus = {
     {'Signature help', 'SignatureHelp'},
     {'Code actions', 'CodeActions'},
     {'Rename', 'Rename'},
+
     {'Quit', 'Quit'},
   },
 }
 
-local remaps = {
-  { cmd = 'noremap', lhs = '<Leader>q', rhs = 'q' },
-  { cmd = 'noremap', lhs = 'q', rhs = '<Nop>' },
-  { cmd = 'noremap', lhs = 'u', rhs = '<Nop>' },
-  { cmd = 'noremap', lhs = '<C-f>', rhs = '<Nop>' },
-  { cmd = 'noremap', lhs = '<C-b>', rhs = '<Nop>' },
-  { cmd = 'noremap', lhs = '<C-h>', rhs = '<Nop>' },
+local noremaps = {
+  { lhs = 'q',          rhs = '<Nop>' },
+  { lhs = 'u',          rhs = '<Nop>' },
+  { lhs = '<C-a>',      rhs = '<Nop>' },
+  { lhs = '<C-b>',      rhs = '<Nop>' },
+  { lhs = '<C-c>',      rhs = '<Nop>' },
+  { lhs = '<C-e>',      rhs = '<Nop>' },
+  { lhs = '<C-f>',      rhs = '<Nop>' },
+  { lhs = '<C-h>',      rhs = '<Nop>' },
+  { lhs = '<C-p>',      rhs = '<Nop>' },
+  { lhs = '<C-s>',      rhs = '<Nop>' },
+  { lhs = '<C-w>',      rhs = '<Nop>' },
+  { lhs = '<C-x>',      rhs = '<Nop>' },
+  { lhs = '<C-y>',      rhs = '<Nop>' },
+  { lhs = '<C-z>',      rhs = '<Nop>' },
 }
 
 -- Modes
@@ -124,67 +158,54 @@ local remaps = {
 --   insert_mode = i
 --   visual_mode = x
 --   command_mode = c
+-- Note: All keymaps here use noremap=true so that we can map to things that I have no-opped
 local keymaps = {
-  { desc = 'Select all',      mode = 'n', lhs = '<C-a>',      rhs = 'ggVG' },
-  { desc = 'Select all',      mode = 'i', lhs = '<C-a>',      rhs = '<Esc>ggVG' },
-  { desc = 'Select all',      mode = 'x', lhs = '<C-a>',      rhs = '<Esc>ggVG' },
-  { desc = 'Copy',            mode = 'x', lhs = '<C-c>',      rhs = '"+y' },
-  { desc = 'Cut',             mode = 'x', lhs = '<C-x>',      rhs = '"+x' },
-  { desc = 'Paste',           mode = 'i', lhs = '<C-v>',      rhs = '"+gP' },
-  { desc = 'Paste',           mode = 'c', lhs = '<C-v>',      rhs = '<C-r><C-r>+' },
-  { desc = 'Paste register',  mode = 'n', lhs = '<C-p>',      rhs = '"' },
-  { desc = 'Paste register',  mode = 'i', lhs = '<C-p>',      rhs = '<C-o>"' },
-  { desc = 'Undo',            mode = 'n', lhs = '<C-z>',      rhs = 'u' },
-  { desc = 'Undo',            mode = 'i', lhs = '<C-z>',      rhs = '<C-o>u' },
-  { desc = 'Redo',            mode = 'i', lhs = '<C-r>',      rhs = '<C-o><C-r>' },
-  { desc = 'Save',            mode = 'n', lhs = '<C-s>',      rhs = ':update<CR>' },
-  { desc = 'Save',            mode = 'i', lhs = '<C-s>',      rhs = '<Esc>:update<CR>gi' },
-  { desc = 'Save',            mode = 'x', lhs = '<C-s>',      rhs = '<C-c>:update<CR>' },
-  { desc = 'Jump back',       mode = 'n', lhs = '<C-Left>',   rhs = 'b' },
-  { desc = 'Jump back',       mode = 'i', lhs = '<C-Left>',   rhs = '<Esc>b' },
-  { desc = 'Jump fwd',        mode = 'n', lhs = '<C-Right>',  rhs = 'w' },
-  { desc = 'Jump fwd',        mode = 'i', lhs = '<C-Right>',  rhs = '<Esc>w' },
-  { desc = 'Move text down',  mode = 'n', lhs = '<A-Down>',   rhs = ':m .+1<CR>==' },
-  { desc = 'Move text up',    mode = 'n', lhs = '<A-Up>',     rhs = ':m .-2<CR>==' },
-  { desc = 'Move text down',  mode = 'i', lhs = '<A-Down>',   rhs = '<Esc>:m .+1<CR>==gi' },
-  { desc = 'Move text up',    mode = 'i', lhs = '<A-Up>',     rhs = '<Esc>:m .-2<CR>==gi' },
-  { desc = 'Move text down',  mode = 'x', lhs = '<A-Down>',   rhs = ":m '>+1<CR>gv=gv" },
-  { desc = 'Move text up',    mode = 'x', lhs = '<A-Up>',     rhs = ":m '<-2<CR>gv=gv" },
-  { desc = 'Jump list bck',   mode = 'n', lhs = '<A-Left>',   rhs = '<C-o>' },
-  { desc = 'Jump list fwd',   mode = 'n', lhs = '<A-Right>',  rhs = '<C-i>' },
-  { desc = 'Indent',          mode = 'n', lhs = '<Tab>',      rhs = '>>' },
-  { desc = 'Indent',          mode = 'x', lhs = '<Tab>',      rhs = '>gv' },
-  { desc = 'Reverse indent',  mode = 'n', lhs = '<S-Tab>',    rhs = '<<' },
-  { desc = 'Reverse indent',  mode = 'x', lhs = '<S-Tab>',    rhs = '<gv' },
-  { desc = 'Reverse indent',  mode = 'i', lhs = '<S-Tab>',    rhs = '<C-D>' },
-  { desc = 'Actions',         mode = 'n', lhs = '<F1>',       rhs = ':Actions<cr>' },
-  { desc = 'Actions',         mode = 'x', lhs = '<F1>',       rhs = ':<C-U>:Actions<cr>' },
-  { desc = 'Commands',        mode = 'n', lhs = '<F2>',       rhs = ':Commands<cr>' },
-  { desc = 'Commands',        mode = 'x', lhs = '<F2>',       rhs = ':<C-U>Commands<cr>' },
+  { desc = 'Select all',         mode = 'n', lhs = '<C-a>',      rhs = 'ggVG' },
+  { desc = 'Select all',         mode = 'i', lhs = '<C-a>',      rhs = '<Esc>ggVG' },
+  { desc = 'Select all',         mode = 'x', lhs = '<C-a>',      rhs = '<Esc>ggVG' },
+  { desc = 'Copy',               mode = 'x', lhs = '<C-c>',      rhs = '"+y' },
+  { desc = 'Cut',                mode = 'x', lhs = '<C-x>',      rhs = '"+x' },
+  { desc = 'Paste',              mode = 'i', lhs = '<C-v>',      rhs = '"+gP' },
+  { desc = 'Paste',              mode = 'c', lhs = '<C-v>',      rhs = '<C-r><C-r>+' },
+  { desc = 'Paste register',     mode = 'n', lhs = '<C-p>',      rhs = '"' },
+  { desc = 'Paste register',     mode = 'i', lhs = '<C-p>',      rhs = '<C-o>"' },
+  { desc = 'Undo',               mode = 'n', lhs = '<C-z>',      rhs = 'u' },
+  { desc = 'Undo',               mode = 'i', lhs = '<C-z>',      rhs = '<C-o>u' },
+  { desc = 'Redo',               mode = 'i', lhs = '<C-y>',      rhs = '<C-o><C-r>' },
+  { desc = 'Save',               mode = 'n', lhs = '<C-s>',      rhs = ':update<CR>' },
+  { desc = 'Save',               mode = 'i', lhs = '<C-s>',      rhs = '<Esc>:update<CR>gi' },
+  { desc = 'Save',               mode = 'x', lhs = '<C-s>',      rhs = '<C-c>:update<CR>' },
+  { desc = 'Jump back',          mode = 'n', lhs = '<C-Left>',   rhs = 'b' },
+  { desc = 'Jump back',          mode = 'i', lhs = '<C-Left>',   rhs = '<Esc>b' },
+  { desc = 'Jump forward',       mode = 'n', lhs = '<C-Right>',  rhs = 'w' },
+  { desc = 'Jump forward',       mode = 'i', lhs = '<C-Right>',  rhs = '<Esc>w' },
+  { desc = 'Move text down',     mode = 'n', lhs = '<A-Down>',   rhs = ':m .+1<CR>==' },
+  { desc = 'Move text up',       mode = 'n', lhs = '<A-Up>',     rhs = ':m .-2<CR>==' },
+  { desc = 'Move text down',     mode = 'i', lhs = '<A-Down>',   rhs = '<Esc>:m .+1<CR>==gi' },
+  { desc = 'Move text up',       mode = 'i', lhs = '<A-Up>',     rhs = '<Esc>:m .-2<CR>==gi' },
+  { desc = 'Move text down',     mode = 'x', lhs = '<A-Down>',   rhs = ":m '>+1<CR>gv=gv" },
+  { desc = 'Move text up',       mode = 'x', lhs = '<A-Up>',     rhs = ":m '<-2<CR>gv=gv" },
+  { desc = 'Jump list backward', mode = 'n', lhs = '<A-Left>',   rhs = '<C-o>' },
+  { desc = 'Jump list forward',  mode = 'n', lhs = '<A-Right>',  rhs = '<C-i>' },
+  { desc = 'Indent',             mode = 'n', lhs = '<Tab>',      rhs = '>>' },
+  { desc = 'Indent',             mode = 'x', lhs = '<Tab>',      rhs = '>gv' },
+  { desc = 'Reverse indent',     mode = 'n', lhs = '<S-Tab>',    rhs = '<<' },
+  { desc = 'Reverse indent',     mode = 'x', lhs = '<S-Tab>',    rhs = '<gv' },
+  { desc = 'Reverse indent',     mode = 'i', lhs = '<S-Tab>',    rhs = '<C-D>' },
+  { desc = 'Actions',            mode = 'n', lhs = '<F1>',       rhs = ':Actions<cr>' },
+  { desc = 'Actions',            mode = 'x', lhs = '<F1>',       rhs = ':<C-U>:Actions<cr>' },
+  { desc = 'Commands',           mode = 'n', lhs = '<F2>',       rhs = ':Commands<cr>' },
+  { desc = 'Commands',           mode = 'x', lhs = '<F2>',       rhs = ':<C-U>Commands<cr>' },
 }
 
-local surround_keymaps = {
-  insert = "<C-g>s",
-  insert_line = "<C-g>S",
-  normal = "ys",
-  normal_cur = "yss",
-  normal_line = "yS",
-  normal_cur_line = "ySS",
-  visual = "S",
-  visual_line = "gS",
-  delete = "ds",
-  change = "cs",
-  change_line = "cS",
-}
-
-local comment_togger_keymaps = {
-  line = '<C-_>', -- vim sees <C-/> as <C-_>
-  block = 'gbc',
-}
-
-local comment_opleader_keymaps = {
-  line = '<C-_>',
+local comment_operator_keymaps = {
+  line = 'gc',
   block = 'gb',
+}
+
+local comment_toggler_keymaps = {
+  line = 'gcc',
+  block = 'gbc',
 }
 
 local textobjects_select_keymaps = {
@@ -193,6 +214,16 @@ local textobjects_select_keymaps = {
   ["af"] = "@function.outer",
   ["if"] = "@function.inner",
 }
+
+-- turn off these objects - use treesitter defintions above instead
+local various_motion_objects = {
+  "m", "M", "#", "*", "/",
+  "(", ")", "{", "}", "<", ">"
+}
+for _, symbol in ipairs(various_motion_objects) do
+  table.insert(noremaps, { lhs = ']' .. symbol, rhs = '<Nop>'})
+  table.insert(noremaps, { lhs = '[' .. symbol, rhs = '<Nop>'})
+end
 
 local textobjects_move_keymaps = {
   goto_next_start = {
@@ -221,83 +252,19 @@ local textobjects_move_keymaps = {
   },
 }
 
-local external_commands = {
-  find_command = {
-    "rg",
-    "--files",
-    "--hidden",
-    "--glob",
-    "!**/.git/*"
-  },
+local surround_keymaps = {
+  normal = "ys",
+  normal_cur = "yss",
+  normal_line = "yS",
+  normal_cur_line = "ySS",
+  visual = "S",
+  visual_line = "gS",
+  change = "cs",
+  change_line = "cS",
+  delete = "ds",
+  insert = false, -- "<C-g>s",
+  insert_line = false, -- "<C-g>S"
 }
-
--- local lualine_opts = {
---   options = {
---     theme = 'onedark',
---     globalstatus = true,
---   },
---   winbar = {},
---   inactive_winbar = {},
---   tabline = {
---     lualine_a = {
---       { 'filename', icon = '', separator = { right = '' } }
---     },
---     lualine_z = {
---       'tabs',
---       {
---         function()
---           if #vim.api.nvim_list_wins() > 1 then
---             return [[ window]]
---           else
---             return [[]]
---           end
---         end,
---         color = { bg = '#de5d68', fg = '#101012' },
---         separator = { left = '' },
---         on_click = function() vim.cmd('close') end
---       },
---       {
---         function()
---           if vim.fn.tabpagenr("$") > 1 then
---             return [[ tab]]
---           else
---             return [[]]
---           end
---         end,
---         color = { bg = '#833b3b', fg = '#101012' },
---         separator = { left = '' },
---         on_click = function() vim.cmd('tabclose') end
---       },
---     }
---   },
---   sections = {
---     lualine_a = {
---       { 'mode', separator = { right = '' } }
---     },
---     lualine_x = {
---       'encoding',
---       'fileformat',
---       {
---         'filetype',
---         color = { fg = '#ABB2BF' },
---         separator = '',
---         on_click = function()
---           local builtin = require('telescope.builtin')
---           if builtin then
---             builtin.filetypes()
---           end
---         end,
---       },
---     },
---   },
---   inactive_sections = {},
--- }
--- {
---   'nvim-lualine/lualine.nvim',
---   opts = lualine_opts,
---   event = 'VeryLazy',
---   cond = enable_ux_plugins,
--- },
 
 local treesitter_languages = {
   'make',
@@ -315,17 +282,43 @@ local treesitter_languages = {
 
 local plugins = {
   {
+    'ojroques/nvim-osc52',
+    lazy = false,
+  },
+  {
+    'kylechui/nvim-surround', version = '*',
+    lazy = false,
+    opts = {
+      keymaps = surround_keymaps,
+    },
+  },
+  {
+    'numtostr/comment.nvim',
+    lazy = false,
+    opts = {
+      opleader = comment_operator_keymaps,
+      toggler = comment_toggler_keymaps,
+      mappings = { extra = false }
+    },
+  },
+  {
+    'gbprod/cutlass.nvim',
+    lazy = false,
+    opts = {
+      override_del = true
+    },
+  },
+  {
     'olimorris/onedarkpro.nvim', priority = 1000,
     cond = enable_ux_plugins,
     config = function()
       require('onedarkpro').setup()
-      vim.cmd('colorscheme onedark')
+      vim.o.laststatus=3
+      vim.cmd [[
+        au TextYankPost * silent!lua require('vim.highlight').on_yank()
+        colorscheme onedark
+      ]]
     end
-  },
-  {
-    'lukas-reineke/indent-blankline.nvim', main = "ibl",
-    event = 'VeryLazy',
-    cond = enable_ux_plugins,
   },
   {
     'dstein64/nvim-scrollview',
@@ -354,58 +347,64 @@ local plugins = {
     end
   },
   {
-    'ojroques/nvim-osc52',
-    lazy = false,
-  },
-  {
-    'gbprod/cutlass.nvim',
-    lazy = false,
-    opts = {
-      override_del = true
-    },
-  },
-  {
-    'kylechui/nvim-surround', version = '*',
-    lazy = false,
-    opts = {
-      keymaps = surround_keymaps,
-    },
-  },
-  {
-    'numtostr/comment.nvim',
-    lazy = false,
-    opts = {
-      toggler = comment_togger_keymaps,
-      opleader = comment_opleader_keymaps,
-      mappings = {
-        basic = true,
-        extra = false,
-      },
-    },
-  },
-  {
     "folke/flash.nvim",
     event = "VeryLazy",
-    opts = {
-      modes = {
-        char = {
-          jump_labels = true
-        }
-      }
-    },
-    keys = {
-      { 's', mode = { 'n', 'x', 'o' }, function() require('flash').jump() end, desc = 'Flash' },
-      { 'S', mode = { 'n', 'x', 'o' }, function() require('flash').treesitter() end, desc = 'Flash Treesitter' },
-      { 'r', mode = 'o', function() require('flash').remote() end, desc = 'Remote Flash' },
-      { 'R', mode = { 'o', 'x' }, function() require('flash').treesitter_search() end, desc = 'Treesitter Search' },
-      -- { '<c-s>', mode = { 'c' }, function() require('flash').toggle() end, desc = 'Toggle Flash Search' },
-    },
+    opts = { modes = { char = { jump_labels = true } } },
+    keys = false,
+  },
+  {
+    'folke/which-key.nvim',
+    event = 'VeryLazy',
+    init = function()
+      vim.o.timeout = true
+      vim.o.timeoutlen = 0
+    end,
+    config = function()
+      local function fix_group(name)
+        return { name = name, label = name }
+      end
+      local function fix_motion_group(name)
+        local mapping = { name = name }
+        local operators = { a = "+around", i = "+inside" }
+        for symbol, label in pairs(operators) do
+          mapping[symbol] = { name = label, label = label, l = "which_key_ignore" }
+        end
+        for _, symbol in ipairs(various_motion_objects) do
+          mapping[symbol] = "which_key_ignore"
+        end
+        return mapping
+      end
+      local wk = require("which-key")
+      wk.setup({
+        layout = { width = { min = 20, max = 75 } },
+        plugins = { presets = { windows = false } },
+      })
+      wk.register({
+        ["<C-L>"] = "Clear highlights",
+        ["<Del>"] = "Delete character under cursor",
+        ["x"] = "Delete character under cursor",
+        ["X"] = "Delete character before cursor",
+        ["s"] = "Delete character under cursor and enter insert",
+        ["S"] = "Delete line and enter insert",
+        ["C"] = "Change from the cursor to the end of the line",
+        ["D"] = "Delete from the cursor to the end of the line",
+        [";"] = "Repeat forward",
+        [","] = "Repeat backward",
+        ["&"] = "Repeat last substitution",
+        ["Y"] = "Yank (copy) from the cursor to the end of the line",
+        ["g"] = fix_group("Actions (goto, commenting, formatting, etc)"),
+        ["z"] = fix_group("Actions (movement, folds, etc)"),
+        ["]"] = fix_motion_group("+Move next"),
+        ["["] = fix_motion_group("+Move previous"),
+      })
+    end
   },
   {
     'nvim-treesitter/nvim-treesitter', build = ':TSUpdate', dependencies = { 'nvim-treesitter/nvim-treesitter-textobjects' },
     lazy = false,
     config = function()
       local configs = require('nvim-treesitter.configs')
+      local ts_repeat_move = require('nvim-treesitter.textobjects.repeatable_move')
       configs.setup({
         ensure_installed = treesitter_languages,
         auto_install = true,
@@ -436,26 +435,15 @@ local plugins = {
           },
         }
       })
-      
-      local ts_repeat_move = require('nvim-treesitter.textobjects.repeatable_move')
-      if ts_repeat_move then
-        -- Repeat movement with ; and ,
-        -- ensure ; goes forward and , goes backward regardless of the last direction
-        vim.keymap.set({ 'n', 'x', 'o' }, ';', ts_repeat_move.repeat_last_move_next)
-        vim.keymap.set({ 'n', 'x', 'o' }, ',', ts_repeat_move.repeat_last_move_previous)
-
-        -- Make builtin f, F, t, T also repeatable with ; and ,
-        vim.keymap.set({ 'n', 'x', 'o' }, 'f', ts_repeat_move.builtin_f)
-        vim.keymap.set({ 'n', 'x', 'o' }, 'F', ts_repeat_move.builtin_F)
-        vim.keymap.set({ 'n', 'x', 'o' }, 't', ts_repeat_move.builtin_t)
-        vim.keymap.set({ 'n', 'x', 'o' }, 'T', ts_repeat_move.builtin_T)
-      end
-
-      -- Folding
-      vim.opt.foldcolumn = 'auto'
-      vim.opt.foldlevel = 99
-      vim.opt.foldmethod = 'expr'
-      vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+      -- Repeat movement with ; and ,
+      -- ensure ; goes forward and , goes backward regardless of the last direction
+      vim.keymap.set({ 'n', 'x', 'o' }, ';', ts_repeat_move.repeat_last_move_next)
+      vim.keymap.set({ 'n', 'x', 'o' }, ',', ts_repeat_move.repeat_last_move_previous)
+      -- Make builtin f, F, t, T also repeatable with ; and ,
+      vim.keymap.set({ 'n', 'x', 'o' }, 'f', ts_repeat_move.builtin_f)
+      vim.keymap.set({ 'n', 'x', 'o' }, 'F', ts_repeat_move.builtin_F)
+      vim.keymap.set({ 'n', 'x', 'o' }, 't', ts_repeat_move.builtin_t)
+      vim.keymap.set({ 'n', 'x', 'o' }, 'T', ts_repeat_move.builtin_T)
     end,
   },
 }
@@ -498,9 +486,9 @@ local function setup_globals(globals)
   end
 end
 
-local function setup_remaps(remaps)
-  for _, r in pairs(remaps) do
-    vim.cmd(r.cmd .. ' ' .. r.lhs .. ' ' .. r.rhs)
+local function setup_noremaps(noremaps)
+  for _, r in pairs(noremaps) do
+    vim.keymap.set('n', r.lhs, r.rhs, { silent = true, noremap = true })
   end
 end
 
@@ -562,15 +550,23 @@ vim.cmd [[
   augroup _general_settings
     au!
     au FileType qf,help,man,netrw,lspinfo nnoremap <silent> <buffer> q :close<CR>
-    au TextYankPost * silent!lua require('vim.highlight').on_yank()
-    au BufWinEnter * :set formatoptions-=cro
+  augroup end
+
+  augroup _popup_menu
+    aunmenu PopUp
+    nnoremenu PopUp.Split\ Right      :SplitRight<CR>
+    nnoremenu PopUp.Split\ Down       :SplitDown<CR>
+    nnoremenu PopUp.New\ Tab          :NewTab<CR>
+    anoremenu PopUp.-1-               <Nop>
+    nnoremenu PopUp.Close\ Split      :q!<CR>
+    nnoremenu PopUp.Close\ Tab        :CloseTab<CR>
   augroup end
 ]]
 
-setup_options(options)
 setup_globals(globals)
+setup_options(options)
 setup_commands(commands)
-setup_remaps(remaps)
+setup_noremaps(noremaps)
 setup_keymaps(keymaps)
 setup_plugin_manager()
 setup_clipboard()
