@@ -16,7 +16,7 @@ apt-get -y install build-essential gcc g++ libssl-dev zlib1g-dev \
 > Step 2 - Tooling setup
 
 ```shell
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/giancarlo-misasi/nvim-config-lua/main/install.sh)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/giancarlo-misasi/nvim-config-lua/main/setup_env.sh)"
 ```
 
 > Step 2 - Neovim setup
