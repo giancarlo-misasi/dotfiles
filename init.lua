@@ -309,12 +309,18 @@ local plugins = {
 		event = "VeryLazy",
 		cond = enable_ux_plugins,
 	},
+	-- {
+	-- 	"nvim-telescope/telescope-fzf-native.nvim",
+	-- 	build = "make",
+	-- 	config = function()
+    --      require("telescope").load_extension("fzf")
+	-- 	end,
+	-- },
 	{
 		"nvim-telescope/telescope.nvim",
 		tag = "0.1.5",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
-			"nvim-telescope/telescope-fzf-native.nvim",
 			"nvim-telescope/telescope-ui-select.nvim",
 			"octarect/telescope-menu.nvim",
 		},
@@ -332,7 +338,6 @@ local plugins = {
 					},
 				},
 			})
-			telescope.load_extension("fzf")
 			telescope.load_extension("ui-select")
 			telescope.load_extension("menu")
 		end,
