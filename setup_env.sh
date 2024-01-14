@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# Setup the prefix that will appear in the shell prompt
-PROFILE_PROMPT_PREFIX=legian-wsl
-PROMPT="$PROFILE_PROMPT_PREFIX %(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
-PROMPT+=' %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info)'
-
 # Install oh-my-zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 sed -i 's/plugins=(git)/plugins=(git asdf vscode)/' ~/.zshrc
@@ -51,6 +46,12 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 # ASDF
 unset ASDF_DIR
 . /home/linuxbrew/.linuxbrew/opt/asdf/libexec/asdf.sh
+
+# Setup the prefix that will appear in the shell prompt
+PROFILE_PROMPT_PREFIX=legian-wsl
+PROMPT="$PROFILE_PROMPT_PREFIX %(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
+PROMPT+=' %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info)'
+
 EOF
 
 # Register custom profile script
