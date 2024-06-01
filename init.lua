@@ -13,13 +13,7 @@ local globals = {
 }
 
 local external_commands = {
-	find_command = {
-		"rg",
-		"--files",
-		"--hidden",
-		"--glob",
-		"!**/.git/*",
-	},
+	find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
 }
 
 local options = {
@@ -85,21 +79,18 @@ local commands = {
 	"command! Registers Telescope registers",
 	"command! Commands Telescope commands",
 	"command! CommandHistory Telescope command_history",
+	"command! Diagnostics Telescope diagnostics",
 	"command! Buffers Telescope buffers",
 	"command! Actions Telescope menu action_menu",
 
-	-- 'command! FlashJump lua require("flash").jump()',
-	-- 'command! FlashTreesitter lua require("flash").treesitter()',
-	-- 'command! FlashTreesitterSearch lua require("flash").treesitter_search()',
-
-	-- "command! GotoDeclaration lua vim.lsp.buf.declaration()",
-	-- "command! GotoImplementation lua vim.lsp.buf.implementation()",
-	-- "command! FindReferences lua vim.lsp.buf.references()",
-	-- "command! FormatCode vim.lsp.buf.format()",
-	-- "command! Hover lua vim.lsp.buf.hover()",
-	-- "command! SignatureHelp lua vim.lsp.buf.signature_help()",
-	-- "command! CodeActions lua vim.lsp.buf.code_action()",
-	-- "command! Rename lua vim.lsp.buf.rename()",
+	"command! FindReferences lua vim.lsp.buf.references()",
+	"command! FormatCode vim.lsp.buf.format()",
+	"command! GotoDeclaration lua vim.lsp.buf.declaration()",
+	"command! GotoImplementation lua vim.lsp.buf.implementation()",
+	"command! Rename lua vim.lsp.buf.rename()",
+	"command! Hover lua vim.lsp.buf.hover()",
+	"command! SignatureHelp lua vim.lsp.buf.signature_help()",
+	"command! CodeActions lua vim.lsp.buf.code_action()",
 
 	"command! Quit qa!",
 }
@@ -111,6 +102,7 @@ local menus = {
 		{ "Close split", "CloseSplit" },
 		{ "New tab", "NewTab" },
 		{ "Close tab", "CloseTab" },
+
 		{ "Find files", "FindFiles" },
 		{ "Live grep", "LiveGrep" },
 		{ "Old files", "OldFiles" },
@@ -119,20 +111,17 @@ local menus = {
 		{ "Registers", "Registers" },
 		{ "Commands", "Commands" },
 		{ "Command history", "CommandHistory" },
+		{ "Diagnostics", "Diagnostics" },
 		{ "Buffers", "Buffers" },
 
-		-- { "Flash jump", "FlashJump" },
-		-- { "Flash treesitter", "FlashTreesitter" },
-		-- { "Flash treesitter search", "FlashTreesitterSearch" },
-
-		-- { "Goto declaration", "GotoDeclaration" },
-		-- { "Goto implementation", "GotoImplementation" },
-		-- { "Find references", "FindReferences" },
-		-- { "Format code", "FormatCode" },
-		-- { "Hover", "Hover" },
-		-- { "Signature help", "SignatureHelp" },
-		-- { "Code actions", "CodeActions" },
-		-- { "Rename", "Rename" },
+		{ "Find references", "FindReferences" },
+		{ "Format code", "FormatCode" },
+		{ "Goto declaration", "GotoDeclaration" },
+		{ "Goto implementation", "GotoImplementation" },
+		{ "Rename", "Rename" },
+		{ "Hover", "Hover" },
+		{ "Signature help", "SignatureHelp" },
+		{ "Code actions", "CodeActions" },
 
 		{ "Quit", "Quit" },
 	},
@@ -181,7 +170,33 @@ local keymaps = {
 	{ desc = "Reverse indent", mode = "i", lhs = "<S-Tab>", rhs = "<C-D>" },
 	{ desc = "Reverse indent", mode = "x", lhs = "<S-Tab>", rhs = "<gv" },
 	{ desc = "Actions", mode = "n", lhs = "<F1>", rhs = ":Actions<cr>" },
-	{ desc = "Keymap help", mode = "n", lhs = "<F4>", rhs = ":SelectKeymap<cr>" },
+}
+
+local autocomplete_keymaps = {
+	confirm = "<CR>",
+	complete = "<Tab>",
+	move_up = "<Up>",
+	move_down = "<Down>",
+	toggle = "<C-Space>",
+}
+
+local lsp_keymaps = {
+	{ desc = "Hover", mode = "n", lhs = "K",  rhs = "<cmd>lua vim.lsp.buf.hover()<cr>" },
+	{ desc = "Goto defn", mode = "n", lhs = "gd", rhs = "<cmd>lua vim.lsp.buf.definition()<cr>" },
+	{ desc = "Goto decl", mode = "n", lhs = "gD", rhs = "<cmd>lua vim.lsp.buf.declaration()<cr>" },
+	{ desc = "Goto impl", mode = "n", lhs = "gi", rhs = "<cmd>lua vim.lsp.buf.implementation()<cr>" },
+	{ desc = "Goto type", mode = "n", lhs = "gy", rhs = "<cmd>lua vim.lsp.buf.implementation()<cr>" },
+	{ desc = "Goto type", mode = "n", lhs = "gr", rhs = "<cmd>lua vim.lsp.buf.references()<cr>" },
+
+	{ desc = "Show signature", mode = "n", lhs = "gs", rhs = "<cmd>lua vim.lsp.buf.signature_help()<cr>" },
+	{ desc = "Show diag", mode = "n", lhs = "gr", rhs = "<cmd>lua vim.diagnostic.open_float()<cr>" },
+	{ desc = "Prev diag", mode = "n", lhs = "gr", rhs = "<cmd>lua vim.diagnostic.goto_prev()<cr>" },
+	{ desc = "Next diag", mode = "n", lhs = "gr", rhs = "<cmd>lua vim.diagnostic.goto_next()<cr>" },
+
+	{ desc = "Rename", mode = "n", lhs = "<F2>", rhs = "<cmd>lua vim.lsp.buf.rename()<cr>" },
+	{ desc = "Format file", mode = "n", lhs = "<F3>", rhs = "<cmd>lua vim.lsp.buf.format()<cr>" },
+	{ desc = "Format selection", mode = "x", lhs = "<F3>", rhs = "<cmd>lua vim.lsp.buf.format()<cr>" },
+	{ desc = "Code Action", mode = "n", lhs = "<F4>", rhs = "<cmd>lua vim.lsp.buf.code_action()<cr>" },
 }
 
 local comment_operator_keymaps = {
@@ -243,10 +258,9 @@ local surround_keymaps = {
 }
 
 local treesitter_languages = {
-	"make",
-	"cmake",
 	"c",
 	"cpp",
+	"java",
 	"go",
 	"python",
 	"ruby",
@@ -256,23 +270,89 @@ local treesitter_languages = {
 	"yaml",
 }
 
+local lsp_languages = {
+	"clangd",
+	"jdtls",
+	"gopls",
+	"pylsp",
+	"ruby_lsp",
+	"rust_analyzer",
+	"lua_ls",
+}
+
 local plugins = {
 	{
-		"giancarlo-misasi/keymap-menu.nvim",
-		priority = 1001,
+		"olimorris/onedarkpro.nvim",
+		priority = 1000,
 		lazy = false,
-		config = true,
+		cond = enable_ux_plugins,
+		config = function()
+			require("onedarkpro").setup()
+			vim.o.laststatus = 3
+			vim.cmd([[
+				au TextYankPost * silent!lua require('vim.highlight').on_yank()
+				colorscheme onedark
+			]])
+		end,
+	},
+	{
+		"nvim-lualine/lualine.nvim",
+		dependencies = { 
+			"nvim-tree/nvim-web-devicons", 
+			"linrongbin16/lsp-progress.nvim", 
+		},
+		lazy = false,
+		cond = enable_ux_plugins,
+		config = function()
+			local lualine = require("lualine")
+			lualine.setup({
+				options = {
+					theme = "onedark",
+					globalstatus = true,
+				},
+				tabline = {
+					lualine_a = { "filename" },
+					lualine_c = {
+						function() return require("lsp-progress").progress() end,
+					},				
+					lualine_z = {  "tabs", {
+							function() return #vim.api.nvim_list_wins() > 1 and [[ window]] or [[]] end,
+							color = { bg = "#de5d68", fg = "#101012" },
+							separator = { left = "" },
+							on_click = function() vim.cmd("close") end
+						}, {
+							function() return vim.fn.tabpagenr("$") > 1 and [[ tab]] or [[]] end,
+							color = { bg = "#833b3b", fg = "#101012" },
+							separator = { left = "" },
+							on_click = function() vim.cmd("tabclose") end
+						}
+					}
+				},
+			})
+
+			local lsp_progress = require("lsp-progress").setup()
+			vim.api.nvim_create_augroup("lualine_augroup", { clear = true })
+			vim.api.nvim_create_autocmd("User", {
+				group = "lualine_augroup",
+				pattern = "LspProgressStatusUpdated",
+				callback = require("lualine").refresh,
+			})
+		end
+	},
+	{
+		"dstein64/nvim-scrollview",
+		event = "VeryLazy",
+		cond = enable_ux_plugins,
 	},
 	{
 		"ojroques/nvim-osc52",
 		lazy = false,
 	},
 	{
-		"kylechui/nvim-surround",
-		version = "*",
+		"gbprod/cutlass.nvim",
 		lazy = false,
 		opts = {
-			keymaps = surround_keymaps,
+			override_del = true,
 		},
 	},
 	{
@@ -285,45 +365,21 @@ local plugins = {
 		},
 	},
 	{
-		"gbprod/cutlass.nvim",
-		lazy = false,
+		"kylechui/nvim-surround",
+		version = "*",
+		event = "VeryLazy",
 		opts = {
-			override_del = true,
+			keymaps = surround_keymaps,
 		},
 	},
 	{
-		"olimorris/onedarkpro.nvim",
-		priority = 1000,
-		cond = enable_ux_plugins,
-		config = function()
-			require("onedarkpro").setup()
-			vim.o.laststatus = 3
-			vim.cmd([[
-        au TextYankPost * silent!lua require('vim.highlight').on_yank()
-        colorscheme onedark
-      ]])
-		end,
-	},
-	{
-		"dstein64/nvim-scrollview",
+		"giancarlo-misasi/keymap-menu.nvim",
 		event = "VeryLazy",
-		cond = enable_ux_plugins,
 	},
-	-- {
-	-- 	"nvim-telescope/telescope-fzf-native.nvim",
-	-- 	build = "make",
-	-- 	config = function()
-    --      require("telescope").load_extension("fzf")
-	-- 	end,
-	-- },
 	{
 		"nvim-telescope/telescope.nvim",
-		tag = "0.1.5",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-telescope/telescope-ui-select.nvim",
-			"octarect/telescope-menu.nvim",
-		},
+		tag = "0.1.6",
+		dependencies = { "nvim-lua/plenary.nvim" },
 		event = "VeryLazy",
 		cond = enable_ux_plugins,
 		config = function()
@@ -340,22 +396,28 @@ local plugins = {
 			})
 			telescope.load_extension("ui-select")
 			telescope.load_extension("menu")
+			telescope.load_extension('fzf')
 		end,
 	},
-	-- {
-	-- 	"folke/flash.nvim",
-	-- 	event = "VeryLazy",
-	-- 	opts = { modes = { char = { jump_labels = true } } },
-	-- 	keys = false,
-	-- },
+	{
+		"octarect/telescope-menu.nvim",
+		event = "VeryLazy",
+	},
+	{
+		"nvim-telescope/telescope-ui-select.nvim",
+		event = "VeryLazy",
+	},
+	{
+		"nvim-telescope/telescope-fzf-native.nvim",
+		build = "make",
+		event = "VeryLazy",
+	},
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
-		dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
-		lazy = false,
+		event = "VeryLazy",
 		config = function()
 			local configs = require("nvim-treesitter.configs")
-			local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
 			configs.setup({
 				ensure_installed = treesitter_languages,
 				auto_install = true,
@@ -386,6 +448,7 @@ local plugins = {
 					},
 				},
 			})
+			local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
 			-- Repeat movement with ; and ,
 			-- ensure ; goes forward and , goes backward regardless of the last direction
 			vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move_next, { desc = "repeat forward" })
@@ -397,6 +460,70 @@ local plugins = {
 			vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t)
 			vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T)
 		end,
+	},
+	{
+		"nvim-treesitter/nvim-treesitter-textobjects",
+		event = "VeryLazy",
+	},
+	{
+		'VonHeikemen/lsp-zero.nvim',
+		branch = "v3.x",
+		event = "VeryLazy",
+		dependencies = {
+			"neovim/nvim-lspconfig",
+			"williamboman/mason.nvim",
+			"williamboman/mason-lspconfig.nvim",
+			"hrsh7th/nvim-cmp",
+			"hrsh7th/cmp-nvim-lsp",
+			"L3MON4D3/LuaSnip",
+		},
+		config = function()
+			local lsp_zero = require("lsp-zero")
+			lsp_zero.extend_lspconfig()
+			
+			local mason = require("mason")
+			mason.setup()
+
+			local mason_lspconfig = require("mason-lspconfig")
+			mason_lspconfig.setup({
+				ensure_installed = lsp_languages,
+				handlers = {
+					function(server_name)
+						require('lspconfig')[server_name].setup({})
+					end,
+				},
+			})
+
+			lsp_zero.on_attach(function(client, bufnr)
+				for _, k in pairs(lsp_keymaps) do
+					vim.keymap.set(k.mode, k.lhs, k.rhs, { desc = k.desc, buffer = bufnr })
+				end
+			end)
+			-- lsp_zero.setup()
+
+			-- local autocomplete_keymaps = {
+			-- 	confirm = "<Tab>",
+			-- 	previous = "<S-Tab>",
+			-- 	move_up = "<Up>",
+			-- 	move_down = "<Down>",
+			-- 	toggle = "<C-Space>",
+			-- }
+
+			local cmp = require("cmp")
+			local cmp_action = lsp_zero.cmp_action()
+			local km = autocomplete_keymaps;
+			cmp.setup({
+				mapping = cmp.mapping.preset.insert({
+					[km.confirm] = cmp.mapping.confirm({select = false}),
+					[km.complete] = cmp.mapping.confirm(),
+					[km.move_up] = cmp.mapping.select_prev_item({behavior = 'select'}),
+					[km.move_down] = cmp.mapping.select_next_item({behavior = 'select'}),
+					[km.toggle] = cmp_action.toggle_completion(),
+				}),
+			})
+
+			lsp_zero.setup()
+		end
 	},
 }
 
@@ -516,7 +643,6 @@ vim.cmd([[
 ]])
 
 setup_plugin_manager()
-
 setup_globals(globals)
 setup_options(options)
 setup_commands(commands)
