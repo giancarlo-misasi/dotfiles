@@ -372,6 +372,7 @@ local plugins = {
 			"hrsh7th/nvim-cmp",
 			"hrsh7th/cmp-nvim-lsp",
 			"L3MON4D3/LuaSnip",
+			"mfussenegger/nvim-jdtls",
 		},
 		config = function()
 			local lsp_zero = require("lsp-zero")
@@ -387,6 +388,7 @@ local plugins = {
 					function(server_name)
 						require('lspconfig')[server_name].setup({})
 					end,
+					jdtls = lsp_zero.noop,
 				},
 			})
 
