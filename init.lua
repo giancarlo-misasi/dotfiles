@@ -386,7 +386,9 @@ local plugins = {
 				ensure_installed = lsp_languages,
 				handlers = {
 					function(server_name)
-						require('lspconfig')[server_name].setup({})
+						require('lspconfig')[server_name].setup({
+							autostart = false
+						})
 					end,
 					jdtls = lsp_zero.noop,
 				},
@@ -444,7 +446,7 @@ local plugins = {
 			end
 
 			local function has_lsp()
-				return #vim.lsp.get_active_clients() > 0
+				return #vim.lsp.get_clients() > 0
 			end
 
 			local filename = {
@@ -474,8 +476,9 @@ local plugins = {
 				on_click = function() vim.cmd(has_lsp() and "LspStop" or "LspStart") end
 			}
 
-			local lsp_progress = {
-				function() return require("lsp-progress").progress() end
+			local lsp_status = {
+				function() return require("lsp-progress").progress() end,
+				on_click = function() vim.cmd("LspInfo") end
 			}
 
 			lualine.setup({
@@ -486,7 +489,7 @@ local plugins = {
 				sections = {
 					lualine_a = { 'mode' },
 					lualine_b = { 'branch', 'diff', 'diagnostics' },
-					lualine_c = { lsp_progress},
+					lualine_c = { lsp_status },
 					lualine_x = { 'encoding', 'fileformat', 'filetype', lsp_toggle },
 					lualine_y = { 'progress' },
 					lualine_z = { 'location' },
@@ -505,7 +508,19 @@ local plugins = {
 				},
 			})
 
-			require("lsp-progress").setup()
+			local lsp_progress = require("lsp-progress")
+			lsp_progress.setup({
+				format = function(client_messages)
+					local sign = " lsp" -- icon: nf-cod-info
+					if #client_messages > 0 then
+						return " " .. table.concat(client_messages, " ")
+					end
+					if has_lsp() then
+						return sign
+					end
+					return ""
+				end,
+			})
 			vim.api.nvim_create_augroup("lualine_augroup", { clear = true })
 			vim.api.nvim_create_autocmd("User", {
 				group = "lualine_augroup",
