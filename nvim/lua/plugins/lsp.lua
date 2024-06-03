@@ -55,6 +55,12 @@ local function setup_autocomplete()
 end
 
 local function setup_dap()
+    vim.fn.sign_define('DapBreakpoint', { text = '' })
+    vim.fn.sign_define('DapBreakpointCondition', { text = 'ﳁ' })
+    vim.fn.sign_define('DapBreakpointRejected', { text = '' })
+    vim.fn.sign_define('DapLogPoint', { text = '' })
+    vim.fn.sign_define('DapStopped', { text = '' })
+
     require("dap.c_cpp_rust").setup()
     require("java").setup()
     require("dap-go").setup()

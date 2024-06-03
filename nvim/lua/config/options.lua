@@ -16,7 +16,7 @@ local options = {
     swapfile = false,
     undofile = true,
     number = true,
-    relativenumber = true,
+    relativenumber = false, -- using statuscol to show both
     wrap = false,
     cursorline = true,
     termguicolors = true,
@@ -53,7 +53,12 @@ local options = {
         vertleft = "┫",
         vertright = "┣",
         verthoriz = "╋",
+        foldopen = "",
+        foldsep = "┃",
+        foldclose = "",
     },
+    foldlevel = 99,
+    foldcolumn = "1",
 }
 
 local function setup_globals(opts)
@@ -78,5 +83,33 @@ local function setup_options(opts)
     end
 end
 
+local function setup_diagnostics()
+    vim.diagnostic.config({
+        signs = {
+            enable = true,
+            text = {
+                ["ERROR"] = " ",
+                ["WARN"]  = " ",
+                ["HINT"]  = " ",
+                ["INFO"]  = " ",
+            },
+            texthl = {
+                ["ERROR"] = "DiagnosticDefault",
+                ["WARN"] = "DiagnosticDefault",
+                ["HINT"] = "DiagnosticDefault",
+                ["INFO"] = "DiagnosticDefault",
+            },
+            numhl = {
+                ["ERROR"] = "DiagnosticDefault",
+                ["WARN"] = "DiagnosticDefault",
+                ["HINT"] = "DiagnosticDefault",
+                ["INFO"] = "DiagnosticDefault",
+            },
+            severity_sort = true,
+        },
+    })
+end
+
 setup_globals(globals)
 setup_options(options)
+setup_diagnostics()

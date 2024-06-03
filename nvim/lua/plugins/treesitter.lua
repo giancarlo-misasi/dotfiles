@@ -26,7 +26,7 @@ return {
                         keymaps = keymaps.textobjects_select,
                         selection_modes = {
                             ["@parameter.outer"] = "v", -- charwise
-                            ["@function.outer"] = "V", -- linewise
+                            ["@function.outer"] = "V",  -- linewise
                         },
                     },
                     move = {
@@ -42,6 +42,7 @@ return {
                 },
             })
 
+            -- repeat treesitter moves
             local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
             vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move_next, { desc = "repeat forward" })
             vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_previous, { desc = "repeat back" })
@@ -49,6 +50,10 @@ return {
             vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F)
             vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t)
             vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T)
+
+            -- treesitter folding
+            vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+            vim.opt.foldmethod = "expr"
         end,
     },
 }
