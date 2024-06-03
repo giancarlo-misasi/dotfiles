@@ -121,4 +121,10 @@ return {
         cond = enable_ux_plugins,
         event = "VeryLazy",
     },
+    {
+        "luukvbaal/statuscol.nvim",
+        cond = enable_ux_plugins,
+        lazy = false,
+        config = true,
+    },
 }

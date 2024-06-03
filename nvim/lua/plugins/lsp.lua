@@ -26,7 +26,7 @@ local function setup_mason()
         ensure_installed = languages.lsp,
         handlers = {
             function(server_name)
-                require('lspconfig')[server_name].setup({ autostart = false })
+                require("lspconfig")[server_name].setup({ autostart = false })
             end,
             jdtls = lsp_zero.noop,
         },
@@ -42,8 +42,8 @@ local function setup_autocomplete()
         mapping = cmp.mapping.preset.insert({
             [km.confirm] = cmp.mapping.confirm({ select = false }),
             [km.complete] = cmp.mapping.confirm(),
-            [km.move_up] = cmp.mapping.select_prev_item({ behavior = 'select' }),
-            [km.move_down] = cmp.mapping.select_next_item({ behavior = 'select' }),
+            [km.move_up] = cmp.mapping.select_prev_item({ behavior = "select" }),
+            [km.move_down] = cmp.mapping.select_next_item({ behavior = "select" }),
             [km.toggle] = cmp_action.toggle_completion(),
         }),
     })
@@ -58,11 +58,28 @@ local function setup_dap()
     require("dap.c_cpp_rust").setup()
     require("java").setup()
     require("dap-go").setup()
+
+    local dapui = require("dapui")
+    dapui.setup()
+
+    local dap = require("dap")
+    dap.listeners.before.attach.dapui_config = function()
+        dapui.open()
+    end
+    dap.listeners.before.launch.dapui_config = function()
+        dapui.open()
+    end
+    dap.listeners.before.event_terminated.dapui_config = function()
+        dapui.close()
+    end
+    dap.listeners.before.event_exited.dapui_config = function()
+        dapui.close()
+    end
 end
 
 return {
     {
-        'VonHeikemen/lsp-zero.nvim',
+        "VonHeikemen/lsp-zero.nvim",
         branch = "v3.x",
         event = "VeryLazy",
         dependencies = {
