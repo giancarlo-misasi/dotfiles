@@ -2,14 +2,11 @@
 
 # Install oh-my-zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-sed -i 's/plugins=(git)/plugins=(git asdf vscode)/' ~/.zshrc
+sed -i 's/plugins=(git)/plugins=(git vscode)/' ~/.zshrc
 
 # Install brew
 NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-
-# Install tools using brew
-brew install neovim fzf ripgrep fd compiledb asdf
 
 # Generate custom profile script
 cat <<'EOF' > ~/.zshrc-custom
@@ -22,15 +19,8 @@ alias vim="nvim"
 alias vi="nvim"
 export EDITOR=nvim
 
-# Fixes
-alias pip="python -m pip"
-
 # Brew
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-
-# ASDF
-unset ASDF_DIR
-. /home/linuxbrew/.linuxbrew/opt/asdf/libexec/asdf.sh
 
 # Setup the prefix that will appear in the shell prompt
 PROFILE_PROMPT_PREFIX=legian-wsl

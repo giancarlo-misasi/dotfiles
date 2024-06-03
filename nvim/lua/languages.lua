@@ -3,24 +3,24 @@ local M = {}
 M.treesitter = {
     "c",
     "cpp",
+    "rust",
     "java",
     "go",
-    "python",
-    "ruby",
-    "rust",
     "lua",
+    -- "python",
+    -- "ruby",
     "markdown",
-    "yaml",
 }
 
 M.lsp = {
-	"clangd",
-	"jdtls",
-	"gopls",
-	"pylsp",
-	"ruby_lsp",
-	"rust_analyzer",
-	"lua_ls",
+    "clangd",
+    "rust_analyzer",
+    "jdtls",
+    "gopls",
+    -- "pylsp",
+    -- "ruby_lsp",
+    "lua_ls",
+    "marksman",
 }
 
 return M
