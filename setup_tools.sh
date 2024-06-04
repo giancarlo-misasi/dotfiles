@@ -9,7 +9,6 @@ apt-get -y install build-essential gcc g++ \
 brew update
 brew upgrade
 brew install neovim
-brew install fzf ripgrep fd compiledb
-brew install rust go delve java gradle lua
-cargo install tree-sitter-cli
+brew install fzf ripgrep fd tree-sitter compiledb
+brew install rust gdb go delve java gradle lua
 
