@@ -1,5 +1,15 @@
 local enable_ux_plugins = not vim.g.vscode
 
+local function get_relative_line_number()
+    local current_line = vim.fn.line(".")
+    local drawn_line = vim.v.lnum
+    local relative_line = math.abs(drawn_line - current_line)
+    local max_line = vim.fn.line("$")
+    local max_digits = #tostring(max_line)
+    local rel_str = tostring(relative_line)
+    return string.rep(" ", max_digits - #rel_str) .. rel_str
+end
+
 local function has_tabs()
     return #vim.fn.gettabinfo() > 1
 end
@@ -12,8 +22,17 @@ local function has_lsp()
     return #vim.lsp.get_clients() > 0
 end
 
+local function is_debugging()
+    local dap_present, dap = pcall(require, "dap")
+    if not dap_present then
+        return false
+    end
+    return dap.session() ~= nil
+end
+
 local filename = {
     "filename",
+    icon = "󰈢",
     on_click = function() vim.cmd("Buffers") end
 }
 
@@ -22,32 +41,36 @@ local filetype = {
     on_click = function() vim.cmd("SetLanguage") end,
 }
 
+local tabs = {
+    "tabs",
+    cond = has_tabs,
+}
+
 local diagnostics = {
     "diagnostics",
     on_click = function() vim.cmd("Diagnostics") end,
 }
 
+local show_tabline_fix = {
+    function()
+        vim.opt.showtabline = (has_tabs() or is_debugging()) and 2 or 0; return ""
+    end
+}
+
 local close_window = {
-    function() return has_wins() and [[]] or [[]] end,
+    function() return has_wins() and [[   ]] or [[]] end,
     on_click = function() vim.cmd("close") end,
     color = { bg = "#191919", fg = "#AAAAAA" },
 }
 
 local close_tab = {
-    function() return has_tabs() and [[ tab]] or [[]] end,
+    function() return has_tabs() and [[  󰭋 ]] or [[]] end,
     on_click = function() vim.cmd("tabclose") end,
     color = { bg = "#AAAAAA", fg = "#191919" },
-    cond = has_tabs,
-}
-
-local hide_tabs_fix = {
-    function()
-        vim.o.showtabline = has_tabs() and 1 or 0; return ""
-    end
 }
 
 local lsp_toggle = {
-    function() return has_lsp() and [[ lsp]] or [[ lsp]] end,
+    function() return has_lsp() and [[  󱐋 ]] or [[  󱐋 ]] end,
     on_click = function() vim.cmd(has_lsp() and "LspStop" or "LspStart") end
 }
 
@@ -56,15 +79,35 @@ local lsp_status = {
     on_click = function() vim.cmd("LspInfo") end
 }
 
-local function get_relative_line_number()
-    local current_line = vim.fn.line(".")
-    local drawn_line = vim.v.lnum
-    local relative_line = math.abs(drawn_line - current_line)
-    local max_line = vim.fn.line("$")
-    local max_digits = #tostring(max_line)
-    local rel_str = tostring(relative_line)
-    return string.rep(" ", max_digits - #rel_str) .. rel_str
-end
+local debug_start = {
+    function() return not is_debugging() and [[  ]] or [[]] end,
+    on_click = function() vim.cmd("DapContinue") end,
+}
+
+local debug_resume = {
+    function() return is_debugging() and [[  ]] or [[]] end,
+    on_click = function() vim.cmd("DapContinue") end,
+}
+
+local debug_step_into = {
+    function() return is_debugging() and [[ 󰆹 ]] or [[]] end,
+    on_click = function() vim.cmd("DapStepInto") end,
+}
+
+local debug_step_out = {
+    function() return is_debugging() and [[ 󰆸 ]] or [[]] end,
+    on_click = function() vim.cmd("DapStepOut") end,
+}
+
+local debug_step_over = {
+    function() return is_debugging() and [[ 󰆷  ]] or [[]] end,
+    on_click = function() vim.cmd("DapStepOver") end,
+}
+
+local debug_stop = {
+    function() return is_debugging() and [[  ]] or [[]] end,
+    on_click = function() vim.cmd("DapTerminate") end,
+}
 
 return {
     {
@@ -92,13 +135,11 @@ return {
                     theme = "lackluster",
                     globalstatus = true,
                 },
-                sections = {
-                    lualine_a = { "mode" },
-                    lualine_b = { "branch", diagnostics },
-                    lualine_c = { lsp_status },
-                    lualine_x = { "encoding", "fileformat", filetype, lsp_toggle },
-                    lualine_y = { "progress" },
-                    lualine_z = { "location" },
+                tabline = {
+                    lualine_a = { show_tabline_fix },
+                    lualine_x = { debug_resume, debug_step_into, debug_step_out, debug_step_over, debug_stop },
+                    lualine_y = { tabs },
+                    lualine_z = { close_tab },
                 },
                 winbar = {
                     lualine_a = { filename },
@@ -108,16 +149,20 @@ return {
                     lualine_a = { filename },
                     lualine_z = { close_window },
                 },
-                tabline = {
-                    lualine_y = { { "tabs", cond = has_tabs }, hide_tabs_fix },
-                    lualine_z = { close_tab }
+                sections = {
+                    lualine_a = { "mode" },
+                    lualine_b = { "branch", diagnostics },
+                    lualine_c = { lsp_status },
+                    lualine_x = { "encoding", "fileformat", filetype, lsp_toggle, debug_start },
+                    lualine_y = { "progress" },
+                    lualine_z = { "location" },
                 },
             })
 
             local lsp_progress = require("lsp-progress")
             lsp_progress.setup({
                 format = function(client_messages)
-                    local sign = " lsp" -- icon: nf-cod-info
+                    local sign = " 󱐋"
                     if #client_messages > 0 then
                         return " " .. table.concat(client_messages, " ")
                     end
@@ -149,10 +194,13 @@ return {
             local statuscol = require("statuscol")
             local builtin = require("statuscol.builtin")
             statuscol.setup({
+                clickhandlers = {
+                    DapStopped = function() vim.cmd("DapContinue") end
+                },
                 segments = {
                     {
                         text = { " ", "%s", " " },
-                        click = "v:lua.ScSa"
+                        click = "v:lua.ScSa", -- sign action
                     },
                     {
                         text = { builtin.lnumfunc, " ", function() return get_relative_line_number() end, " " },

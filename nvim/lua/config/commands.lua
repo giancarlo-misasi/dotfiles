@@ -1,5 +1,5 @@
 local commands = {
-    'command! SelectKeymap lua require("keymap-menu").select_keymap()',
+    "command! Actions Telescope menu action_menu",
 
     "command! SplitRight vsplit",
     "command! SplitDown split",
@@ -17,16 +17,19 @@ local commands = {
     "command! CommandHistory Telescope command_history",
     "command! Diagnostics Telescope diagnostics",
     "command! Buffers Telescope buffers",
-    "command! Actions Telescope menu action_menu",
+    'command! SearchKeymaps lua require("keymap-menu").select_keymap()',
 
-    "command! FindReferences lua vim.lsp.buf.references()",
+    "command! Rename lua vim.lsp.buf.rename()",
     "command! FormatCode lua vim.lsp.buf.format()",
+    "command! CodeActions lua vim.lsp.buf.code_action()",
+    "command! Hover lua vim.lsp.buf.hover()",
+    "command! ShowReferences lua vim.lsp.buf.references()",
+    "command! ShowSignature lua vim.lsp.buf.signature_help()",
+    "command! GotoDefinition lua vim.lsp.buf.definition()",
     "command! GotoDeclaration lua vim.lsp.buf.declaration()",
     "command! GotoImplementation lua vim.lsp.buf.implementation()",
-    "command! Rename lua vim.lsp.buf.rename()",
-    "command! Hover lua vim.lsp.buf.hover()",
-    "command! SignatureHelp lua vim.lsp.buf.signature_help()",
-    "command! CodeActions lua vim.lsp.buf.code_action()",
+    "command! GotoType lua vim.lsp.buf.type_definition()",
+    "command! Debug DapContinue",
 
     "command! Quit qa!",
 }
@@ -43,20 +46,20 @@ local function setup_commands(commands)
 end
 
 local function setup_highlight_on_yank()
-	vim.api.nvim_create_autocmd('TextYankPost', {
-		callback = function()
-			vim.highlight.on_yank()
-		end
-	})
+    vim.api.nvim_create_autocmd('TextYankPost', {
+        callback = function()
+            vim.highlight.on_yank()
+        end
+    })
 end
 
 local function setup_q_close_for_buffers()
-	vim.api.nvim_create_autocmd('FileType', {
-		pattern = {'qf', 'help', 'man', 'netrw', 'lspinfo'},
-		callback = function()
-		  vim.api.nvim_buf_set_keymap(0, 'n', 'q', ':close<CR>', { noremap = true, silent = true })
-		end
-	})
+    vim.api.nvim_create_autocmd('FileType', {
+        pattern = { 'qf', 'help', 'man', 'netrw', 'lspinfo' },
+        callback = function()
+            vim.api.nvim_buf_set_keymap(0, 'n', 'q', ':close<CR>', { noremap = true, silent = true })
+        end
+    })
 end
 
 setup_commands(commands)

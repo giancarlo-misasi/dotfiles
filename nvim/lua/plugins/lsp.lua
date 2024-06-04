@@ -107,7 +107,7 @@ return {
             "rcarriga/nvim-dap-ui",
             "nvim-neotest/nvim-nio",
 
-            -- language specific debugging extensions
+            -- language 4specific debugging extensions
             "leoluz/nvim-dap-go",
 
             -- java lsp support

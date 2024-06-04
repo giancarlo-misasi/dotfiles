@@ -114,21 +114,12 @@ M.textobjects_move = {
 
 M.lsp = {
     { desc = "Hover",            mode = "n", lhs = "K",    rhs = "<cmd>lua vim.lsp.buf.hover()<cr>" },
+    { desc = "Show references",  mode = "n", lhs = "gr",   rhs = "<cmd>lua vim.lsp.buf.references()<cr>" },
+    { desc = "Show signature",   mode = "n", lhs = "gs",   rhs = "<cmd>lua vim.lsp.buf.signature_help()<cr>" },
     { desc = "Goto defn",        mode = "n", lhs = "gd",   rhs = "<cmd>lua vim.lsp.buf.definition()<cr>" },
     { desc = "Goto decl",        mode = "n", lhs = "gD",   rhs = "<cmd>lua vim.lsp.buf.declaration()<cr>" },
     { desc = "Goto impl",        mode = "n", lhs = "gi",   rhs = "<cmd>lua vim.lsp.buf.implementation()<cr>" },
-    { desc = "Goto type",        mode = "n", lhs = "gy",   rhs = "<cmd>lua vim.lsp.buf.implementation()<cr>" },
-    { desc = "Goto type",        mode = "n", lhs = "gr",   rhs = "<cmd>lua vim.lsp.buf.references()<cr>" },
-
-    { desc = "Show signature",   mode = "n", lhs = "gs",   rhs = "<cmd>lua vim.lsp.buf.signature_help()<cr>" },
-    { desc = "Show diag",        mode = "n", lhs = "gr",   rhs = "<cmd>lua vim.diagnostic.open_float()<cr>" },
-    { desc = "Prev diag",        mode = "n", lhs = "gr",   rhs = "<cmd>lua vim.diagnostic.goto_prev()<cr>" },
-    { desc = "Next diag",        mode = "n", lhs = "gr",   rhs = "<cmd>lua vim.diagnostic.goto_next()<cr>" },
-
-    { desc = "Rename",           mode = "n", lhs = "<F2>", rhs = "<cmd>lua vim.lsp.buf.rename()<cr>" },
-    { desc = "Format file",      mode = "n", lhs = "<F3>", rhs = "<cmd>lua vim.lsp.buf.format()<cr>" },
-    { desc = "Format selection", mode = "x", lhs = "<F3>", rhs = "<cmd>lua vim.lsp.buf.format()<cr>" },
-    { desc = "Code Action",      mode = "n", lhs = "<F4>", rhs = "<cmd>lua vim.lsp.buf.code_action()<cr>" },
+    { desc = "Goto type",        mode = "n", lhs = "gy",   rhs = "<cmd>lua vim.lsp.buf.type_definition()<cr>" },
 }
 
 return M
