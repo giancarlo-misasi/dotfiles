@@ -9,7 +9,7 @@ local commands = {
 
     "command! FindFiles Telescope find_files",
     "command! LiveGrep Telescope live_grep",
-    "command! OldFiles Telescope oldfiles",
+    "command! RecentFiles Telescope oldfiles",
     "command! SearchHistory Telescope search_history",
     "command! SetLanguage Telescope filetypes",
     "command! Registers Telescope registers",
@@ -17,8 +17,8 @@ local commands = {
     "command! CommandHistory Telescope command_history",
     "command! Diagnostics Telescope diagnostics",
     "command! Buffers Telescope buffers",
-    'command! SearchKeymaps lua require("keymap-menu").select_keymap()',
-
+    "command! SearchKeymaps lua require('keymap-menu').select_keymap()",
+    "command! StartLsp lua require('plugins.lsp.start').start()",
     "command! Rename lua vim.lsp.buf.rename()",
     "command! FormatCode lua vim.lsp.buf.format()",
     "command! CodeActions lua vim.lsp.buf.code_action()",
@@ -62,6 +62,19 @@ local function setup_q_close_for_buffers()
     })
 end
 
+local function setup_open_directory_as_cwd()
+    vim.api.nvim_create_autocmd("VimEnter", {
+        callback = function()
+            local arg = vim.fn.argv(0)
+            if vim.fn.isdirectory(arg) == 1 then
+                vim.cmd('cd ' .. arg)
+                require("telescope.builtin").oldfiles()
+            end
+        end,
+    })
+end
+
 setup_commands(commands)
 setup_highlight_on_yank()
 setup_q_close_for_buffers()
+setup_open_directory_as_cwd()

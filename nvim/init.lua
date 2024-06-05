@@ -1,5 +1,4 @@
-local keymaps = require("keymaps")
-local languages = require("languages")
+local keymaps = require("modules.keymaps")
 
 local function setup_plugin_manager()
 	local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"

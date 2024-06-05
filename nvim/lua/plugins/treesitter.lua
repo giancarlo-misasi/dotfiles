@@ -1,5 +1,16 @@
-local keymaps = require("keymaps")
-local languages = require("languages")
+local keymaps = require("modules.keymaps")
+
+local languages = {
+    "c",
+    "cpp",
+    "rust",
+    "java",
+    "go",
+    "lua",
+    -- "python",
+    -- "ruby",
+    "markdown",
+}
 
 return {
     {
@@ -12,7 +23,7 @@ return {
         config = function()
             local configs = require("nvim-treesitter.configs")
             configs.setup({
-                ensure_installed = languages.treesitter,
+                ensure_installed = languages,
                 auto_install = true,
                 indent = true,
                 incremental_selection = false,

@@ -14,7 +14,7 @@ local menus = {
 
         { "Find files",          "FindFiles" },
         { "Live grep",           "LiveGrep" },
-        { "Old files",           "OldFiles" },
+        { "Recent files",        "RecentFiles" },
         { "Search history",      "SearchHistory" },
         { "Set language",        "SetLanguage" },
         { "Registers",           "Registers" },
@@ -24,7 +24,7 @@ local menus = {
         { "Buffers",             "Buffers" },
         { "Search keymaps",      "SearchKeymaps" },
 
-        { "Start lsp",           "LspStart" },
+        { "Start lsp",           "StartLsp" },
         { "Stop lsp",            "LspStop" },
         { "Show lsp status",     "LspInfo" },
         { "Rename",              "Rename" },

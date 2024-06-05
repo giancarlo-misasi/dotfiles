@@ -1,4 +1,4 @@
-local keymaps = require("keymaps")
+local keymaps = require("modules.keymaps")
 
 return {
     {
