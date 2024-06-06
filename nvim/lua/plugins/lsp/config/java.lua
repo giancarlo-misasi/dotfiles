@@ -9,10 +9,8 @@ local root_files = {
 }
 
 local features = {
-    codelens = false,
-
-    -- change this to `true` if you have `nvim-dap`, `java-test` and `java-debug-adapter` installed
-    debugger = false,
+    codelens = true,
+    debugger = true,
 }
 
 local cache_vars = {}
@@ -150,6 +148,7 @@ M.start = function()
     local jdtls = require('jdtls')
 
     local path = get_jdtls_paths()
+    local root_dir = vim.fs.root(0, root_files)
     local data_dir = path.data_dir .. '/' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 
     if cache_vars.capabilities == nil then
@@ -265,11 +264,11 @@ M.start = function()
     -- This starts a new client & server,
     -- or attaches to an existing client & server depending on the `root_dir`.
     jdtls.start_or_attach({
+        root_dir = root_dir,
         cmd = cmd,
         settings = lsp_settings,
         on_attach = jdtls_on_attach,
         capabilities = cache_vars.capabilities,
-        root_dir = jdtls.setup.find_root(root_files),
         flags = {
             allow_incremental_sync = true,
         },

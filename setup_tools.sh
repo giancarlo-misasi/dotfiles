@@ -10,5 +10,5 @@ brew update
 brew upgrade
 brew install neovim
 brew install fzf ripgrep fd tree-sitter compiledb
-brew install rust gdb go delve java gradle lua
+brew install rust gdb go delve openjdk@17 gradle@7 lua
 

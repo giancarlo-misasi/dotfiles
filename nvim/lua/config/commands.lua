@@ -17,8 +17,9 @@ local commands = {
     "command! CommandHistory Telescope command_history",
     "command! Diagnostics Telescope diagnostics",
     "command! Buffers Telescope buffers",
+
     "command! SearchKeymaps lua require('keymap-menu').select_keymap()",
-    "command! StartLsp lua require('plugins.lsp.start').start()",
+    "command! StartLsp lua require('modules.lsp').start()",
     "command! Rename lua vim.lsp.buf.rename()",
     "command! FormatCode lua vim.lsp.buf.format()",
     "command! CodeActions lua vim.lsp.buf.code_action()",
@@ -34,7 +35,18 @@ local commands = {
     "command! Quit qa!",
 }
 
-local function setup_commands(commands)
+local commands_by_pattern = {
+    java = {
+        "command! TestClass lua require('jdtls').test_class()",
+        "command! TestNearestMethod lua require('jdtls').test_nearest_method()",
+        "command! OrganizeImports lua require('jdtls').organize_imports()",
+        "command! ExtractVariable lua require('jdtls').extract_variable()",
+        "command! ExtractConstant lua require('jdtls').extract_constant()",
+        "command! ExtractMethod lua require('jdtls').extract_method()",
+    },
+}
+
+local function setup_commands()
     for _, cmd in pairs(commands) do
         local status, exception = pcall(function()
             vim.api.nvim_command(cmd)
@@ -42,6 +54,24 @@ local function setup_commands(commands)
         if not status then
             print("failed to set command " .. cmd .. ": " .. exception)
         end
+    end
+end
+
+local function setup_commands_by_pattern()
+    for pattern, command_list in pairs(commands_by_pattern) do
+        vim.api.nvim_create_autocmd("FileType", {
+            pattern = pattern,
+            callback = function()
+                for _, cmd in pairs(command_list) do
+                    local status, exception = pcall(function()
+                        vim.api.nvim_command(cmd)
+                    end)
+                    if not status then
+                        print("failed to set command " .. cmd .. ": " .. exception)
+                    end
+                end
+            end,
+        })
     end
 end
 
@@ -74,7 +104,8 @@ local function setup_open_directory_as_cwd()
     })
 end
 
-setup_commands(commands)
+setup_commands()
+setup_commands_by_pattern()
 setup_highlight_on_yank()
 setup_q_close_for_buffers()
 setup_open_directory_as_cwd()

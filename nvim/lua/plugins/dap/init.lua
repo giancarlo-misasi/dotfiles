@@ -4,7 +4,8 @@ return {
         event = "VeryLazy",
         dependencies = {
             "mfussenegger/nvim-dap",
-            "nvim-neotest/nvim-nio"
+            "nvim-neotest/nvim-nio",
+            "leoluz/nvim-dap-go",
         },
         config = function()
             local dap = require("dap")
@@ -15,7 +16,7 @@ return {
             dap.listeners.before.event_terminated.dapui_config = function() dapui.close() end
             dap.listeners.before.event_exited.dapui_config = function() dapui.close() end
 
-            require("dap.c_cpp_rust").setup()
+            require("plugins.dap.c_cpp_rust").setup()
             require("dap-go").setup()
 
             vim.fn.sign_define('DapBreakpoint', { text = '' })

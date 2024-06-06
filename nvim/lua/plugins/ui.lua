@@ -71,7 +71,7 @@ local close_tab = {
 
 local lsp_toggle = {
     function() return has_lsp() and [[  󱐋 ]] or [[  󱐋 ]] end,
-    on_click = function() vim.cmd(has_lsp() and "LspStop" or "LspStart") end
+    on_click = function() vim.cmd(has_lsp() and "LspStop" or "StartLsp") end
 }
 
 local lsp_status = {

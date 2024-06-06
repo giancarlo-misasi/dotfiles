@@ -4,6 +4,8 @@ local tools = {
     "clangd",
     "rust_analyzer",
     "jdtls",
+    "java-test",
+    "java-debug-adapter",
     "gopls",
     -- "pylsp",
     -- "ruby_lsp",
@@ -22,6 +24,7 @@ return {
             -- packages to intall lsps
             "williamboman/mason.nvim",
             "williamboman/mason-lspconfig.nvim",
+            "WhoIsSethDaniel/mason-tool-installer.nvim",
             -- autocomplete
             "hrsh7th/nvim-cmp",
             "hrsh7th/cmp-nvim-lsp",
@@ -39,8 +42,16 @@ return {
 
             require("mason").setup()
             require("mason-lspconfig").setup({
+                handlers = {
+                    function(server_name)
+                        require("modules.lsp").setup(server_name)
+                    end
+                }
+            })
+            require("mason-tool-installer").setup({
                 ensure_installed = tools,
-                handlers = { function(server_name) require("modules.lsp").setup(server_name) end }
+                run_on_start = false,
+                auto_update = false,
             })
 
             local cmp = require("cmp")
@@ -59,5 +70,9 @@ return {
             require("nvim-autopairs").setup({ check_ts = true })
             cmp.event:on("confirm_done", require("nvim-autopairs.completion.cmp").on_confirm_done())
         end
+    },
+    {
+        "mfussenegger/nvim-jdtls",
+        event = "VeryLazy",
     },
 }
