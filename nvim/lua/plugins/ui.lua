@@ -30,6 +30,18 @@ local function is_debugging()
     return dap.session() ~= nil
 end
 
+local function show_tabline()
+    return has_tabs() or is_debugging()
+end
+
+local function show_in_tabline()
+    return show_tabline()
+end
+
+local function show_in_bufferline()
+    return not show_tabline()
+end
+
 local filename = {
     "filename",
     icon = "󰈢",
@@ -53,7 +65,7 @@ local diagnostics = {
 
 local show_tabline_fix = {
     function()
-        vim.opt.showtabline = (has_tabs() or is_debugging()) and 2 or 0; return ""
+        vim.opt.showtabline = show_tabline() and 2 or 0; return ""
     end
 }
 
@@ -67,16 +79,6 @@ local close_tab = {
     function() return has_tabs() and [[  󰭋 ]] or [[]] end,
     on_click = function() vim.cmd("tabclose") end,
     color = { bg = "#AAAAAA", fg = "#191919" },
-}
-
-local lsp_toggle = {
-    function() return has_lsp() and [[  󱐋 ]] or [[  󱐋 ]] end,
-    on_click = function() vim.cmd(has_lsp() and "LspStop" or "StartLsp") end
-}
-
-local lsp_status = {
-    function() return require("lsp-progress").progress() end,
-    on_click = function() vim.cmd("LspInfo") end
 }
 
 local debug_start = {
@@ -109,6 +111,43 @@ local debug_stop = {
     on_click = function() vim.cmd("DapTerminate") end,
 }
 
+local actions = function(cond)
+    return {
+        function() return [[  ]] end,
+        on_click = function() vim.cmd("Actions") end,
+        cond = cond,
+    }
+end
+
+local files = function(cond)
+    return {
+        function() return [[ 󰱼 ]] end,
+        on_click = function() vim.cmd("FindFiles") end,
+        cond = cond,
+    }
+end
+
+local grep = function(cond)
+    return {
+        function() return [[ 󱩾 ]] end,
+        on_click = function() vim.cmd("LiveGrep") end,
+        cond = cond,
+    }
+end
+
+local lsp_toggle = function(cond)
+    return {
+        function() return has_lsp() and [[  󱐋 ]] or [[  󱐋 ]] end,
+        on_click = function() vim.cmd(has_lsp() and "LspStop" or "StartLsp") end,
+        cond = cond,
+    }
+end
+
+local lsp_status = {
+    function() return require("lsp-progress").progress() end,
+    on_click = function() vim.cmd("LspInfo") end
+}
+
 return {
     {
         "slugbyte/lackluster.nvim",
@@ -137,12 +176,16 @@ return {
                 },
                 tabline = {
                     lualine_a = { show_tabline_fix },
-                    lualine_x = { debug_resume, debug_step_into, debug_step_out, debug_step_over, debug_stop },
+                    lualine_x = {
+                        debug_start, debug_resume, debug_step_into, debug_step_out, debug_step_over, debug_stop,
+                        actions(show_in_tabline), files(show_in_tabline), grep(show_in_tabline),
+                    },
                     lualine_y = { tabs },
                     lualine_z = { close_tab },
                 },
                 winbar = {
                     lualine_a = { filename },
+                    lualine_y = { actions(show_in_bufferline), files(show_in_bufferline), grep(show_in_bufferline) },
                     lualine_z = { close_window },
                 },
                 inactive_winbar = {

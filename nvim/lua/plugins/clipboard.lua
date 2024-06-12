@@ -32,7 +32,7 @@ return {
                 },
             }
         
-            if vim.fn.has("wsl") then
+            if vim.fn.has("wsl") == 1 then
                 vim.g.clipboard = clipboards.wsl
             else
                 vim.g.clipboard = clipboards.osc52
