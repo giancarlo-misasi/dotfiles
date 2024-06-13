@@ -135,13 +135,10 @@ local grep = function(cond)
     }
 end
 
-local lsp_toggle = function(cond)
-    return {
-        function() return has_lsp() and [[  󱐋 ]] or [[  󱐋 ]] end,
-        on_click = function() vim.cmd(has_lsp() and "LspStop" or "StartLsp") end,
-        cond = cond,
-    }
-end
+local lsp_toggle = {
+  function() return has_lsp() and [[  󱐋 ]] or [[  󱐋 ]] end,
+  on_click = function() vim.cmd(has_lsp() and "LspStop" or "StartLsp") end,
+}
 
 local lsp_status = {
     function() return require("lsp-progress").progress() end,
