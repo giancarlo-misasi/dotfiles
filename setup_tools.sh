@@ -1,11 +1,5 @@
 #!/bin/bash
 
-# update the package manager
-apt-get -y update
-
-# install basics
-apt-get -y install zsh curl wget zip unzip git vim build-essential gcc g++
-
 # install mise for language and tool management
 curl https://mise.run | sh
 mise_use() {
@@ -14,6 +8,10 @@ mise_use() {
         mise use -g -f -y "$tool"
     done
 }
+
+# activate mise and make it always activate
+eval "$(~/.local/bin/mise activate zsh)"
+echo 'eval "$(~/.local/bin/mise activate zsh)"' >> ~/.zshrc
 
 # install tools
 mise_use fzf ripgrep fd tree-sitter neovim
