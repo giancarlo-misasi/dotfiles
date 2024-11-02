@@ -8,7 +8,7 @@ RUN apt-get update
 RUN apt-get install -y git
 
 # clone the dotfile repo
-RUN git clone --branch mise-migration https://github.com/giancarlo-misasi/dotfiles.git /dotfiles
+RUN git clone https://github.com/giancarlo-misasi/dotfiles.git /dotfiles
 
 # run the scripts
 WORKDIR /dotfiles

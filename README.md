@@ -7,6 +7,7 @@ Installs neovim, neovim configuration + all dependencies and tools needed
 git clone https://github.com/giancarlo-misasi/dotfiles
 cd dotfiles
 ./setup_env.sh
+./setup_shell.sh wsl
 ./setup_tools.sh
-./overwrite_nvim_dotfiles.sh
+./setup_nvim.sh
 ```
