@@ -1,12 +1,13 @@
 local M = {}
 
-
 local servers = {
-    clangd = { 'c', 'cpp' },    -- Supports C and C++
-    gopls = { 'go' },           -- Supports Go
-    rust_analyzer = { 'rust' }, -- Supports Rust
-    jdtls = { 'java' },         -- Supports Java
-    lua_ls = { 'lua' }          -- Supports Lua
+    clangd = { 'c', 'cpp' },
+    lua_ls = { 'lua' },
+    rust_analyzer = { 'rust' },
+    gopls = { 'go' },
+    pyright = { 'py' },
+    jdtls = { 'java' },
+    marksman = { 'md' },
 }
 
 local function get_lsp_server_for_current_filetype()

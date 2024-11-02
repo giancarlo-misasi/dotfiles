@@ -8,7 +8,6 @@ local languages = {
     "go",
     "python",
     "java",
-    "typescript",
     "markdown",
 }
 

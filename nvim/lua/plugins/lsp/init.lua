@@ -5,10 +5,10 @@ local tools = {
     "lua_ls",
     "rust_analyzer",
     "gopls",
+    "pyright",
     "jdtls",
     "java-test",
     "java-debug-adapter",
-    "pyright",
     "marksman",
 }
 
