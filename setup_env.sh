@@ -7,7 +7,7 @@ apt-get -y update
 ENV TZ=America/Vancouver
 
 # install basics
-apt-get -y install tzdata zsh curl wget zip unzip git vim build-essential gcc g++
+apt-get -y install tzdata zsh curl wget zip unzip git vim build-essential gcc g++ gdb
 
 # switch to zsh
 chsh -s $(which zsh)

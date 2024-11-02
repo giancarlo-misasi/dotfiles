@@ -3,12 +3,12 @@ local keymaps = require("modules.keymaps")
 local languages = {
     "c",
     "cpp",
-    "rust",
-    "java",
-    "go",
     "lua",
-    -- "python",
-    -- "ruby",
+    "rust",
+    "go",
+    "python",
+    "java",
+    "typescript",
     "markdown",
 }
 

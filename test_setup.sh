@@ -8,16 +8,16 @@ RUN apt-get update
 RUN apt-get install -y git
 
 # clone the dotfile repo
-RUN git clone --branch mise-migration https://github.com/giancarlo-misasi/dotfiles.git
+RUN git clone --branch mise-migration https://github.com/giancarlo-misasi/dotfiles.git /dotfiles
 
 # run the scripts
-RUN cd dotfiles
+WORKDIR /dotfiles
 RUN ./setup_env.sh
-RUN ./setup_shell.sh
+RUN ./setup_shell.sh test
 RUN ./setup_tools.sh
 RUN ./setup_nvim.sh
 
-CMD ["/bin/bash"]
+CMD ["/bin/zsh"]
 EOF
 
 # build and run a container to test the setup

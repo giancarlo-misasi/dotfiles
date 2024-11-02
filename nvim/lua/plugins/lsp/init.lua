@@ -2,14 +2,13 @@ local keymaps = require("modules.keymaps")
 
 local tools = {
     "clangd",
+    "lua_ls",
     "rust_analyzer",
+    "gopls",
     "jdtls",
     "java-test",
     "java-debug-adapter",
-    "gopls",
-    -- "pylsp",
-    -- "ruby_lsp",
-    "lua_ls",
+    "pyright",
     "marksman",
 }
 
