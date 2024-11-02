@@ -13,7 +13,7 @@ RUN git clone https://github.com/giancarlo-misasi/dotfiles.git /dotfiles
 # run the scripts
 WORKDIR /dotfiles
 RUN ./setup_env.sh
-RUN ./setup_shell.sh test
+RUN ./setup_shell.sh
 RUN ./setup_tools.sh
 RUN ./setup_nvim.sh
 
