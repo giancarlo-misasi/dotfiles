@@ -5,9 +5,9 @@ local servers = {
     lua_ls = { 'lua' },
     rust_analyzer = { 'rust' },
     gopls = { 'go' },
-    pyright = { 'py' },
+    pyright = { 'python' },
     jdtls = { 'java' },
-    marksman = { 'md' },
+    marksman = { 'markdown' },
 }
 
 local function get_lsp_server_for_current_filetype()
