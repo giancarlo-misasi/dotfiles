@@ -12,6 +12,8 @@ M.nops = {
 
 -- Note: All keymaps here use noremap=true so that we can map to things that I have no-opped
 M.editing = {
+    { desc = "Next occurrence",    mode = "n", lhs = "n",         rhs = "nzzzv" },
+    { desc = "Prev occurrence",    mode = "n", lhs = "N",         rhs = "Nzzzv" },
     { desc = "Select all",         mode = "n", lhs = "<C-a>",     rhs = "ggVG" },
     { desc = "Select all",         mode = "i", lhs = "<C-a>",     rhs = "<Esc>ggVG" },
     { desc = "Select all",         mode = "x", lhs = "<C-a>",     rhs = "<Esc>ggVG" },
@@ -30,6 +32,8 @@ M.editing = {
     { desc = "Save",               mode = "x", lhs = "<C-s>",     rhs = "<Esc>:update<CR>" },
     { desc = "Jump back",          mode = "i", lhs = "<C-Left>",  rhs = "<Esc>b" },
     { desc = "Jump forward",       mode = "i", lhs = "<C-Right>", rhs = "<Esc>w" },
+    { desc = "Jump down & center", mode = "n", lhs = "<C-d>",     rhs = "<C-d>zz" },
+    { desc = "Jump up & center",   mode = "n", lhs = "<C-u>",     rhs = "<C-u>zz" },
     { desc = "Move text down",     mode = "n", lhs = "<A-Down>",  rhs = ":m .+1<CR>==" },
     { desc = "Move text down",     mode = "i", lhs = "<A-Down>",  rhs = "<Esc>:m .+1<CR>==gi" },
     { desc = "Move text down",     mode = "x", lhs = "<A-Down>",  rhs = ":m '>+1<CR>gv=gv" },
