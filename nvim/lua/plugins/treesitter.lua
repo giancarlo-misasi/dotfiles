@@ -11,6 +11,40 @@ local languages = {
     "markdown",
 }
 
+local function repeatably_do(func, opts, additional_args)
+    local tsrm = require("nvim-treesitter.textobjects.repeatable_move")
+    opts = opts or {}
+    additional_args = additional_args or {}
+    tsrm.last_move = {
+      func = func,
+      opts = opts,
+      additional_args = additional_args,
+    }
+    func(opts, unpack(additional_args))
+end
+
+local function diagnostic_jump(opts)
+    return function()
+      repeatably_do(function(o)
+        o = o or {}
+        
+        local count = o.forward and 1 or -1
+        o.count = count * vim.v.count1
+  
+        if vim.diagnostic.jump then
+          vim.diagnostic.jump(o)
+        else
+          -- Deprecated in favor of `vim.diagnostic.jump` in Neovim 0.11.0
+          if o.count > 0 then
+            vim.diagnostic.goto_next(o)
+          else
+            vim.diagnostic.goto_prev(o)
+          end
+        end
+      end, opts)
+    end
+end
+
 return {
     {
         "nvim-treesitter/nvim-treesitter",
@@ -52,13 +86,26 @@ return {
             })
 
             -- repeat treesitter moves
-            local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
-            vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move_next, { desc = "repeat forward" })
-            vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_previous, { desc = "repeat back" })
-            vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f)
-            vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F)
-            vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t)
-            vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T)
+            local rm = require("nvim-treesitter.textobjects.repeatable_move")
+            local nxo = { 'n', 'x', 'o' }
+            local map = vim.keymap.set
+            local keys = keymaps.textobjects_move_repeat
+            map(nxo, ";", rm.repeat_last_move_next, { desc = "repeat forward" })
+            map(nxo, ",", rm.repeat_last_move_previous, { desc = "repeat back" })
+            map(nxo, "f", rm.builtin_f)
+            map(nxo, "F", rm.builtin_F)
+            map(nxo, "t", rm.builtin_t)
+            map(nxo, "T", rm.builtin_T)
+            map(nxo, ']' .. keys.diagnostic, diagnostic_jump({ forward = true }), { desc = 'next diagnostic' })
+            map(nxo, '[' .. keys.diagnostic, diagnostic_jump({ forward = false }), { desc = 'previous diagnostic' })
+            map(nxo, ']' .. keys.error, diagnostic_jump({ forward = true, severity = 'ERROR' }), { desc = 'next error' })
+            map(nxo, '[' .. keys.error, diagnostic_jump({ forward = false, severity = 'ERROR' }), { desc = 'previous error' })
+            map(nxo, ']' .. keys.warn, diagnostic_jump({ forward = true, severity = 'WARN' }), { desc = 'next warning' })
+            map(nxo, '[' .. keys.warn, diagnostic_jump({ forward = false, severity = 'WARN' }), { desc = 'previous warning' })
+            map(nxo, ']' .. keys.info, diagnostic_jump({ forward = true, severity = 'INFO' }), { desc = 'next info' })
+            map(nxo, '[' .. keys.info, diagnostic_jump({ forward = false, severity = 'INFO' }), { desc = 'previous info' })
+            map(nxo, ']' .. keys.hint, diagnostic_jump({ forward = true, severity = 'HINT' }), { desc = 'next hint' })
+            map(nxo, '[' .. keys.hint, diagnostic_jump({ forward = false, severity = 'HINT' }), { desc = 'previous hint' })
 
             -- treesitter folding
             vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
