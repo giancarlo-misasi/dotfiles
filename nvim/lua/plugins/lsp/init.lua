@@ -2,8 +2,8 @@ local keymaps = require("modules.keymaps")
 
 local tools = {
     "clangd",
-    "lua_ls",
     "rust_analyzer",
+    "lua_ls",
     "gopls",
     "pyright",
     "jdtls",

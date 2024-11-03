@@ -2,8 +2,8 @@ local M = {}
 
 local servers = {
     clangd = { 'c', 'cpp' },
-    lua_ls = { 'lua' },
     rust_analyzer = { 'rust' },
+    lua_ls = { 'lua' },
     gopls = { 'go' },
     pyright = { 'python' },
     jdtls = { 'java' },

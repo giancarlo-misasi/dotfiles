@@ -5,7 +5,11 @@ return {
         dependencies = {
             "mfussenegger/nvim-dap",
             "nvim-neotest/nvim-nio",
+            -- c, c++, rust handled through c_cpp_rust.lua
+            -- TODO: missing lua debugger setup
             "leoluz/nvim-dap-go",
+            "mfussenegger/nvim-dap-python"
+            -- java handled through nvim-jdtls
         },
         config = function()
             local dap = require("dap")
@@ -18,6 +22,7 @@ return {
 
             require("plugins.dap.c_cpp_rust").setup()
             require("dap-go").setup()
+            require("dap-python").setup("python3")
 
             vim.fn.sign_define('DapBreakpoint', { text = '' })
             vim.fn.sign_define('DapBreakpointCondition', { text = 'ﳁ' })
