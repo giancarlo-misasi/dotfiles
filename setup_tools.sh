@@ -18,3 +18,7 @@ mise_use fzf ripgrep fd tree-sitter neovim
 
 # install languages
 mise_use lua rust go python java gradle node
+
+# install additional language tools
+pip install hatch debugpy # python debugging
+go install github.com/go-delve/delve/cmd/dlv@latest # go debugging
