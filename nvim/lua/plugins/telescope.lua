@@ -25,7 +25,6 @@ local menus = {
         { "Command history",              "CommandHistory" },
         { "Diagnostics",                  "Diagnostics" },
         { "Buffers",                      "Buffers" },
-        { "Search keymaps",               "SearchKeymaps" },
 
         { "Start lsp",                    "StartLsp" },
         { "Stop lsp",                     "LspStop" },

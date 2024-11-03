@@ -17,8 +17,7 @@ local commands = {
     "command! CommandHistory Telescope command_history",
     "command! Diagnostics Telescope diagnostics",
     "command! Buffers Telescope buffers",
-
-    "command! SearchKeymaps lua require('keymap-menu').select_keymap()",
+    
     "command! StartLsp lua require('modules.lsp').start()",
     "command! Rename lua vim.lsp.buf.rename()",
     "command! FormatCode lua vim.lsp.buf.format()",
