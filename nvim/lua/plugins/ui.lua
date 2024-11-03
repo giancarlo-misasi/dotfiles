@@ -147,6 +147,9 @@ local lsp_status = {
 
 return {
     {
+        "ThePrimeagen/vim-be-good" -- for practice
+    },
+    {
         "slugbyte/lackluster.nvim",
         cond = enable_ux_plugins,
         lazy = false,
