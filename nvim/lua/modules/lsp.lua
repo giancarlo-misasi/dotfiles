@@ -24,7 +24,9 @@ end
 
 M.setup = function(server_name)
     if server_name == "jdtls" then
-        -- noop
+        -- noop, handled by nvim-jdtls
+    elseif server_name == "rust_analyzer" then
+        -- noop, handled by rustaceanvim
     else
         -- otherwise, use default lsp-config setup behavior
         require("lspconfig")[server_name].setup({ autostart = false })

@@ -1,11 +1,12 @@
-return {
+return { 
     {
         "rcarriga/nvim-dap-ui",
         event = "VeryLazy",
         dependencies = {
             "mfussenegger/nvim-dap",
             "nvim-neotest/nvim-nio",
-            -- c, c++, rust handled through c_cpp_rust.lua
+            -- c, c++ handled through c_cpp_rust.lua
+            -- rust handled through rustaceanvim
             -- TODO: missing lua debugger setup
             "leoluz/nvim-dap-go",
             "mfussenegger/nvim-dap-python"
@@ -20,7 +21,7 @@ return {
             dap.listeners.before.event_terminated.dapui_config = function() dapui.close() end
             dap.listeners.before.event_exited.dapui_config = function() dapui.close() end
 
-            require("plugins.dap.c_cpp_rust").setup()
+            require("plugins.dap.c_cpp").setup()
             require("dap-go").setup()
             require("dap-python").setup("python3")
 

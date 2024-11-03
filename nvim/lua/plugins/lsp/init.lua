@@ -3,6 +3,7 @@ local keymaps = require("modules.keymaps")
 local tools = {
     "clangd",
     "rust_analyzer",
+    "codelldb",
     "lua_ls",
     "gopls",
     "pyright",
@@ -69,6 +70,11 @@ return {
             require("nvim-autopairs").setup({ check_ts = true })
             cmp.event:on("confirm_done", require("nvim-autopairs.completion.cmp").on_confirm_done())
         end
+    },
+    {
+        'mrcjkb/rustaceanvim',
+        version = '^5',
+        lazy = false,
     },
     {
         "mfussenegger/nvim-jdtls",
