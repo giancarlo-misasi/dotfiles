@@ -16,10 +16,6 @@ M.nops = {
 
 -- Note: All keymaps here use noremap=true so that we can map to things that I have no-opped
 M.editing = {
-    -- in normal mode, <C-Left, C-Right already works by default
-    { desc = "Jump back",          mode = "i", lhs = "<C-Left>",  rhs = "<Esc>b" },
-    { desc = "Jump forward",       mode = "i", lhs = "<C-Right>", rhs = "<Esc>w" },
-
     -- flip j and k and make them similar to up and down
     { desc = "Up",                 mode = "n", lhs = "j",         rhs = "k" },
     { desc = "Up",                 mode = "v", lhs = "j",         rhs = "k" },
@@ -33,23 +29,22 @@ M.editing = {
     { desc = "Down",               mode = "v", lhs = "<C-k>",     rhs = "j" },
     { desc = "Down",               mode = "n", lhs = "<S-k>",     rhs = "vj" },
     { desc = "Down",               mode = "v", lhs = "<S-k>",     rhs = "j" },
-    
+    -- in normal mode, <C-Left, C-Right already works by default
+    { desc = "Jump back",          mode = "i", lhs = "<C-Left>",  rhs = "<Esc>b" },
+    { desc = "Jump forward",       mode = "i", lhs = "<C-Right>", rhs = "<Esc>w" },
     -- make h and l work like arrows do (can't do ctrl+shift though)
     { desc = "Jump back",          mode = "n", lhs = "<C-h>",  rhs = "b" },
     { desc = "Jump back",          mode = "v", lhs = "<C-h>",  rhs = "b" },
     { desc = "Jump back",          mode = "i", lhs = "<C-h>",  rhs = "<Esc>b" },
     { desc = "Jump back",          mode = "n", lhs = "<S-h>",  rhs = "vb" },
     { desc = "Jump back",          mode = "v", lhs = "<S-h>",  rhs = "b" },
-
     { desc = "Jump forward",       mode = "n", lhs = "<C-l>", rhs = "w" },
     { desc = "Jump forward",       mode = "v", lhs = "<C-l>", rhs = "w" },
     { desc = "Jump forward",       mode = "i", lhs = "<C-l>", rhs = "<Esc>w" },
     { desc = "Jump forward",       mode = "n", lhs = "<S-l>", rhs = "vw" },
     { desc = "Jump forward",       mode = "v", lhs = "<S-l>", rhs = "w" },
-
     { desc = "Jump down & center", mode = "n", lhs = "<C-d>",     rhs = "<C-d>zz" },
     { desc = "Jump up & center",   mode = "n", lhs = "<C-u>",     rhs = "<C-u>zz" },
-
     { desc = "Next occurrence",    mode = "n", lhs = "n",         rhs = "nzzzv" },
     { desc = "Prev occurrence",    mode = "n", lhs = "N",         rhs = "Nzzzv" },
     { desc = "Select all",         mode = "n", lhs = "<C-a>",     rhs = "ggVG" },
@@ -82,6 +77,9 @@ M.editing = {
     { desc = "Reverse indent",     mode = "i", lhs = "<S-Tab>",   rhs = "<C-D>" },
     { desc = "Reverse indent",     mode = "x", lhs = "<S-Tab>",   rhs = "<gv" },
     { desc = "Actions",            mode = "n", lhs = "<F1>",      rhs = ":Actions<cr>" },
+    { desc = "Buffers",            mode = "n", lhs = "<leader>b", rhs = ":Buffers<cr>" },
+    { desc = "LiveGrep",           mode = "n", lhs = "<leader>g", rhs = ":LiveGrep<cr>" },
+    { desc = "FindFiles",          mode = "n", lhs = "<leader>f", rhs = ":FindFiles<cr>" },
 }
 
 M.autocomplete = {

@@ -45,6 +45,13 @@ local function diagnostic_jump(opts)
     end
 end
 
+local function center(func)
+  return function()
+    func()
+    vim.cmd('normal! zz')
+  end
+end
+
 return {
     {
         "nvim-treesitter/nvim-treesitter",
@@ -90,22 +97,22 @@ return {
             local nxo = { 'n', 'x', 'o' }
             local map = vim.keymap.set
             local keys = keymaps.textobjects_move_repeat
-            map(nxo, ";", rm.repeat_last_move_next, { desc = "repeat forward" })
-            map(nxo, ",", rm.repeat_last_move_previous, { desc = "repeat back" })
-            map(nxo, "f", rm.builtin_f)
-            map(nxo, "F", rm.builtin_F)
-            map(nxo, "t", rm.builtin_t)
-            map(nxo, "T", rm.builtin_T)
-            map(nxo, ']' .. keys.diagnostic, diagnostic_jump({ forward = true }), { desc = 'next diagnostic' })
-            map(nxo, '[' .. keys.diagnostic, diagnostic_jump({ forward = false }), { desc = 'previous diagnostic' })
-            map(nxo, ']' .. keys.error, diagnostic_jump({ forward = true, severity = 'ERROR' }), { desc = 'next error' })
-            map(nxo, '[' .. keys.error, diagnostic_jump({ forward = false, severity = 'ERROR' }), { desc = 'previous error' })
-            map(nxo, ']' .. keys.warn, diagnostic_jump({ forward = true, severity = 'WARN' }), { desc = 'next warning' })
-            map(nxo, '[' .. keys.warn, diagnostic_jump({ forward = false, severity = 'WARN' }), { desc = 'previous warning' })
-            map(nxo, ']' .. keys.info, diagnostic_jump({ forward = true, severity = 'INFO' }), { desc = 'next info' })
-            map(nxo, '[' .. keys.info, diagnostic_jump({ forward = false, severity = 'INFO' }), { desc = 'previous info' })
-            map(nxo, ']' .. keys.hint, diagnostic_jump({ forward = true, severity = 'HINT' }), { desc = 'next hint' })
-            map(nxo, '[' .. keys.hint, diagnostic_jump({ forward = false, severity = 'HINT' }), { desc = 'previous hint' })
+            map(nxo, ";",                     center(rm.repeat_last_move_next),                                 { desc = "repeat forward" })
+            map(nxo, ",",                     center(rm.repeat_last_move_previous),                             { desc = "repeat back" })
+            map(nxo, "f",                     center(rm.builtin_f))
+            map(nxo, "F",                     center(rm.builtin_F))
+            map(nxo, "t",                     center(rm.builtin_t))
+            map(nxo, "T",                     center(rm.builtin_T))
+            map(nxo, ']' .. keys.diagnostic,  center(diagnostic_jump({ forward = true })),                      { desc = 'next diagnostic' })
+            map(nxo, '[' .. keys.diagnostic,  center(diagnostic_jump({ forward = false })),                     { desc = 'previous diagnostic' })
+            map(nxo, ']' .. keys.error,       center(diagnostic_jump({ forward = true, severity = 'ERROR' })),  { desc = 'next error' })
+            map(nxo, '[' .. keys.error,       center(diagnostic_jump({ forward = false, severity = 'ERROR' })), { desc = 'previous error' })
+            map(nxo, ']' .. keys.warn,        center(diagnostic_jump({ forward = true, severity = 'WARN' })),   { desc = 'next warning' })
+            map(nxo, '[' .. keys.warn,        center(diagnostic_jump({ forward = false, severity = 'WARN' })),  { desc = 'previous warning' })
+            map(nxo, ']' .. keys.info,        center(diagnostic_jump({ forward = true, severity = 'INFO' })),   { desc = 'next info' })
+            map(nxo, '[' .. keys.info,        center(diagnostic_jump({ forward = false, severity = 'INFO' })),  { desc = 'previous info' })
+            map(nxo, ']' .. keys.hint,        center(diagnostic_jump({ forward = true, severity = 'HINT' })),   { desc = 'next hint' })
+            map(nxo, '[' .. keys.hint,        center(diagnostic_jump({ forward = false, severity = 'HINT' })),  { desc = 'previous hint' })
 
             -- treesitter folding
             vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
