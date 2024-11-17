@@ -38,6 +38,7 @@ M.setup_lsp = function()
     local lspconfig = require("lspconfig")
 
     lspconfig.clangd.setup({ autostart = false })
+    
     -- rust_analyzer is configured by rustaceanvim
 
     lspconfig.lua_ls.setup({
@@ -53,10 +54,26 @@ M.setup_lsp = function()
 
     lspconfig.gopls.setup({ autostart = false })
 
-    lspconfig.pyright.setup({ autostart = false })
+    lspconfig.pyright.setup({ 
+        autostart = false,
+        settings = {
+            pyright = {
+              -- Using Ruff's import organizer
+              disableOrganizeImports = true,
+            },
+            python = {
+              analysis = {
+                -- Ignore all files for analysis to exclusively use Ruff for linting
+                ignore = { '*' },
+              },
+            },
+        },
+    })
+
     lspconfig.ruff.setup({ autostart = false })
 
     -- jdtls configured by nvim-jdtls
+
     lspconfig.marksman.setup({ autostart = false })
 end
 

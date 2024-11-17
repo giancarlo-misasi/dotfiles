@@ -80,6 +80,7 @@ M.editing = {
     { desc = "Buffers",            mode = "n", lhs = "<leader>b", rhs = ":Buffers<cr>" },
     { desc = "LiveGrep",           mode = "n", lhs = "<leader>g", rhs = ":LiveGrep<cr>" },
     { desc = "FindFiles",          mode = "n", lhs = "<leader>f", rhs = ":FindFiles<cr>" },
+    { desc = "CodeActions",        mode = "n", lhs = "<leader>a", rhs = ":CodeActions<cr>" },
 }
 
 M.autocomplete = {
