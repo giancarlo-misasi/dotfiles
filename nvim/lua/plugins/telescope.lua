@@ -66,6 +66,9 @@ return {
         config = function()
             local telescope = require("telescope")
             telescope.setup({
+                defaults = {
+                    path_display = { "smart" },
+                },
                 pickers = {
                     find_files = { find_command = external_commands.find_command },
                 },

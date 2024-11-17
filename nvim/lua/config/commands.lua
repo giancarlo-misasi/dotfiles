@@ -18,7 +18,7 @@ local commands = {
     "command! Diagnostics Telescope diagnostics",
     "command! Buffers Telescope buffers",
     
-    "command! StartLsp lua require('modules.lsp').start()",
+    "command! StartLsp lua require('modules.tools').start_lsp()",
     "command! Rename lua vim.lsp.buf.rename()",
     "command! FormatCode lua vim.lsp.buf.format()",
     "command! CodeActions lua vim.lsp.buf.code_action()",
@@ -97,7 +97,7 @@ local function setup_open_directory_as_cwd()
             local arg = vim.fn.argv(0)
             if vim.fn.isdirectory(arg) == 1 then
                 vim.cmd('cd ' .. arg)
-                require("telescope.builtin").oldfiles()
+                require("telescope.builtin").find_files()
             end
         end,
     })
