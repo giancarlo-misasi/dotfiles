@@ -14,6 +14,7 @@ return {
             "WhoIsSethDaniel/mason-tool-installer.nvim",
             -- autocomplete
             "hrsh7th/nvim-cmp",
+            "hrsh7th/cmp-buffer",
             "hrsh7th/cmp-nvim-lsp",
             "L3MON4D3/LuaSnip",
             "windwp/nvim-autopairs",
@@ -45,6 +46,7 @@ return {
                 sources = {
                     { name = 'nvim_lsp' },
                     { name = 'luasnip' },
+                    { name = 'buffer' },
                 },
                 snippet = {
                     expand = function(args)
@@ -56,14 +58,21 @@ return {
                     [km.complete] = cmp.mapping.confirm(),
                     [km.move_up] = cmp.mapping.select_prev_item({ behavior = "select" }),
                     [km.move_down] = cmp.mapping.select_next_item({ behavior = "select" }),
-                    [km.toggle] = cmp.mapping(function()
-                        if cmp.visible() then
-                          cmp.abort()
-                        else
-                          cmp.complete()
-                        end
-                    end, {}),
+                    [km.toggle] = cmp.mapping.complete(),
                 }),
+                preselect = 'item',
+                completion = {
+                  completeopt = 'menu,menuone,noinsert',
+                  docs_initially_visible = false,
+                },
+                performance = {
+                    max_view_entries = 8,
+                },
+                view = {
+                    docs = {
+                      auto_open = true,
+                    },
+                },
             })
 
             -- Configure closure autocomplete
