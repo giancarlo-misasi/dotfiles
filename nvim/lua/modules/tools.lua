@@ -6,7 +6,7 @@ local lsp_servers_by_filetype = {
     rust = { "rust_analyzer" },
     lua = { "lua_ls" },
     go = { "gopls" },
-    python = { "pyright" },
+    python = { "pyright", "ruff" },
     java = { "jdtls" },
     markdown = { "marksman" },
 }
@@ -52,7 +52,10 @@ M.setup_lsp = function()
     })
 
     lspconfig.gopls.setup({ autostart = false })
+
     lspconfig.pyright.setup({ autostart = false })
+    lspconfig.ruff.setup({ autostart = false })
+
     -- jdtls configured by nvim-jdtls
     lspconfig.marksman.setup({ autostart = false })
 end

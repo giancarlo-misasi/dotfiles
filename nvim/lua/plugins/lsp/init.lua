@@ -42,6 +42,15 @@ return {
             local cmp = require("cmp")
             local km = keymaps.autocomplete;
             cmp.setup({
+                sources = {
+                    { name = 'nvim_lsp' },
+                    { name = 'luasnip' },
+                },
+                snippet = {
+                    expand = function(args)
+                      vim.snippet.expand(args.body)
+                    end,
+                },
                 mapping = cmp.mapping.preset.insert({
                     [km.confirm] = cmp.mapping.confirm({ select = false }),
                     [km.complete] = cmp.mapping.confirm(),
