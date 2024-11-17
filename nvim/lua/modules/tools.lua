@@ -37,9 +37,16 @@ M.tools = {
 M.setup_lsp = function()
     local lspconfig = require("lspconfig")
 
-    lspconfig.clangd.setup({ autostart = false })
-    
+    lspconfig.clangd.setup({ 
+        autostart = false
+    })
+
     -- rust_analyzer is configured by rustaceanvim
+    vim.g.rustaceanvim = {
+        server = {
+            auto_attach = false
+        }
+    }
 
     lspconfig.lua_ls.setup({
         autostart = false,
@@ -52,7 +59,9 @@ M.setup_lsp = function()
         }
     })
 
-    lspconfig.gopls.setup({ autostart = false })
+    lspconfig.gopls.setup({ 
+        autostart = false
+    })
 
     lspconfig.pyright.setup({ 
         autostart = false,
@@ -70,22 +79,26 @@ M.setup_lsp = function()
         },
     })
 
-    lspconfig.ruff.setup({ autostart = false })
+    lspconfig.ruff.setup({ 
+        autostart = false
+    })
 
     -- jdtls configured by nvim-jdtls
 
-    lspconfig.marksman.setup({ autostart = false })
+    lspconfig.marksman.setup({ 
+        autostart = false
+    })
 end
 
 M.start_lsp = function()
     local server_names = get_lsp_servers_for_current_filetype() or {}
     for _, server_name in pairs(server_names) do
         if server_name == 'jdtls' then
-            -- use nvim-jdtls to start the server
             require("plugins.lsp.config.java").start()
+        elseif server_name == "rust_analyzer" then
+            require("rustaceanvim.lsp").start()
         else
-            -- otherwise, use default lsp-config start behavior
-            vim.cmd("LspStart " .. server_name)
+            vim.cmd("LspStart " .. server_name) -- default lsp-config start behavior
         end
     end
 end
