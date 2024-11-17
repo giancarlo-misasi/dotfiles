@@ -11,7 +11,6 @@ mise_use() {
 
 # activate mise and make it always activate
 eval "$(~/.local/bin/mise activate zsh)"
-echo 'eval "$(~/.local/bin/mise activate zsh)"' >> ~/.zshrc
 
 # install tools
 mise_use fzf ripgrep fd tree-sitter neovim
