@@ -257,4 +257,12 @@ return {
             })
         end
     },
+    {
+      "VonHeikemen/searchbox.nvim",
+      cond = enable_ux_plugins,
+      event = "VeryLazy",
+      dependencies = {
+        "MunifTanjim/nui.nvim",
+      },
+    },
 }
