@@ -21,11 +21,12 @@ local function get_lsp_servers_for_current_filetype()
     return nil
 end
 
+-- https://mason-registry.dev/
 M.tools = {
     "clangd",
-    "rust_analyzer",
+    "rust-analyzer",
     "codelldb",
-    "lua_ls",
+    "lua-language-server",
     "gopls",
     "pyright",
     "jdtls",
