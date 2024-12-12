@@ -19,6 +19,9 @@ M.nops = {
 
 -- Note: All keymaps here use noremap=true so that we can map to things that I have no-opped
 M.editing = {
+    -- clear highlighting on escape
+    { desc = "Clear highlighting", mode = "n", lhs = "<Esc>",     rhs = ":noh<cr>" },
+    -- :noh<CR>
     -- flip j and k and make them similar to up and down
     { desc = "Up",                 mode = "n", lhs = "j",         rhs = "k" },
     { desc = "Up",                 mode = "v", lhs = "j",         rhs = "k" },
