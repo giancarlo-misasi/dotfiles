@@ -10,4 +10,5 @@ cd dotfiles
 ./setup_shell.sh
 ./setup_tools.sh
 ./setup_nvim.sh
+./setup_profile.sh
 ```
