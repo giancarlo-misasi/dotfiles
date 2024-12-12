@@ -43,11 +43,12 @@ M.setup_lsp = function()
     })
 
     -- rust_analyzer is configured by rustaceanvim
-    vim.g.rustaceanvim = {
-        server = {
-            auto_attach = false
-        }
-    }
+    -- without autostart, new files dont auto attach
+    -- vim.g.rustaceanvim = {
+    --     server = {
+    --         auto_attach = false
+    --     }
+    -- }
 
     lspconfig.lua_ls.setup({
         autostart = false,
@@ -97,7 +98,7 @@ M.start_lsp = function()
         if server_name == 'jdtls' then
             require("plugins.lsp.config.java").start()
         elseif server_name == "rust_analyzer" then
-            require("rustaceanvim.lsp").start()
+            -- require("rustaceanvim.lsp").start()
         else
             vim.cmd("LspStart " .. server_name) -- default lsp-config start behavior
         end
