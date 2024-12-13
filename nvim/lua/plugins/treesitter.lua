@@ -11,6 +11,10 @@ local languages = {
     "markdown",
 }
 
+if not unpack then
+  unpack = table.unpack
+end
+
 local function repeatably_do(func, opts, additional_args)
     local tsrm = require("nvim-treesitter.textobjects.repeatable_move")
     opts = opts or {}
@@ -23,14 +27,27 @@ local function repeatably_do(func, opts, additional_args)
     func(opts, unpack(additional_args))
 end
 
+local function search_forward(opts)
+    return function()
+      repeatably_do(function(o)
+        o = o or {}
+        if o.forward then
+          vim.cmd('normal! n')
+        else
+          vim.cmd('normal! N')
+        end
+      end, opts)
+    end
+end
+
 local function diagnostic_jump(opts)
     return function()
       repeatably_do(function(o)
         o = o or {}
-        
+
         local count = o.forward and 1 or -1
         o.count = count * vim.v.count1
-  
+
         if vim.diagnostic.jump then
           vim.diagnostic.jump(o)
         else
@@ -113,6 +130,15 @@ return {
             map(nxo, '[' .. keys.info,        center(diagnostic_jump({ forward = false, severity = 'INFO' })),  { desc = 'previous info' })
             map(nxo, ']' .. keys.hint,        center(diagnostic_jump({ forward = true, severity = 'HINT' })),   { desc = 'next hint' })
             map(nxo, '[' .. keys.hint,        center(diagnostic_jump({ forward = false, severity = 'HINT' })),  { desc = 'previous hint' })
+
+            -- repeat search as well
+            vim.api.nvim_create_autocmd("CmdlineLeave", {
+              pattern = "/",
+              callback = function()
+                local opts = { forward = true }
+                rm.set_last_move(center(search_forward(opts)), opts)
+              end
+            })
 
             -- treesitter folding
             vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"

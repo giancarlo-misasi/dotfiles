@@ -88,7 +88,7 @@ M.editing = {
     { desc = "FindFiles",          mode = "n", lhs = "<leader>f", rhs = ":FindFiles<cr>" },
     { desc = "CodeActions",        mode = "n", lhs = "<leader>a", rhs = ":CodeActions<cr>" },
     { desc = "Find",               mode = "n", lhs = "<c-f>",     rhs = ":SearchBoxMatchAll<cr>" },
-    { desc = "Replace",            mode = "n", lhs = "<c-r>",     rhs = ":SearchBoxReplace<cr>" },
+    { desc = "Replace",            mode = "n", lhs = "<c-h>",     rhs = ":SearchBoxReplace<cr>" },
 }
 
 M.autocomplete = {
