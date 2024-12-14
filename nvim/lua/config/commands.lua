@@ -31,6 +31,19 @@ local commands = {
     "command! GotoType lua vim.lsp.buf.type_definition()",
     "command! Debug DapContinue",
 
+    "command! ToUpperCase lua require('textcase').current_word('to_upper_case')",
+    "command! ToLowerCase lua require('textcase').current_word('to_lower_case')",
+    "command! ToSnakeCase lua require('textcase').current_word('to_snake_case')",
+    "command! ToDashCase lua require('textcase').current_word('to_dash_case')",
+    "command! ToConstantCase lua require('textcase').current_word('to_constant_case')",
+    "command! ToDotCase lua require('textcase').current_word('to_dot_case')",
+    "command! ToCommaCase lua require('textcase').current_word('to_comma_case')",
+    "command! ToPhraseCase lua require('textcase').current_word('to_phrase_case')",
+    "command! ToCamelCase lua require('textcase').current_word('to_camel_case')",
+    "command! ToPascalCase lua require('textcase').current_word('to_pascal_case')",
+    "command! ToTitleCase lua require('textcase').current_word('to_title_case')",
+    "command! ToPathCase lua require('textcase').current_word('to_path_case')",
+
     "command! Quit qa!",
 }
 

@@ -41,6 +41,19 @@ local menus = {
         { "Goto type",                    "GotoType" },
         { "Debug",                        "Debug" },
 
+        { "To upper case",                "ToUpperCase" },
+        { "To lower case",                "ToLowerCase" },
+        { "To snake case",                "ToSnakeCase" },
+        { "To dash case",                 "ToDashCase" },
+        { "To constant case",             "ToConstantCase" },
+        { "To dot case",                  "ToDotCase" },
+        { "To comma case",                "ToCommaCase" },
+        { "To phrase case",               "ToPhraseCase" },
+        { "To camel case",                "ToCamelCase" },
+        { "To pascal case",               "ToPascalCase" },
+        { "To title case",                "ToTitleCase" },
+        { "To path case",                 "ToPathCase" },
+
         { "Quit",                         "Quit" },
     },
 }
