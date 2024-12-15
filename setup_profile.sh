@@ -4,6 +4,7 @@ if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
   if ! tmux has-session 2>/dev/null; then
     tmux new-session -s default
   else
-    tmux a
+    TMUX_SESSION=$(tmux ls | cut -d: -f1 | fzf --prompt="Pick a session: " --print-query | tail -n1)
+    tmux new-session -A -s "$TMUX_SESSION"
   fi
 fi
