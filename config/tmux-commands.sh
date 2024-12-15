@@ -14,6 +14,11 @@ commands=(
     "Split right"
     "Split down"
     "Close split"
+    "Toggle mark"
+    "Swap marked pane"
+
+    "Install plugins"
+    "Reload config"
 
     "Quit"
 )
@@ -22,7 +27,7 @@ actions=(
     "tmux command-prompt -p \"session name: \" \"run-shell 'tmux new-session -d -s \"%1\"; tmux switch-client -t \"%1\"'\""
     "tmux command-prompt -I \"#S\" \"rename-session -- '%%'\""
     "tmux switch-client -t \$(tmux list-sessions -F '#{session_name}' | fzf --tmux)"
-    "tmux kill-session"
+    "tmux kill-session -t \$(tmux list-sessions -F '#{session_name}' | fzf --tmux)"
 
     "tmux new-window"
     "tmux command-prompt -I \"#W\" \"rename-window -- '%%'\""
@@ -32,8 +37,13 @@ actions=(
     "tmux split-window -h -c \"#{pane_current_path}\""
     "tmux split-window -v -c \"#{pane_current_path}\""
     "tmux kill-pane"
+    "tmux select-pane -m"
+    "tmux swap-pane"
 
-    "tmux detach-client -P"
+    "tmux run-shell $HOME/.tmux/plugins/tpm/bindings/install_plugins"
+    "tmux source-file $HOME/.tmux.conf"
+
+    "tmux detach-client"
 )
 
 # prompt with fzf and then execute the selected command
