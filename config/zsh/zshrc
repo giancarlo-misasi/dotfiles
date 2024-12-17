@@ -1,0 +1,29 @@
+# ohmyzsh
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="robbyrussell"
+plugins=(git)
+source $ZSH/oh-my-zsh.sh
+
+# git
+git config --global core.editor "nvim"
+
+# mise
+eval "$($HOME/.local/bin/mise activate zsh)"
+
+# read additional config files if any
+if [[ -d "$HOME/.zshrc.d" ]]; then
+  for config_file in $HOME/.zshrc.d/*.zshrc; do
+    [[ -f $config_file ]] && source $config_file
+  done
+fi
+
+# tmux
+alias tmux="tmux_session_picker"
+tmux_session_picker() {
+    if [ $# -eq 0 ]; then
+        TMUX_SESSION=$(tmux ls | cut -d: -f1 | fzf --prompt="Pick a session: " --print-query | tail -n1)
+        tmux new-session -A -s "$TMUX_SESSION"
+    else
+        command tmux "$@"
+    fi
+}
