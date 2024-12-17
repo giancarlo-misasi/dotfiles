@@ -87,8 +87,33 @@ link_dotfiles() {
     ln -sf "$DOTFILES/nvim" "$HOME/.config/nvim"
 }
 
-install_required_system_packages
-install_ohmyzsh
-install_mise
-install_tools_and_languages
-link_dotfiles
+print_help() {
+    echo "Usage: $0 [function_name]"
+    echo "Available functions:"
+    echo "  install_required_system_packages"
+    echo "  install_ohmyzsh"
+    echo "  install_mise"
+    echo "  install_tools_and_languages"
+    echo "  link_dotfiles"
+    echo "If no function is specified, all steps will run."
+}
+
+if [ $# -eq 0 ]; then
+    echo "No arguments provided. Running all steps..."
+    install_required_system_packages
+    install_ohmyzsh
+    install_mise
+    install_tools_and_languages
+    link_dotfiles
+elif [ "$1" = "help" ] || [ "$1" = "--help" ]; then
+    print_help
+elif declare -f "$1" > /dev/null; then
+    # Run the specified function if it exists
+    echo "Running specified step: $1"
+    "$1"
+else
+    echo "Error: Function '$1' not found."
+    print_help
+    exit 1
+fi
+
