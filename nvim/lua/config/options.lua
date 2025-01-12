@@ -110,6 +110,15 @@ local function setup_diagnostics()
     })
 end
 
+local function setup_debug_symbols()
+    vim.fn.sign_define('DapBreakpoint', { text = '' })
+    vim.fn.sign_define('DapBreakpointCondition', { text = '' })
+    vim.fn.sign_define('DapBreakpointRejected', { text = '' })
+    vim.fn.sign_define('DapLogPoint', { text = '' })
+    vim.fn.sign_define('DapStopped', { text = '' })
+end
+
 setup_globals(globals)
 setup_options(options)
 setup_diagnostics()
+setup_debug_symbols()

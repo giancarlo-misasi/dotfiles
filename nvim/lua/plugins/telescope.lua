@@ -1,99 +1,46 @@
 local enable_ux_plugins = not vim.g.vscode
+local menus = require("config.menus")
 
 local external_commands = {
-    find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
-}
-
-local menus = {
-    action_items = {
-        { "Install treesitter languages", "TSUpdate" },
-        { "Install lsp tools",            "MasonToolsUpdate" },
-
-        { "Split right",                  "SplitRight" },
-        { "Split down",                   "SplitDown" },
-        { "Close split",                  "CloseSplit" },
-        { "New tab",                      "NewTab" },
-        { "Close tab",                    "CloseTab" },
-
-        { "Find files",                   "FindFiles" },
-        { "Live grep",                    "LiveGrep" },
-        { "Recent files",                 "RecentFiles" },
-        { "Search history",               "SearchHistory" },
-        { "Set language",                 "SetLanguage" },
-        { "Registers",                    "Registers" },
-        { "Commands",                     "Commands" },
-        { "Command history",              "CommandHistory" },
-        { "Diagnostics",                  "Diagnostics" },
-        { "Buffers",                      "Buffers" },
-
-        { "Start lsp",                    "StartLsp" },
-        { "Stop lsp",                     "LspStop" },
-        { "Show lsp status",              "LspInfo" },
-        { "Rename",                       "Rename" },
-        { "Format code",                  "FormatCode" },
-        { "Code actions",                 "CodeActions" },
-        { "Hover",                        "Hover" },
-        { "Show references",              "ShowReferences" },
-        { "Show signature",               "ShowSignature" },
-        { "Goto definition",              "GotoDefinition" },
-        { "Goto declaration",             "GotoDeclaration" },
-        { "Goto implementation",          "GotoImplementation" },
-        { "Goto type",                    "GotoType" },
-        { "Debug",                        "Debug" },
-
-        { "To upper case",                "ToUpperCase" },
-        { "To lower case",                "ToLowerCase" },
-        { "To snake case",                "ToSnakeCase" },
-        { "To dash case",                 "ToDashCase" },
-        { "To constant case",             "ToConstantCase" },
-        { "To dot case",                  "ToDotCase" },
-        { "To comma case",                "ToCommaCase" },
-        { "To phrase case",               "ToPhraseCase" },
-        { "To camel case",                "ToCamelCase" },
-        { "To pascal case",               "ToPascalCase" },
-        { "To title case",                "ToTitleCase" },
-        { "To path case",                 "ToPathCase" },
-
-        { "Quit",                         "Quit" },
-    },
+  find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
 }
 
 return {
-    {
-        "nvim-telescope/telescope-fzf-native.nvim",
-        cond = enable_ux_plugins,
-        event = "VeryLazy",
-        build = "make",
+  {
+    "nvim-telescope/telescope-fzf-native.nvim",
+    cond = enable_ux_plugins,
+    lazy = true,
+    build = "make",
+  },
+  {
+    "nvim-telescope/telescope.nvim",
+    tag = "0.1.8",
+    cond = enable_ux_plugins,
+    lazy = true,
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "octarect/telescope-menu.nvim",
+      "nvim-telescope/telescope-ui-select.nvim",
+      "nvim-telescope/telescope-fzf-native.nvim",
     },
-    {
-        "nvim-telescope/telescope.nvim",
-        tag = "0.1.6",
-        cond = enable_ux_plugins,
-        event = "VeryLazy",
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-            "octarect/telescope-menu.nvim",
-            "nvim-telescope/telescope-ui-select.nvim",
-            "nvim-telescope/telescope-fzf-native.nvim",
+    config = function()
+      local telescope = require("telescope")
+      telescope.setup({
+        defaults = {
+          path_display = { "smart" },
         },
-        config = function()
-            local telescope = require("telescope")
-            telescope.setup({
-                defaults = {
-                    path_display = { "smart" },
-                },
-                pickers = {
-                    find_files = { find_command = external_commands.find_command },
-                },
-                extensions = {
-                    menu = {
-                        action_menu = { items = menus.action_items },
-                    },
-                },
-            })
-            telescope.load_extension("ui-select")
-            telescope.load_extension("menu")
-            telescope.load_extension('fzf')
-        end,
-    },
+        pickers = {
+          find_files = { find_command = external_commands.find_command },
+        },
+        extensions = {
+          menu = {
+            action_menu = { items = menus.action_items },
+          },
+        },
+      })
+      telescope.load_extension("ui-select")
+      telescope.load_extension("menu")
+      telescope.load_extension('fzf')
+    end,
+  },
 }

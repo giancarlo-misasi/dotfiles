@@ -1,35 +1,36 @@
-return { 
-    {
-        "rcarriga/nvim-dap-ui",
-        event = "VeryLazy",
-        dependencies = {
-            "mfussenegger/nvim-dap",
-            "nvim-neotest/nvim-nio",
-            -- c, c++ handled through c_cpp_rust.lua
-            -- rust handled through rustaceanvim
-            -- TODO: missing lua debugger setup
-            "leoluz/nvim-dap-go",
-            "mfussenegger/nvim-dap-python"
-            -- java handled through nvim-jdtls
-        },
-        config = function()
-            local dap = require("dap")
-            local dapui = require("dapui")
-            dapui.setup()
-            dap.listeners.before.attach.dapui_config = function() dapui.open() end
-            dap.listeners.before.launch.dapui_config = function() dapui.open() end
-            dap.listeners.before.event_terminated.dapui_config = function() dapui.close() end
-            dap.listeners.before.event_exited.dapui_config = function() dapui.close() end
-
-            require("plugins.dap.c_cpp").setup()
-            require("dap-go").setup()
-            require("dap-python").setup("python3")
-
-            vim.fn.sign_define('DapBreakpoint', { text = '' })
-            vim.fn.sign_define('DapBreakpointCondition', { text = 'ﳁ' })
-            vim.fn.sign_define('DapBreakpointRejected', { text = '' })
-            vim.fn.sign_define('DapLogPoint', { text = '' })
-            vim.fn.sign_define('DapStopped', { text = '' })
-        end
+return {
+  {
+    "mfussenegger/nvim-dap",
+    dependencies = {
+      "williamboman/mason.nvim",
+      "nvim-neotest/nvim-nio",
+      "rcarriga/nvim-dap-ui"
     },
+    lazy = true,
+    config = function()
+      local dap = require("dap")
+      local dapui = require("dapui")
+      dapui.setup()
+      dap.listeners.before.attach.dapui_config = function() dapui.open() end
+      dap.listeners.before.launch.dapui_config = function() dapui.open() end
+      dap.listeners.before.event_terminated.dapui_config = function() dapui.close() end
+      dap.listeners.before.event_exited.dapui_config = function() dapui.close() end
+    end
+  },
+  {
+    "leoluz/nvim-dap-go",
+    lazy = true,
+  },
+  {
+    "tomblind/local-lua-debugger-vscode",
+    lazy = true,
+    build = function()
+      local path = vim.fn.stdpath("data") .. "/lazy/local-lua-debugger-vscode"
+      vim.fn.system("cd " .. path .. " && npm install && npm run build")
+    end,
+  },
+  {
+    "mfussenegger/nvim-dap-python",
+    lazy = true,
+  },
 }

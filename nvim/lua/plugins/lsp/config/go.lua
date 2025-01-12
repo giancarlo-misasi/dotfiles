@@ -1,8 +1,7 @@
 local M = {}
 
 local lsp_utils = require("modules.lsp")
-local server_name = "jdtls"
-require("java").setup()
+local server_name = "gopls"
 lsp_utils.default_setup(server_name, {})
 
 M.start = function()
