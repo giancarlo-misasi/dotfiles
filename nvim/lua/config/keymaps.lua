@@ -70,19 +70,21 @@ M.editing = {
     { desc = "FindFiles",          mode = "n", lhs = "<leader>f", rhs = "<CMD>FindFiles<CR>" },
     { desc = "CodeActions",        mode = "n", lhs = "<leader>a", rhs = "<CMD>CodeActions<CR>" },
     { desc = "Breakpoint",         mode = "n", lhs = "<leader>d", rhs = "<CMD>lua require('dap').toggle_breakpoint()<CR>" },
-    { desc = "Find",               mode = "n", lhs = "<C-f>",     rhs = "<CMD>lua require('searchbox').match_all()<CR>" },
-    { desc = "Replace",            mode = "n", lhs = "<C-h>",     rhs = "<CMD>lua require('searchbox').replace()<CR>" },
     -- switch between splits
     { desc = "Move to upper split", mode = "n", lhs = "<C-Up>",    rhs = "<C-w>k" },
     { desc = "Move to lower split", mode = "n", lhs = "<C-Down>",  rhs = "<C-w>j" },
     { desc = "Move to left split",  mode = "n", lhs = "<C-Left>",  rhs = "<C-w>h" },
     { desc = "Move to right split", mode = "n", lhs = "<C-Right>", rhs = "<C-w>l" },
     -- flash search
-    { desc = "Flash",              mode = "n", lhs = "s",         rhs = "<CMD>lua require('flash').jump()<CR>" },
-    { desc = "Flash",              mode = "x", lhs = "s",         rhs = "<CMD>lua require('flash').jump()<CR>" },
-    { desc = "Flash",              mode = "o", lhs = "s",         rhs = "<CMD>lua require('flash').jump()<CR>" },
+    { desc = "Flash",              mode = "n", lhs = "s",         rhs = "<CMD>lua require('flash').jump({search={mode='fuzzy'}})<CR>" },
+    { desc = "Flash",              mode = "x", lhs = "s",         rhs = "<CMD>lua require('flash').jump({search={mode='fuzzy'}})<CR>" },
+    { desc = "Flash",              mode = "o", lhs = "s",         rhs = "<CMD>lua require('flash').jump({search={mode='fuzzy'}})<CR>" },
     { desc = "Remote flash",       mode = "o", lhs = "r",         rhs = "<CMD>lua require('flash').remote()<CR>" },
     { desc = "Toggle flash",       mode = "c", lhs = "<C-s>",     rhs = "<CMD>lua require('flash').toggle()<CR>" },
+}
+
+M.find_replace = {
+  sub = "<leader>r",
 }
 
 M.autocomplete = {

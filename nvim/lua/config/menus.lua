@@ -12,7 +12,11 @@ M.action_items = {
     { "Close tab",                    "CloseTab" },
     { "Close other buffers",          "CloseOtherBuffers"},
 
-    { "File tree",                 "FileTree" },
+    { "Terminal right",               "TerminalRight" },
+    { "Terminal down",                "TerminalDown" },
+    { "Git",                          "GitLeft" },
+
+    { "File tree",                    "FileTree" },
     { "Find files",                   "FindFiles" },
     { "Live grep",                    "LiveGrep" },
     { "Recent files",                 "RecentFiles" },

@@ -22,20 +22,36 @@ local function has_lsp()
   return #vim.lsp.get_clients() > 0
 end
 
+local function show_debug_icons()
+  local dap = require("modules.dap")
+  return dap.is_running() or dap.is_ui_open()
+end
+
 local function is_debugging()
-  if not package.loaded["dap"] then
-    return false
-  end
-  local dap_present, dap = pcall(require, "dap")
-  if not dap_present then
-    return false
-  end
-  return dap.session() ~= nil
+  return require("modules.dap").is_running()
+end
+
+local function is_debug_ui_open()
+  return require("modules.dap").is_ui_open()
 end
 
 local function show_tabline()
-  return has_tabs() or is_debugging()
+  return has_tabs() or show_debug_icons()
 end
+
+local show_tabline_fix = {
+  function()
+    vim.opt.showtabline = show_tabline() and 2 or 0; return ""
+  end
+}
+
+local colors = {
+  white1 = "#DEEEED",
+  green1 = "#243224",
+  blue1 = "#242448",
+  red1 = "#322424",
+  red2 = "#482424"
+}
 
 local filename = {
   "filename",
@@ -45,7 +61,18 @@ local filename = {
 
 local filetype = {
   "filetype",
+  separator = { left = '' },
   on_click = function() vim.cmd("SetLanguage") end,
+}
+
+local fileformat = {
+  "fileformat",
+  separator = { left = '' },
+}
+
+local encoding = {
+  "encoding",
+  separator = { left = '', right = '' },
 }
 
 local tabs = {
@@ -53,56 +80,69 @@ local tabs = {
   cond = has_tabs,
 }
 
+local branch = {
+  "branch",
+  on_click = function() vim.cmd("Git") end,
+}
+
 local diagnostics = {
   "diagnostics",
   on_click = function() vim.cmd("Diagnostics") end,
 }
 
-local show_tabline_fix = {
-  function()
-    vim.opt.showtabline = show_tabline() and 2 or 0; return ""
-  end
-}
-
 local close_window = {
-  function() return has_wins() and [[   ]] or [[]] end,
+  function() return has_wins() and [[]] or [[]] end,
   on_click = function() vim.cmd("close") end,
-  color = { bg = "#191919", fg = "#AAAAAA" },
+  color = { bg = colors.red1, fg = colors.white1 },
 }
 
 local close_tab = {
-  function() return has_tabs() and [[  󰭋 ]] or [[]] end,
+  function() return has_tabs() and [[]] or [[]] end,
   on_click = function() vim.cmd("tabclose") end,
-  color = { bg = "#AAAAAA", fg = "#191919" },
+  color = { bg = colors.red2, fg = colors.white1 },
+}
+
+local debug_start = {
+  function() return (show_debug_icons() and not is_debugging()) and [[  ]] or [[]] end,
+  on_click = function() vim.cmd("Debug") end,
 }
 
 local debug_resume = {
-  function() return is_debugging() and [[  ]] or [[]] end,
+  function() return (show_debug_icons() and is_debugging()) and [[  ]] or [[]] end,
   on_click = function() vim.cmd("DapContinue") end,
 }
 
 local debug_step_into = {
-  function() return is_debugging() and [[ 󰆹 ]] or [[]] end,
+  function() return show_debug_icons() and [[ 󰆹 ]] or [[]] end,
   on_click = function() vim.cmd("DapStepInto") end,
 }
 
 local debug_step_out = {
-  function() return is_debugging() and [[ 󰆸 ]] or [[]] end,
+  function() return show_debug_icons() and [[ 󰆸 ]] or [[]] end,
   on_click = function() vim.cmd("DapStepOut") end,
 }
 
 local debug_step_over = {
-  function() return is_debugging() and [[ 󰆷  ]] or [[]] end,
+  function() return show_debug_icons() and [[ 󰆷  ]] or [[]] end,
   on_click = function() vim.cmd("DapStepOver") end,
 }
 
 local debug_stop = {
-  function() return is_debugging() and [[  ]] or [[]] end,
+  function() return show_debug_icons() and [[  ]] or [[]] end,
   on_click = function() vim.cmd("DapTerminate") end,
+}
+
+local debug_ui_toggle = {
+  function() return is_debug_ui_open() and [[  ]] or [[  ]] end,
+  separator = { left = '' },
+  color = function() return { bg = is_debug_ui_open() and colors.red1 or colors.blue1, fg = colors.white1 } end,
+  on_click = function() require("modules.dap").toggle_ui() end,
 }
 
 local lsp_toggle = {
   function() return has_lsp() and [[  󱐋 ]] or [[  󱐋 ]] end,
+  separator = { left = '' },
+  color = function() return { bg = has_lsp() and colors.red1 or colors.green1, fg = colors.white1 } end,
   on_click = function() vim.cmd(has_lsp() and "LspStop" or "StartLsp") end,
 }
 
@@ -136,11 +176,13 @@ return {
         options = {
           theme = "lackluster",
           globalstatus = true,
+          component_separators = { left = '', right = ''},
+          section_separators = { left = '', right = ''},
         },
         tabline = {
           lualine_a = { show_tabline_fix },
           lualine_x = {
-            debug_resume, debug_step_into, debug_step_out, debug_step_over, debug_stop,
+            debug_start, debug_resume, debug_step_into, debug_step_out, debug_step_over, debug_stop,
           },
           lualine_y = { tabs },
           lualine_z = { close_tab },
@@ -155,11 +197,11 @@ return {
         },
         sections = {
           lualine_a = { "mode" },
-          lualine_b = { "branch", diagnostics },
+          lualine_b = { branch, diagnostics },
           lualine_c = { lsp_status },
-          lualine_x = { lsp_toggle, "encoding", "fileformat", filetype },
-          lualine_y = {}, -- "progress" },
-          lualine_z = {}, -- "location" },
+          lualine_x = { debug_ui_toggle, filetype, lsp_toggle, encoding, fileformat },
+          lualine_y = { },
+          lualine_z = { "location" },
         },
       })
 
@@ -219,9 +261,7 @@ return {
     dependencies = { "nvim-tree/nvim-web-devicons" },
     lazy = false,
     config = function()
-      require("oil").setup({
-        -- default_file_explorer = false,
-      })
+      require("oil").setup()
     end
   },
   {
@@ -230,32 +270,16 @@ return {
     event = "VeryLazy",
   },
   {
-    'stevearc/dressing.nvim',
-    cond = enable_ux_plugins,
-  },
-  {
-    "VonHeikemen/searchbox.nvim",
-    cond = enable_ux_plugins,
-    lazy = true,
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-    },
-  },
-  {
     "sphamba/smear-cursor.nvim",
+    cond = enable_ux_plugins,
+    event = "VeryLazy",
     opts = {
       cursor_color = "#00AA00",
     },
   },
   {
-    "folke/flash.nvim",
+    "stevearc/dressing.nvim",
+    cond = enable_ux_plugins,
     event = "VeryLazy",
-    opts = {
-      modes = {
-        search = { enabled = false }, -- keep search unchanged
-        char = { enabled = false }    -- conflicts with repeatable_move
-      },
-    },
-    keys = {},                        -- keybinds set in keymaps
   },
 }

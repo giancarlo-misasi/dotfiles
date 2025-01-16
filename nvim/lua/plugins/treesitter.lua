@@ -9,6 +9,7 @@ local languages = {
   "python",
   "java",
   "markdown",
+  "html",
 }
 
 return {

@@ -41,6 +41,14 @@ return {
         trigger = {
           show_in_snippet = false, -- disabled for better tabbing through snippets
         },
+        menu = {
+            draw = {
+              columns = {
+                { "kind_icon", "kind", gap = 1 },
+                { "label", "label_description" },
+              },
+            }
+        },
       },
       sources = {
         cmdline = {}, -- disabling due to crashes

@@ -46,4 +46,28 @@ return {
       require("telescope").load_extension("textcase")
     end,
   },
+  {
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    opts = {
+      modes = {
+        search = { enabled = false }, -- keep search unchanged
+        char = { enabled = false }    -- conflicts with repeatable_move
+      },
+    },
+    keys = {},                        -- keybinds set in keymaps
+  },
+  {
+    "chrisgrieser/nvim-rip-substitute",
+    lazy = true,
+    opts = {},
+    keys = {
+      {
+        keymaps.find_replace.sub,
+        function() require("rip-substitute").sub() end,
+        mode = { "n", "x" },
+        desc = "rip substitute",
+      },
+    },
+  },
 }

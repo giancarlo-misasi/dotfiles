@@ -10,6 +10,10 @@ local commands = {
   "command! CloseOtherBuffers :w|%bd|e#",
 
   "command! FileTree Oil",
+  "command! TerminalRight vsplit | term",
+  "command! TerminalDown split | term",
+  "command! GitLeft vsplit | wincmd H | term lazygit",
+
   "command! FindFiles lua require('telescope.builtin').find_files{}",
   "command! LiveGrep lua require('telescope.builtin').live_grep{}",
   "command! RecentFiles lua require('telescope.builtin').oldfiles{}",
@@ -34,7 +38,6 @@ local commands = {
   "command! GotoDeclaration lua vim.lsp.buf.declaration()",
   "command! GotoImplementation lua vim.lsp.buf.implementation()",
   "command! GotoType lua vim.lsp.buf.type_definition()",
-
   "command! ToUpperCase lua require('textcase').current_word('to_upper_case')",
   "command! ToLowerCase lua require('textcase').current_word('to_lower_case')",
   "command! ToSnakeCase lua require('textcase').current_word('to_snake_case')",
@@ -109,10 +112,26 @@ local function setup_q_close_for_buffers()
   })
 end
 
-local function setup_start_terminals_in_insert()
+local function set_terminal_commands()
   vim.api.nvim_create_autocmd("TermOpen", {
-    pattern = "*",
-    command = "startinsert",
+    callback = function(event)
+      local buf_name = vim.api.nvim_buf_get_name(event.buf)
+      if buf_name:match("%[dap%-terminal%]") then
+        return
+      end
+      vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = event.buf, silent = true })
+      vim.bo[event.buf].buflisted = false
+      vim.cmd("setlocal statuscolumn=")
+      vim.cmd("setlocal nonumber")
+      vim.api.nvim_feedkeys('i', 'n', true)
+    end,
+  })
+  vim.api.nvim_create_autocmd("TermClose", {
+    callback = function(event)
+      vim.defer_fn(function()
+        vim.cmd("quit")
+      end, 10)
+    end,
   })
 end
 
@@ -120,4 +139,4 @@ setup_commands()
 setup_commands_by_pattern()
 setup_highlight_on_yank()
 setup_q_close_for_buffers()
-setup_start_terminals_in_insert()
+set_terminal_commands()

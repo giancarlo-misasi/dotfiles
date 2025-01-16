@@ -60,7 +60,7 @@ mise_use() {
 
 install_tools_and_languages() {
     # install tools
-    mise_use tmux fzf ripgrep fd tree-sitter neovim
+    mise_use tmux fzf ripgrep fd tree-sitter neovim lazygit
 
     # install languages
     mise_use lua rust go python java gradle node
@@ -85,6 +85,14 @@ link_dotfiles() {
     ln -sf "$DOTFILES/config/tmux/tmux.conf" "$HOME/.tmux.conf"
     ln -sf "$DOTFILES/config/tmux" "$HOME/.tmux"
     ln -sf "$DOTFILES/nvim" "$HOME/.config/nvim"
+
+    # output instructions for windows terminal settings link
+    dst=$(powershell.exe -Command "[System.Environment]::GetFolderPath('UserProfile')" | tr -d '\r')
+    dst="$dst\AppData\Local\Packages\Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe\LocalState\settings.json"
+    src="$(wslpath -w $DOTFILES/config/windows_terminal/settings.json)"
+    cmd="del $dst && mklink \"$dst\" \"$src\""
+    echo "run the following command from cmd.exe to link windows terminal settings"
+    echo $cmd
 }
 
 print_help() {
