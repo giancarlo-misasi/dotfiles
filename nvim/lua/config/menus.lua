@@ -27,6 +27,7 @@ M.action_items = {
     { "Command history",              "CommandHistory" },
     { "Diagnostics",                  "Diagnostics" },
     { "Buffers",                      "Buffers" },
+    { "Notices",                      "Notices" },
 
     { "Rename",                       "Rename" },
     { "Format code",                  "FormatCode" },

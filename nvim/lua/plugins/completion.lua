@@ -7,6 +7,7 @@ return {
     dependencies = { 'rafamadriz/friendly-snippets' },
     version = '*',
     event = "VeryLazy",
+    build = 'cargo build --release',
     opts = {
       keymap = {
         preset = 'none',

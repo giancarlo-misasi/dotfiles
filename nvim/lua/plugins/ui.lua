@@ -282,4 +282,12 @@ return {
     cond = enable_ux_plugins,
     event = "VeryLazy",
   },
+  {
+    "rcarriga/nvim-notify",
+    cond = enable_ux_plugins,
+    lazy = false,
+    config = function()
+      vim.notify = require("notify")
+    end
+  },
 }

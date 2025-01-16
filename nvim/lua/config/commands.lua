@@ -1,5 +1,6 @@
 local commands = {
   "command! Actions lua require('telescope').extensions.menu.action_menu{}",
+  "command! Notices lua require('telescope').extensions.notify.notify{}",
 
   "command! SplitRight vsplit",
   "command! SplitDown split",
