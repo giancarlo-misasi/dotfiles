@@ -25,8 +25,6 @@ local commands = {
   "command! Diagnostics lua require('telescope.builtin').diagnostics{}",
   "command! Buffers lua require('telescope.builtin').buffers{}",
 
-  "command! StartLsp lua require('modules.lsp').start()",
-  "command! Debug lua require('modules.dap').start()",
   "command! Rename lua vim.lsp.buf.rename()",
   "command! FormatCode lua vim.lsp.buf.format()",
   "command! FormatBuffers bufdo FormatCode",
@@ -38,6 +36,7 @@ local commands = {
   "command! GotoDeclaration lua vim.lsp.buf.declaration()",
   "command! GotoImplementation lua vim.lsp.buf.implementation()",
   "command! GotoType lua vim.lsp.buf.type_definition()",
+
   "command! ToUpperCase lua require('textcase').current_word('to_upper_case')",
   "command! ToLowerCase lua require('textcase').current_word('to_lower_case')",
   "command! ToSnakeCase lua require('textcase').current_word('to_snake_case')",

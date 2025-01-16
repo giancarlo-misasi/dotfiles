@@ -1,4 +1,4 @@
--- this all gets loaded when StartLsp is called
+-- this all gets loaded when lsp module is loaded
 -- but needs to get registered with lazy
 return {
   {

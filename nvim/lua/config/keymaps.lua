@@ -64,12 +64,13 @@ M.editing = {
     { desc = "Reverse indent",     mode = "x", lhs = "<S-Tab>",   rhs = "<gv" },
       -- commands
     { desc = "Actions",            mode = "n", lhs = "<F1>",      rhs = "<CMD>Actions<CR>" },
-    { desc = "Debug",              mode = "n", lhs = "<F5>",      rhs = "<CMD>Debug<CR>" },
     { desc = "Buffers",            mode = "n", lhs = "<leader>b", rhs = "<CMD>Buffers<CR>" },
     { desc = "LiveGrep",           mode = "n", lhs = "<leader>g", rhs = "<CMD>LiveGrep<CR>" },
     { desc = "FindFiles",          mode = "n", lhs = "<leader>f", rhs = "<CMD>FindFiles<CR>" },
     { desc = "CodeActions",        mode = "n", lhs = "<leader>a", rhs = "<CMD>CodeActions<CR>" },
-    { desc = "Breakpoint",         mode = "n", lhs = "<leader>d", rhs = "<CMD>lua require('dap').toggle_breakpoint()<CR>" },
+    { desc = "Debug",              mode = "n", lhs = "<F5>",      rhs = "<CMD>lua require('modules.dap').start()<CR>" },
+    { desc = "Toggle debug ui",    mode = "n", lhs = "<F6>",      rhs = "<CMD>lua require('modules.dap').toggle_ui()<CR>" },
+    { desc = "Toggle lsp",         mode = "n", lhs = "<F9>",      rhs = "<CMD>lua require('modules.lsp').toggle()<CR>" },
     -- switch between splits
     { desc = "Move to upper split", mode = "n", lhs = "<C-Up>",    rhs = "<C-w>k" },
     { desc = "Move to lower split", mode = "n", lhs = "<C-Down>",  rhs = "<C-w>j" },

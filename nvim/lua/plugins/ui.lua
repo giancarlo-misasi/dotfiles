@@ -1,4 +1,5 @@
 local enable_ux_plugins = not vim.g.vscode
+local dap = require("modules.dap")
 
 local function get_relative_line_number()
   local current_line = vim.fn.line(".")
@@ -19,20 +20,19 @@ local function has_wins()
 end
 
 local function has_lsp()
-  return #vim.lsp.get_clients() > 0
+  return require("modules.lsp").is_running()
 end
 
 local function show_debug_icons()
-  local dap = require("modules.dap")
   return dap.is_running() or dap.is_ui_open()
 end
 
 local function is_debugging()
-  return require("modules.dap").is_running()
+  return dap.is_running()
 end
 
 local function is_debug_ui_open()
-  return require("modules.dap").is_ui_open()
+  return dap.is_ui_open()
 end
 
 local function show_tabline()
@@ -104,7 +104,7 @@ local close_tab = {
 
 local debug_start = {
   function() return (show_debug_icons() and not is_debugging()) and [[  ]] or [[]] end,
-  on_click = function() vim.cmd("Debug") end,
+  on_click = function() dap.start() end,
 }
 
 local debug_resume = {
@@ -143,7 +143,7 @@ local lsp_toggle = {
   function() return has_lsp() and [[  󱐋 ]] or [[  󱐋 ]] end,
   separator = { left = '' },
   color = function() return { bg = has_lsp() and colors.red1 or colors.green1, fg = colors.white1 } end,
-  on_click = function() vim.cmd(has_lsp() and "LspStop" or "StartLsp") end,
+  on_click = function() require("modules.lsp").toggle() end,
 }
 
 local lsp_status = {
@@ -176,8 +176,8 @@ return {
         options = {
           theme = "lackluster",
           globalstatus = true,
-          component_separators = { left = '', right = ''},
-          section_separators = { left = '', right = ''},
+          component_separators = { left = '', right = '' },
+          section_separators = { left = '', right = '' },
         },
         tabline = {
           lualine_a = { show_tabline_fix },
@@ -200,7 +200,7 @@ return {
           lualine_b = { branch, diagnostics },
           lualine_c = { lsp_status },
           lualine_x = { debug_ui_toggle, filetype, lsp_toggle, encoding, fileformat },
-          lualine_y = { },
+          lualine_y = {},
           lualine_z = { "location" },
         },
       })

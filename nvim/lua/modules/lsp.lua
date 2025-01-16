@@ -18,4 +18,16 @@ M.start = function()
   require("plugins.lsp.config." .. vim.bo.filetype).start()
 end
 
+M.is_running = function()
+  return #vim.lsp.get_clients() > 0
+end
+
+M.toggle = function()
+  if M.is_running() then
+    vim.cmd("LspStop")
+  else
+    M.start()
+  end
+end
+
 return M
