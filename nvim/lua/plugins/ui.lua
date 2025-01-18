@@ -218,13 +218,6 @@ return {
           return ""
         end,
       })
-
-      vim.api.nvim_create_augroup("lualine_augroup", { clear = true })
-      vim.api.nvim_create_autocmd("User", {
-        group = "lualine_augroup",
-        pattern = "LspProgressStatusUpdated",
-        callback = require("lualine").refresh,
-      })
     end
   },
   {
@@ -268,6 +261,15 @@ return {
     "dstein64/nvim-scrollview",
     cond = enable_ux_plugins,
     event = "VeryLazy",
+    config = function()
+      require("scrollview").setup({
+        signs_on_startup = {'all'},
+        diagnostics_severities = {
+          vim.diagnostic.severity.WARN,
+          vim.diagnostic.severity.ERROR,
+        },
+      })
+    end
   },
   {
     "sphamba/smear-cursor.nvim",

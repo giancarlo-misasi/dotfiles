@@ -1,9 +1,14 @@
+local actions = require("config.actions")
 local enable_ux_plugins = not vim.g.vscode
-local menus = require("config.menus")
 
 local external_commands = {
   find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
 }
+
+local menu_items = {}
+for _, action in ipairs(actions) do
+    table.insert(menu_items, {action[1], action[3]})
+end
 
 return {
   {
@@ -19,9 +24,8 @@ return {
     lazy = true,
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "octarect/telescope-menu.nvim",
-      "nvim-telescope/telescope-ui-select.nvim",
       "nvim-telescope/telescope-fzf-native.nvim",
+      "octarect/telescope-menu.nvim",
     },
     config = function()
       local telescope = require("telescope")
@@ -34,13 +38,12 @@ return {
         },
         extensions = {
           menu = {
-            action_menu = { items = menus.action_items },
+            action_menu = { items = menu_items },
           },
         },
       })
-      telescope.load_extension("ui-select")
-      telescope.load_extension("menu")
       telescope.load_extension('fzf')
+      telescope.load_extension("menu")
     end,
   },
 }

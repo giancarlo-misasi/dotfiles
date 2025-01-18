@@ -62,32 +62,28 @@ M.editing = {
     { desc = "Reverse indent",     mode = "n", lhs = "<S-Tab>",   rhs = "<<" },
     { desc = "Reverse indent",     mode = "i", lhs = "<S-Tab>",   rhs = "<C-D>" },
     { desc = "Reverse indent",     mode = "x", lhs = "<S-Tab>",   rhs = "<gv" },
+    -- split movement
+    { desc = "Move to upper split", mode = "n", lhs = "<C-Up>",    rhs = "<C-w>k" },
+    { desc = "Move to lower split", mode = "n", lhs = "<C-Down>",  rhs = "<C-w>j" },
+    { desc = "Move to left split",  mode = "n", lhs = "<C-Left>",  rhs = "<C-w>h" },
+    { desc = "Move to right split", mode = "n", lhs = "<C-Right>", rhs = "<C-w>l" },
       -- commands
     { desc = "Actions",            mode = "n", lhs = "<F1>",      rhs = "<CMD>Actions<CR>" },
     { desc = "Buffers",            mode = "n", lhs = "<leader>b", rhs = "<CMD>Buffers<CR>" },
     { desc = "LiveGrep",           mode = "n", lhs = "<leader>g", rhs = "<CMD>LiveGrep<CR>" },
     { desc = "FindFiles",          mode = "n", lhs = "<leader>f", rhs = "<CMD>FindFiles<CR>" },
     { desc = "CodeActions",        mode = "n", lhs = "<leader>a", rhs = "<CMD>CodeActions<CR>" },
-    { desc = "Debug",              mode = "n", lhs = "<F5>",      rhs = "<CMD>lua require('modules.dap').start()<CR>" },
-    { desc = "Toggle debug ui",    mode = "n", lhs = "<F6>",      rhs = "<CMD>lua require('modules.dap').toggle_ui()<CR>" },
-    { desc = "Toggle lsp",         mode = "n", lhs = "<F9>",      rhs = "<CMD>lua require('modules.lsp').toggle()<CR>" },
-    -- switch between splits
-    { desc = "Move to upper split", mode = "n", lhs = "<C-Up>",    rhs = "<C-w>k" },
-    { desc = "Move to lower split", mode = "n", lhs = "<C-Down>",  rhs = "<C-w>j" },
-    { desc = "Move to left split",  mode = "n", lhs = "<C-Left>",  rhs = "<C-w>h" },
-    { desc = "Move to right split", mode = "n", lhs = "<C-Right>", rhs = "<C-w>l" },
-    -- search
-    { desc = "Search file",         mode = "n", lhs = "<C-f>",     rhs = "<CMD>FindText<CR>" },
-    -- flash search
-    { desc = "Flash",              mode = "n", lhs = "s",         rhs = "<CMD>lua require('flash').jump({search={mode='fuzzy'}})<CR>" },
-    { desc = "Flash",              mode = "x", lhs = "s",         rhs = "<CMD>lua require('flash').jump({search={mode='fuzzy'}})<CR>" },
-    { desc = "Flash",              mode = "o", lhs = "s",         rhs = "<CMD>lua require('flash').jump({search={mode='fuzzy'}})<CR>" },
-    { desc = "Remote flash",       mode = "o", lhs = "r",         rhs = "<CMD>lua require('flash').remote()<CR>" },
-    { desc = "Toggle flash",       mode = "c", lhs = "<C-s>",     rhs = "<CMD>lua require('flash').toggle()<CR>" },
-}
-
-M.find_replace = {
-  sub = "<leader>r",
+    { desc = "Search file",        mode = "n", lhs = "<C-f>",     rhs = "<CMD>FindText<CR>" },
+    { desc = "Replace text",       mode = "n", lhs = "<C-h>",     rhs = "<CMD>ReplaceText<CR>" },
+    { desc = "Replace text",       mode = "x", lhs = "<C-h>",     rhs = "<CMD>ReplaceText<CR>" },
+    { desc = "Flash jump",         mode = "n", lhs = "s",         rhs = "<CMD>FlashJump<CR>" },
+    { desc = "Flash jump",         mode = "x", lhs = "s",         rhs = "<CMD>FlashJump<CR>" },
+    { desc = "Flash jump",         mode = "o", lhs = "s",         rhs = "<CMD>FlashJump<CR>" },
+    { desc = "Flash remote",       mode = "o", lhs = "r",         rhs = "<CMD>FlashRemote<CR>" },
+    { desc = "Flash toggle",       mode = "c", lhs = "<C-s>",     rhs = "<CMD>FlashToggle<CR>" },
+    { desc = "Debug",              mode = "n", lhs = "<F5>",      rhs = "<CMD>StartDebug<CR>" },
+    { desc = "Toggle debug ui",    mode = "n", lhs = "<F6>",      rhs = "<CMD>ToggleDebugUi<CR>" },
+    { desc = "Toggle lsp",         mode = "n", lhs = "<F9>",      rhs = "<CMD>ToggleLsp<CR>" },
 }
 
 M.autocomplete = {
@@ -178,13 +174,13 @@ M.textobjects_move_repeat = {
 }
 
 M.lsp = {
-    { desc = "Hover",            mode = "n", lhs = "K",    rhs = "<CMD>lua vim.lsp.buf.hover()<cr>" },
-    { desc = "Show references",  mode = "n", lhs = "gr",   rhs = "<CMD>lua vim.lsp.buf.references()<cr>" },
-    { desc = "Show signature",   mode = "n", lhs = "gs",   rhs = "<CMD>lua vim.lsp.buf.signature_help()<cr>" },
-    { desc = "Goto defn",        mode = "n", lhs = "gd",   rhs = "<CMD>lua vim.lsp.buf.definition()<cr>" },
-    { desc = "Goto decl",        mode = "n", lhs = "gD",   rhs = "<CMD>lua vim.lsp.buf.declaration()<cr>" },
-    { desc = "Goto impl",        mode = "n", lhs = "gi",   rhs = "<CMD>lua vim.lsp.buf.implementation()<cr>" },
-    { desc = "Goto type",        mode = "n", lhs = "gy",   rhs = "<CMD>lua vim.lsp.buf.type_definition()<cr>" },
+    { desc = "Hover",            mode = "n", lhs = "K",    rhs = "<CMD>LspHover<CR>" },
+    { desc = "Show references",  mode = "n", lhs = "gr",   rhs = "<CMD>LspRef<CR>" },
+    { desc = "Show signature",   mode = "n", lhs = "gs",   rhs = "<CMD>LspSig<CR>" },
+    { desc = "Goto defn",        mode = "n", lhs = "gd",   rhs = "<CMD>LspDefn<CR>" },
+    { desc = "Goto decl",        mode = "n", lhs = "gD",   rhs = "<CMD>LspDecl<CR>" },
+    { desc = "Goto impl",        mode = "n", lhs = "gi",   rhs = "<CMD>LspImpl<CR>" },
+    { desc = "Goto type",        mode = "n", lhs = "gy",   rhs = "<CMD>LspTypeDef<CR>" },
 }
 
 return M

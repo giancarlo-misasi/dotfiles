@@ -69,13 +69,6 @@ return {
     "chrisgrieser/nvim-rip-substitute",
     lazy = true,
     opts = {},
-    keys = {
-      {
-        keymaps.find_replace.sub,
-        function() require("rip-substitute").sub() end,
-        mode = { "n", "x" },
-        desc = "rip substitute",
-      },
-    },
+    keys = {}, -- keybinds set in keymaps
   },
 }

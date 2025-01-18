@@ -1,5 +1,4 @@
 local keymaps = require("config.keymaps")
-local max_filesize = 100 * 1024
 local languages = {
   "c",
   "cpp",
@@ -23,6 +22,7 @@ return {
     event = "VeryLazy",
     config = function()
       local configs = require("nvim-treesitter.configs")
+      local max_filesize = 100 * 1024
       configs.setup({
         ensure_installed = languages,
         auto_install = false,
@@ -60,21 +60,6 @@ return {
             goto_previous = {},
           },
         },
-      })
-
-      -- treesitter folding
-      -- only enable for small files otherwise it can significantly slow down neovim
-      vim.api.nvim_create_autocmd("BufReadPre", {
-        pattern = "*",
-        callback = function()
-          local file_size = vim.fn.getfsize(vim.fn.expand("%:p"))
-          if file_size > max_filesize then
-            vim.wo.foldmethod = "indent"
-          else
-            vim.wo.foldmethod = "expr"
-            vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-          end
-        end,
       })
 
       -- enable repeat using treesitter.textobjects.repeatable_move

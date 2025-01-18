@@ -93,4 +93,3 @@ vim.api.nvim_create_autocmd("CmdlineLeave", {
     rm.set_last_move(center(search(opts)), opts)
   end
 })
-

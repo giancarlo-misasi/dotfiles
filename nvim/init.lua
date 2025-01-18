@@ -31,23 +31,13 @@ local function setup_keymaps(opts)
   end
 end
 
-local function setup_lsp_keymaps(opts)
-  vim.api.nvim_create_autocmd('LspAttach', {
-    group = vim.api.nvim_create_augroup('user_lsp_attach', { clear = true }),
-    callback = function(event)
-      for _, k in pairs(opts) do
-        vim.keymap.set(k.mode, k.lhs, k.rhs, { desc = k.desc, buffer = event.buf })
-      end
-    end,
-  })
-end
-
 require("config.options")
-require("config.commands")
+require("config.autocmd")
 require("config.rightclick")
 setup_plugin_manager()
 setup_nops(keymaps.nops)
 setup_keymaps(keymaps.editing)
-setup_lsp_keymaps(keymaps.lsp)
 setup_plugins()
 
+-- register these last to make sure they take precedence
+require("config.commands")
