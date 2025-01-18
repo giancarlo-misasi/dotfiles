@@ -50,12 +50,20 @@ return {
     "folke/flash.nvim",
     event = "VeryLazy",
     opts = {
+      search = {
+        mode = "fuzzy",
+      },
       modes = {
-        search = { enabled = false }, -- keep search unchanged
-        char = { enabled = false }    -- conflicts with repeatable_move
+        search = {
+          enabled = true,
+          highlight = {
+            backdrop = true
+          },
+        },
+        char = { enabled = false } -- conflicts with repeatable_move
       },
     },
-    keys = {},                        -- keybinds set in keymaps
+    keys = {}, -- keybinds set in keymaps
   },
   {
     "chrisgrieser/nvim-rip-substitute",

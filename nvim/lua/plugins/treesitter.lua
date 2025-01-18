@@ -10,6 +10,8 @@ local languages = {
   "java",
   "markdown",
   "html",
+  "regex",
+  "json",
 }
 
 return {

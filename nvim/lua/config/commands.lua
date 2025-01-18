@@ -16,6 +16,7 @@ local commands = {
   "command! TerminalDown split | term",
   "command! GitLeft vsplit | wincmd H | term lazygit",
 
+  "command! FindText lua require('telescope.builtin').current_buffer_fuzzy_find{ default_text = vim.fn.expand('<cword>') }",
   "command! FindFiles lua require('telescope.builtin').find_files{}",
   "command! LiveGrep lua require('telescope.builtin').live_grep{}",
   "command! RecentFiles lua require('telescope.builtin').oldfiles{}",

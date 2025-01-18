@@ -76,6 +76,8 @@ M.editing = {
     { desc = "Move to lower split", mode = "n", lhs = "<C-Down>",  rhs = "<C-w>j" },
     { desc = "Move to left split",  mode = "n", lhs = "<C-Left>",  rhs = "<C-w>h" },
     { desc = "Move to right split", mode = "n", lhs = "<C-Right>", rhs = "<C-w>l" },
+    -- search
+    { desc = "Search file",         mode = "n", lhs = "<C-f>",     rhs = "<CMD>FindText<CR>" },
     -- flash search
     { desc = "Flash",              mode = "n", lhs = "s",         rhs = "<CMD>lua require('flash').jump({search={mode='fuzzy'}})<CR>" },
     { desc = "Flash",              mode = "x", lhs = "s",         rhs = "<CMD>lua require('flash').jump({search={mode='fuzzy'}})<CR>" },

@@ -18,6 +18,7 @@ M.action_items = {
     { "Git",                          "GitLeft" },
 
     { "File tree",                    "FileTree" },
+    { "Find text",                    "FindText" },
     { "Find files",                   "FindFiles" },
     { "Live grep",                    "LiveGrep" },
     { "Recent files",                 "RecentFiles" },
