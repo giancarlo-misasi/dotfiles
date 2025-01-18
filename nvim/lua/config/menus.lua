@@ -11,6 +11,7 @@ M.action_items = {
     { "Load cwd to buffers",          "LoadCwdToBuffers"},
     { "Close tab",                    "CloseTab" },
     { "Close other buffers",          "CloseOtherBuffers"},
+    { "Toggle word wrap",             "ToggleWordWrap"},
 
     { "Terminal right",               "TerminalRight" },
     { "Terminal down",                "TerminalDown" },

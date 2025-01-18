@@ -9,6 +9,7 @@ local commands = {
   "command! LoadCwdToBuffers :args **/*",
   "command! CloseTab tabclose",
   "command! CloseOtherBuffers :w|%bd|e#",
+  "command! ToggleWordWrap :set wrap!",
 
   "command! FileTree Oil",
   "command! TerminalRight vsplit | term",
