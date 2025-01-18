@@ -72,6 +72,7 @@ M.editing = {
   { desc = "Buffers",             mode = "n", lhs = "<leader>b", rhs = "<CMD>Buffers<CR>" },
   { desc = "LiveGrep",            mode = "n", lhs = "<leader>g", rhs = "<CMD>LiveGrep<CR>" },
   { desc = "FindFiles",           mode = "n", lhs = "<leader>f", rhs = "<CMD>FindFiles<CR>" },
+  { desc = "FileTree",            mode = "n", lhs = "<leader>t", rhs = "<CMD>FileTree<CR>" },
   { desc = "CodeActions",         mode = "n", lhs = "<leader>a", rhs = "<CMD>CodeActions<CR>" },
   { desc = "Search file",         mode = "n", lhs = "<C-f>",     rhs = "<CMD>FindText<CR>" },
   { desc = "Replace text",        mode = "n", lhs = "<C-h>",     rhs = "<CMD>ReplaceText<CR>" },

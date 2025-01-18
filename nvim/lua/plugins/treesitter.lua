@@ -11,6 +11,7 @@ local languages = {
   "html",
   "regex",
   "json",
+  "ruby",
 }
 
 return {
