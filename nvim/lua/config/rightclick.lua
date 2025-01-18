@@ -6,3 +6,4 @@ vim.cmd([[
 	  nnoremenu PopUp.New\ Tab          :tabnew<CR>
 	augroup end
 ]])
+

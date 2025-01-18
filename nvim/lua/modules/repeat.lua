@@ -64,7 +64,7 @@ end
 
 local function map_diagnostic(key, severity)
   local desc = string.lower(severity or 'diagnostic')
-  map(nxo, df .. key, center(diagnostic_jump({ forward = true,  severity = severity })), { desc = 'next ' .. desc })
+  map(nxo, df .. key, center(diagnostic_jump({ forward = true, severity = severity })), { desc = 'next ' .. desc })
   map(nxo, db .. key, center(diagnostic_jump({ forward = false, severity = severity })), { desc = 'previous ' .. desc })
 end
 
@@ -93,3 +93,4 @@ vim.api.nvim_create_autocmd("CmdlineLeave", {
     rm.set_last_move(center(search(opts)), opts)
   end
 })
+

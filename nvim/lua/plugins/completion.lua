@@ -30,9 +30,9 @@ return {
       },
       enabled = function()
         return vim.bo.buftype ~= "prompt"
-          and vim.bo.filetype ~= "TelescopePrompt"
-          and vim.bo.filetype ~= "DressingInput"
-          and vim.b.completion ~= false
+            and vim.bo.filetype ~= "TelescopePrompt"
+            and vim.bo.filetype ~= "DressingInput"
+            and vim.b.completion ~= false
       end,
       completion = {
         documentation = {
@@ -43,12 +43,12 @@ return {
           show_in_snippet = false, -- disabled for better tabbing through snippets
         },
         menu = {
-            draw = {
-              columns = {
-                { "kind_icon", "kind", gap = 1 },
-                { "label", "label_description" },
-              },
-            }
+          draw = {
+            columns = {
+              { "kind_icon", "kind",             gap = 1 },
+              { "label",     "label_description" },
+            },
+          }
         },
       },
       sources = {

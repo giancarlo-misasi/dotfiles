@@ -1,16 +1,16 @@
 -- highlight on yank
 vim.api.nvim_create_autocmd('TextYankPost', {
-    callback = function()
-      vim.highlight.on_yank()
-    end
+  callback = function()
+    vim.highlight.on_yank()
+  end
 })
 
 -- close various buffer types with q
 vim.api.nvim_create_autocmd('FileType', {
-    pattern = { 'qf', 'help', 'man', 'netrw', 'lspinfo' },
-    callback = function()
-      vim.api.nvim_buf_set_keymap(0, 'n', 'q', ':close<CR>', { noremap = true, silent = true })
-    end
+  pattern = { 'qf', 'help', 'man', 'netrw', 'lspinfo' },
+  callback = function()
+    vim.api.nvim_buf_set_keymap(0, 'n', 'q', ':close<CR>', { noremap = true, silent = true })
+  end
 })
 
 -- set cwd on launch (so I can use relative paths and telescope isnt broken)
@@ -27,24 +27,24 @@ vim.api.nvim_create_autocmd("VimEnter", {
 
 -- terminal improvements
 vim.api.nvim_create_autocmd("TermOpen", {
-    callback = function(event)
-      local buf_name = vim.api.nvim_buf_get_name(event.buf)
-      if buf_name:match("%[dap%-terminal%]") then
-        return
-      end
-      vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = event.buf, silent = true })
-      vim.bo[event.buf].buflisted = false
-      vim.cmd("setlocal statuscolumn=")
-      vim.cmd("setlocal nonumber")
-      vim.api.nvim_feedkeys('i', 'n', true)
-    end,
+  callback = function(event)
+    local buf_name = vim.api.nvim_buf_get_name(event.buf)
+    if buf_name:match("%[dap%-terminal%]") then
+      return
+    end
+    vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = event.buf, silent = true })
+    vim.bo[event.buf].buflisted = false
+    vim.cmd("setlocal statuscolumn=")
+    vim.cmd("setlocal nonumber")
+    vim.api.nvim_feedkeys('i', 'n', true)
+  end,
 })
 vim.api.nvim_create_autocmd("TermClose", {
-    callback = function(event)
-      vim.defer_fn(function()
-        vim.cmd("quit")
-      end, 10)
-    end,
+  callback = function(event)
+    vim.defer_fn(function()
+      vim.cmd("quit")
+    end, 10)
+  end,
 })
 
 -- enable treesitter folds
@@ -84,3 +84,4 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end
   end,
 })
+

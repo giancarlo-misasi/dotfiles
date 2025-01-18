@@ -20,8 +20,8 @@ M.is_running = function()
 end
 
 M.toggle_ui = function()
-    require("dap")
-    require("dapui").toggle()
+  require("dap")
+  require("dapui").toggle()
 end
 
 M.is_ui_open = function()

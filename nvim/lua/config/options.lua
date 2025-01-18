@@ -1,121 +1,121 @@
 local globals = {
-    mapleader = " ",
-    maplocalleader = " ",
-    loaded_python3_provider = 0,
-    loaded_ruby_provider = 0,
-    loaded_perl_provider = 0,
-    loaded_node_provider = 0,
-    loaded_netrw = 1,
-    loaded_netrwPlugin = 1,
-    loaded_matchit = 1, -- turn off matchit extensions
+  mapleader = " ",
+  maplocalleader = " ",
+  loaded_python3_provider = 0,
+  loaded_ruby_provider = 0,
+  loaded_perl_provider = 0,
+  loaded_node_provider = 0,
+  loaded_netrw = 1,
+  loaded_netrwPlugin = 1,
+  loaded_matchit = 1,   -- turn off matchit extensions
 }
 
 local options = {
-    clipboard = "unnamedplus",
-    writebackup = false,
-    swapfile = false,
-    undofile = true,
-    number = true,
-    relativenumber = false, -- using statuscol to show both
-    wrap = false,
-    cursorline = true,
-    termguicolors = true,
-    signcolumn = "yes",
-    showmode = true,
-    showcmd = true,
-    ignorecase = true,
-    smartcase = true,
-    incsearch = true,
-    hlsearch = true,
-    inccommand = "nosplit",
-    tabstop = 2,
-    softtabstop = -1,
-    shiftwidth = 0,
-    shiftround = true,
-    expandtab = true,
-    autoindent = true,
-    smartindent = true,
-    splitbelow = true,
-    splitright = true,
-    mouse = "a",
-    mousemodel = "popup",
-    keymodel = "startsel",
-    backspace = "indent,eol,start",
-    whichwrap = "b,s,<,>,[,]",
-    completeopt = { "menu", "menuone", "noinsert" }, -- autocomplete always select first item
-    updatetime = 300,                                -- faster completion (4000ms default)
-    pumheight = 6,
-    fillchars = {
-        horiz = "━",
-        horizup = "┻",
-        horizdown = "┳",
-        vert = "┃",
-        vertleft = "┫",
-        vertright = "┣",
-        verthoriz = "╋",
-        foldopen = "",
-        foldsep = "┃",
-        foldclose = "",
-    },
-    foldlevel = 99,
-    foldcolumn = "1",
+  clipboard = "unnamedplus",
+  writebackup = false,
+  swapfile = false,
+  undofile = true,
+  number = true,
+  relativenumber = false,   -- using statuscol to show both
+  wrap = false,
+  cursorline = true,
+  termguicolors = true,
+  signcolumn = "yes",
+  showmode = true,
+  showcmd = true,
+  ignorecase = true,
+  smartcase = true,
+  incsearch = true,
+  hlsearch = true,
+  inccommand = "nosplit",
+  tabstop = 2,
+  softtabstop = -1,
+  shiftwidth = 0,
+  shiftround = true,
+  expandtab = true,
+  autoindent = true,
+  smartindent = true,
+  splitbelow = true,
+  splitright = true,
+  mouse = "a",
+  mousemodel = "popup",
+  keymodel = "startsel",
+  backspace = "indent,eol,start",
+  whichwrap = "b,s,<,>,[,]",
+  completeopt = { "menu", "menuone", "noinsert" },   -- autocomplete always select first item
+  updatetime = 300,                                  -- faster completion (4000ms default)
+  pumheight = 6,
+  fillchars = {
+    horiz = "━",
+    horizup = "┻",
+    horizdown = "┳",
+    vert = "┃",
+    vertleft = "┫",
+    vertright = "┣",
+    verthoriz = "╋",
+    foldopen = "",
+    foldsep = "┃",
+    foldclose = "",
+  },
+  foldlevel = 99,
+  foldcolumn = "1",
 }
 
 local function setup_globals(opts)
-    for k, v in pairs(opts) do
-        local status, exception = pcall(function()
-            vim.g[k] = v
-        end)
-        if not status then
-            print("failed to set global " .. k .. ": " .. exception)
-        end
+  for k, v in pairs(opts) do
+    local status, exception = pcall(function()
+      vim.g[k] = v
+    end)
+    if not status then
+      print("failed to set global " .. k .. ": " .. exception)
     end
+  end
 end
 
 local function setup_options(opts)
-    for k, v in pairs(opts) do
-        local status, exception = pcall(function()
-            vim.opt[k] = v
-        end)
-        if not status then
-            print("failed to set opt " .. k .. ": " .. exception)
-        end
+  for k, v in pairs(opts) do
+    local status, exception = pcall(function()
+      vim.opt[k] = v
+    end)
+    if not status then
+      print("failed to set opt " .. k .. ": " .. exception)
     end
+  end
 end
 
 local function setup_diagnostics()
-    vim.diagnostic.config({
-        signs = {
-            enable = true,
-            text = {
-                ["ERROR"] = " ",
-                ["WARN"]  = " ",
-                ["HINT"]  = " ",
-                ["INFO"]  = " ",
-            },
-            texthl = {
-                ["ERROR"] = "DiagnosticDefault",
-                ["WARN"] = "DiagnosticDefault",
-                ["HINT"] = "DiagnosticDefault",
-                ["INFO"] = "DiagnosticDefault",
-            },
-            numhl = {
-                ["ERROR"] = "DiagnosticDefault",
-                ["WARN"] = "DiagnosticDefault",
-                ["HINT"] = "DiagnosticDefault",
-                ["INFO"] = "DiagnosticDefault",
-            },
-            severity_sort = true,
-        },
-    })
+  vim.diagnostic.config({
+    signs = {
+      enable = true,
+      text = {
+        ["ERROR"] = " ",
+        ["WARN"]  = " ",
+        ["HINT"]  = " ",
+        ["INFO"]  = " ",
+      },
+      texthl = {
+        ["ERROR"] = "DiagnosticDefault",
+        ["WARN"] = "DiagnosticDefault",
+        ["HINT"] = "DiagnosticDefault",
+        ["INFO"] = "DiagnosticDefault",
+      },
+      numhl = {
+        ["ERROR"] = "DiagnosticDefault",
+        ["WARN"] = "DiagnosticDefault",
+        ["HINT"] = "DiagnosticDefault",
+        ["INFO"] = "DiagnosticDefault",
+      },
+      severity_sort = true,
+    },
+  })
 end
 
 local function setup_debug_symbols()
-    vim.fn.sign_define('DapBreakpoint', { text = '' })
-    vim.fn.sign_define('DapBreakpointCondition', { text = '' })
-    vim.fn.sign_define('DapBreakpointRejected', { text = '' })
-    vim.fn.sign_define('DapLogPoint', { text = '' })
-    vim.fn.sign_define('DapStopped', { text = '' })
+  vim.fn.sign_define('DapBreakpoint', { text = '' })
+  vim.fn.sign_define('DapBreakpointCondition', { text = '' })
+  vim.fn.sign_define('DapBreakpointRejected', { text = '' })
+  vim.fn.sign_define('DapLogPoint', { text = '' })
+  vim.fn.sign_define('DapStopped', { text = '' })
 end
 
 setup_globals(globals)

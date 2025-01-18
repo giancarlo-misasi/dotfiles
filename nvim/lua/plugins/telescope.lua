@@ -7,7 +7,7 @@ local external_commands = {
 
 local menu_items = {}
 for _, action in ipairs(actions) do
-    table.insert(menu_items, {action[1], action[3]})
+  table.insert(menu_items, { action[1], action[3] })
 end
 
 return {
@@ -47,3 +47,4 @@ return {
     end,
   },
 }
+
