@@ -24,7 +24,7 @@ end
 
 M.toggle = function()
   if M.is_running() then
-    vim.cmd("LspStop")
+    vim.cmd("LspStop ++force")
   else
     M.start()
   end
