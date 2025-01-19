@@ -39,6 +39,7 @@ M.find_workspace_folders = function(directory, filename)
   local results = {}
   local dir = vim.fs.find({ directory }, { upward = true, type = "directory" })[1]
   if dir then
+    vim.notify("Found workspace root: " .. dir)
     local file = io.open(dir .. "/" .. filename, "r")
     if file then
       for line in file:lines() do
@@ -51,9 +52,12 @@ M.find_workspace_folders = function(directory, filename)
 end
 
 M.add_workspace_folders = function(folders)
+  local folder_names = {}
   for _, f in ipairs(folders) do
+    table.insert(folder_names, f:match("([^/]+)$"))
     vim.lsp.buf.add_workspace_folder(f)
   end
+  vim.notify("Added workspace folders: " .. vim.inspect(folder_names))
 end
 
 return M

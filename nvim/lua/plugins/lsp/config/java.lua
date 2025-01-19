@@ -5,9 +5,10 @@ local server_name = "jdtls"
 local opts = {}
 
 -- add support for multiroot workspaces
-local ok, cfg = pcall(require, "plugins.lsp.java-multiroot")
+local ok, cfg = pcall(require, "plugins.lsp.config.java-multiroot")
 if ok then
-  local folders = lsp_utils.find_workspace_folders(cfg.root_dir, folders_file)
+  vim.notify("Configuring multiroot workspace")
+  local folders = lsp_utils.find_workspace_folders(cfg.root_dir, cfg.folders_file)
   lsp_utils.add_workspace_folders(folders)
   opts.root_markers = cfg.root_markers
 end
