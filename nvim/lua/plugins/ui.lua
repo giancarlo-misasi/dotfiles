@@ -15,8 +15,20 @@ local function has_tabs()
   return #vim.fn.gettabinfo() > 1
 end
 
+local function count_visible_panes()
+  local windows = vim.api.nvim_list_wins()
+  local visible_panes = 0
+  for _, win in ipairs(windows) do
+    local config = vim.api.nvim_win_get_config(win)
+    if config.relative == "" then
+      visible_panes = visible_panes + 1
+    end
+  end
+  return visible_panes
+end
+
 local function has_wins()
-  return #vim.api.nvim_list_wins() > 1
+  return count_visible_panes() > 1
 end
 
 local function has_lsp()
@@ -56,7 +68,13 @@ local colors = {
 local filename = {
   "filename",
   icon = "󰈢",
-  on_click = function() vim.cmd("Buffers") end
+  on_click = function()
+    if vim.bo.filetype == "oil" then
+      vim.cmd("FindFiles")
+    else
+      vim.cmd("FileTree")
+    end
+  end
 }
 
 local filetype = {
@@ -88,6 +106,20 @@ local branch = {
 local diagnostics = {
   "diagnostics",
   on_click = function() vim.cmd("Diagnostics") end,
+}
+
+local split_right = {
+  function() return [[]] end,
+  on_click = function() vim.cmd("vsplit") end,
+  separator = {},
+  -- color = { bg = colors.red1, fg = colors.white1 },
+}
+
+local split_down = {
+  function() return [[]] end,
+  on_click = function() vim.cmd("split") end,
+  separator = {},
+  -- color = { bg = colors.red1, fg = colors.white1 },
 }
 
 local close_window = {
@@ -188,6 +220,7 @@ return {
         },
         winbar = {
           lualine_a = { filename },
+          lualine_y = { split_right, split_down },
           lualine_z = { close_window },
         },
         inactive_winbar = {
@@ -285,7 +318,7 @@ return {
       vim.g.scrollview_diagnostics_errror_symbol = ""
       vim.g.scrollview_trail_symbol = ""
       require("scrollview").setup({
-        signs_on_startup = {'cursor', 'search', 'diagnostics', 'trail'},
+        signs_on_startup = { 'cursor', 'search', 'diagnostics', 'trail' },
         diagnostics_severities = {
           vim.diagnostic.severity.HINT,
           vim.diagnostic.severity.INFO,
