@@ -7,9 +7,9 @@ local opts = {}
 -- add support for multiroot workspaces
 local ok, cfg = pcall(require, "plugins.lsp.java-multiroot")
 if ok then
-  local folders = lsp_utils.find_workspace_folders(cfg.root_dir)
+  local folders = lsp_utils.find_workspace_folders(cfg.root_dir, folders_file)
   lsp_utils.add_workspace_folders(folders)
-  opts.root_markers = cfg.root_markers,
+  opts.root_markers = cfg.root_markers
 end
 
 -- initialize nvim-java
