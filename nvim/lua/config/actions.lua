@@ -11,6 +11,7 @@ return {
   { "Terminal down",                "",              function() vim.cmd("split | term") end },
   { "Git",                          "Git",           function() vim.cmd("term lazygit") end },
   { "Notifications",                "",              function() require("telescope").extensions.notify.notify {} end },
+  { "Start leetcode",               "",              function() vim.cmd("StartLeet") end },
 
   { "Split right",                  "",              function() vim.cmd("vsplit") end },
   { "Split down",                   "",              function() vim.cmd("split") end },
