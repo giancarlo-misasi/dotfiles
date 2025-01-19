@@ -6,10 +6,10 @@ return {
   { "Install treesitter languages", "",              function() vim.cmd("TSUpdate") end },
 
   { "Actions",                      "Actions",       function() require("telescope").extensions.menu.action_menu {} end },
-  { "File tree",                    "FileTree",      function() vim.cmd("Oil") end },
+  { "File tree",                    "FileTree",      function() vim.cmd("Oil .") end },
   { "Terminal right",               "",              function() vim.cmd("vsplit | term") end },
   { "Terminal down",                "",              function() vim.cmd("split | term") end },
-  { "Git",                          "Git",           function() vim.cmd("vsplit | wincmd H | term lazygit") end },
+  { "Git",                          "Git",           function() vim.cmd("term lazygit") end },
   { "Notifications",                "",              function() require("telescope").extensions.notify.notify {} end },
 
   { "Split right",                  "",              function() vim.cmd("vsplit") end },

@@ -68,13 +68,7 @@ local colors = {
 local filename = {
   "filename",
   icon = "󰈢",
-  on_click = function()
-    if vim.bo.filetype == "oil" then
-      vim.cmd("FindFiles")
-    else
-      vim.cmd("FileTree")
-    end
-  end
+  on_click = function() vim.cmd("FileTree") end
 }
 
 local filetype = {
@@ -112,14 +106,12 @@ local split_right = {
   function() return [[]] end,
   on_click = function() vim.cmd("vsplit") end,
   separator = {},
-  -- color = { bg = colors.red1, fg = colors.white1 },
 }
 
 local split_down = {
   function() return [[]] end,
   on_click = function() vim.cmd("split") end,
   separator = {},
-  -- color = { bg = colors.red1, fg = colors.white1 },
 }
 
 local close_window = {

@@ -7,9 +7,9 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 -- close various buffer types with q
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'qf', 'help', 'man', 'netrw', 'lspinfo' },
+  pattern = { "qf", "help", "man", "netrw", "lspinfo", "oil" },
   callback = function()
-    vim.api.nvim_buf_set_keymap(0, 'n', 'q', ':close<CR>', { noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(0, "n", "q", ":close<CR>", { noremap = true, silent = true })
   end
 })
 
