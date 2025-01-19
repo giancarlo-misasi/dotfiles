@@ -35,4 +35,25 @@ M.toggle = function()
   end
 end
 
+M.find_workspace_folders = function(directory, filename)
+  local results = {}
+  local dir = vim.fs.find({ directory }, { upward = true, type = "directory" })[1]
+  if dir then
+    local file = io.open(dir .. "/" .. filename, "r")
+    if file then
+      for line in file:lines() do
+        table.insert(results, line)
+      end
+      file:close()
+    end
+  end
+  return results
+end
+
+M.add_workspace_folders = function(folders)
+  for _, f in ipairs(folders) do
+    vim.lsp.buf.add_workspace_folder(f)
+  end
+end
+
 return M
