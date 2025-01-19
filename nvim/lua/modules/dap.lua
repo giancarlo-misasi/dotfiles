@@ -5,7 +5,12 @@ M.start = function()
   require("dap")
 
   -- load the language specific configuration and start
-  require("plugins.dap.config." .. vim.bo.filetype).start()
+  local ok, dap = pcall(require, "plugins.dap.config." .. vim.bo.filetype)
+  if not ok then
+    vim.notify("LSP server not configured for " .. vim.bo.filetype)
+  else
+    dap.start()
+  end
 end
 
 M.is_running = function()

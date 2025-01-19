@@ -26,7 +26,7 @@ return {
   { "Recent files",                 "",              function() require("telescope.builtin").oldfiles {} end },
   { "Buffers",                      "Buffers",       function() require("telescope.builtin").buffers {} end },
   { "Commands",                     "",              function() require("telescope.builtin").commands {} end },
-  { "Diagnostics",                  "",              function() require("telescope.builtin").diagnostics {} end },
+  { "Diagnostics",                  "Diagnostics",   function() require("telescope.builtin").diagnostics {} end },
   { "Flash jump",                   "FlashJump",     function() require("flash").jump({ search = { mode = "fuzzy" } }) end },
   { "Flash remote",                 "FlashRemote",   function() require("flash").remote() end },
   { "Flash toggle",                 "FlashToggle",   function() require("flash").toggle() end },

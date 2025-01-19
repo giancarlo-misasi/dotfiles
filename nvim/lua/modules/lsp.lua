@@ -15,7 +15,12 @@ M.default_start = function(server_name)
 end
 
 M.start = function()
-  require("plugins.lsp.config." .. vim.bo.filetype).start()
+  local ok, lsp = pcall(require, "plugins.lsp.config." .. vim.bo.filetype)
+  if not ok then
+    vim.notify("LSP server not configured for " .. vim.bo.filetype)
+  else
+    lsp.start()
+  end
 end
 
 M.is_running = function()

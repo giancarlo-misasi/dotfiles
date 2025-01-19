@@ -147,7 +147,7 @@ local lsp_toggle = {
 }
 
 local lsp_status = {
-  function() return require("lsp-progress").progress() end,
+  function() return package.loaded["lspconfig"] and require("lsp-progress").progress() or [[]] end,
   on_click = function() vim.cmd("LspInfo") end
 }
 
@@ -168,7 +168,6 @@ return {
     priority = 999,
     dependencies = {
       "nvim-tree/nvim-web-devicons",
-      "linrongbin16/lsp-progress.nvim",
     },
     init = function()
       local lualine = require("lualine")
@@ -204,26 +203,13 @@ return {
           lualine_z = { "location" },
         },
       })
-
-      local lsp_progress = require("lsp-progress")
-      lsp_progress.setup({
-        format = function(client_messages)
-          local sign = " 󱐋"
-          if #client_messages > 0 then
-            return " " .. table.concat(client_messages, " ")
-          end
-          if has_lsp() then
-            return sign
-          end
-          return ""
-        end,
-      })
     end
   },
   {
     "luukvbaal/statuscol.nvim",
     cond = enable_ux_plugins,
     lazy = false,
+    priority = 998,
     config = function()
       local statuscol = require("statuscol")
       local builtin = require("statuscol.builtin")
@@ -253,8 +239,37 @@ return {
     cond = enable_ux_plugins,
     dependencies = { "nvim-tree/nvim-web-devicons" },
     lazy = false,
+    priority = 997,
     config = function()
       require("oil").setup()
+    end
+  },
+  {
+    "rcarriga/nvim-notify",
+    cond = enable_ux_plugins,
+    lazy = false,
+    config = function()
+      vim.notify = require("notify")
+    end
+  },
+  {
+    "linrongbin16/lsp-progress.nvim",
+    cond = enable_ux_plugins,
+    lazy = true,
+    config = function()
+      local lsp_progress = require("lsp-progress")
+      lsp_progress.setup({
+        format = function(client_messages)
+          local sign = " 󱐋"
+          if #client_messages > 0 then
+            return " " .. table.concat(client_messages, " ")
+          end
+          if has_lsp() then
+            return sign
+          end
+          return ""
+        end,
+      })
     end
   },
   {
@@ -262,9 +277,18 @@ return {
     cond = enable_ux_plugins,
     event = "VeryLazy",
     config = function()
+      vim.g.scrollview_signs_max_per_row = 1
+      vim.g.scrollview_cursor_symbol = ""
+      vim.g.scrollview_diagnostics_hint_symbol = ""
+      vim.g.scrollview_diagnostics_info_symbol = ""
+      vim.g.scrollview_diagnostics_warn_symbol = ""
+      vim.g.scrollview_diagnostics_errror_symbol = ""
+      vim.g.scrollview_trail_symbol = ""
       require("scrollview").setup({
-        signs_on_startup = {'all'},
+        signs_on_startup = {'cursor', 'search', 'diagnostics', 'trail'},
         diagnostics_severities = {
+          vim.diagnostic.severity.HINT,
+          vim.diagnostic.severity.INFO,
           vim.diagnostic.severity.WARN,
           vim.diagnostic.severity.ERROR,
         },
@@ -283,13 +307,5 @@ return {
     "stevearc/dressing.nvim",
     cond = enable_ux_plugins,
     event = "VeryLazy",
-  },
-  {
-    "rcarriga/nvim-notify",
-    cond = enable_ux_plugins,
-    lazy = false,
-    config = function()
-      vim.notify = require("notify")
-    end
   },
 }
