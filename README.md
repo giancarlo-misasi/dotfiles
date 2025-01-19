@@ -31,3 +31,12 @@ lemonade server -allow 127.0.0.1 &
 
 # done - neovim will auto-detect lemonade as a provider on ssh
 ```
+Alternatively, create a .zshrc.d/clipboard.lua file
+```
+cmd="/home/$USER/.local/share/mise/installs/go/1.23.3/bin/lemonade"
+if command -v "$cmd" >/dev/null 2>&1; then
+  if ! pgrep -x "lemonade" >/dev/null 2>&1; then
+    nohup $cmd server -allow 127.0.0.1 &
+  fi
+fi
+```
