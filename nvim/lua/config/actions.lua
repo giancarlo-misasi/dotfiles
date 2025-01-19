@@ -9,7 +9,7 @@ return {
   { "File tree",                    "FileTree",      function() vim.cmd("Oil") end },
   { "Terminal right",               "",              function() vim.cmd("vsplit | term") end },
   { "Terminal down",                "",              function() vim.cmd("split | term") end },
-  { "Git",                          "",              function() vim.cmd("vsplit | wincmd H | term lazygit") end },
+  { "Git",                          "Git",           function() vim.cmd("vsplit | wincmd H | term lazygit") end },
   { "Notifications",                "",              function() require("telescope").extensions.notify.notify {} end },
 
   { "Split right",                  "",              function() vim.cmd("vsplit") end },

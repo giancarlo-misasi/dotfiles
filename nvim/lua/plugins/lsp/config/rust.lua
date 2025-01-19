@@ -8,6 +8,7 @@ vim.g.rustaceanvim = {
 }
 
 -- load lazy plugins
+require("lspconfig")
 require("rustaceanvim")
 
 -- activate rustaceanvim
