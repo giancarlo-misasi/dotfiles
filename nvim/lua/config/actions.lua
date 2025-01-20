@@ -10,7 +10,7 @@ return {
   { "Terminal right",               "",              function() vim.cmd("vsplit | term") end },
   { "Terminal down",                "",              function() vim.cmd("split | term") end },
   { "Git",                          "Git",           function() vim.cmd("term lazygit") end },
-  { "Notifications",                "",              function() require("telescope").extensions.notify.notify {} end },
+  { "Notifications",                "",              function() vim.cmd("Noice all") end },
   { "Start leetcode",               "",              function() vim.cmd("StartLeet") end },
 
   { "Split right",                  "",              function() vim.cmd("vsplit") end },

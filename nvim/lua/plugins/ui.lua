@@ -171,7 +171,7 @@ local lsp_toggle = {
 }
 
 local lsp_status = {
-  function() return package.loaded["lspconfig"] and require("lsp-progress").progress() or [[]] end,
+  function() return package.loaded["lspconfig"] and [[  󱐋 ]] or [[]] end,
   on_click = function() vim.cmd("LspInfo") end
 }
 
@@ -270,32 +270,18 @@ return {
     end
   },
   {
-    "rcarriga/nvim-notify",
+    "folke/noice.nvim",
     cond = enable_ux_plugins,
     lazy = false,
-    config = function()
-      vim.notify = require("notify")
-    end
-  },
-  {
-    "linrongbin16/lsp-progress.nvim",
-    cond = enable_ux_plugins,
-    lazy = true,
-    config = function()
-      local lsp_progress = require("lsp-progress")
-      lsp_progress.setup({
-        format = function(client_messages)
-          local sign = " 󱐋"
-          if #client_messages > 0 then
-            return " " .. table.concat(client_messages, " ")
-          end
-          if has_lsp() then
-            return sign
-          end
-          return ""
-        end,
-      })
-    end
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify",
+    },
+    opts = {
+      cmdline = {
+        view = "cmdline",
+      },
+    },
   },
   {
     "dstein64/nvim-scrollview",

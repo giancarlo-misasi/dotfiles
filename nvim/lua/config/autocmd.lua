@@ -63,17 +63,6 @@ vim.api.nvim_create_autocmd("BufReadPre", {
   end,
 })
 
--- refresh lualine on lsp updates
-vim.api.nvim_create_autocmd("User", {
-  group = vim.api.nvim_create_augroup("lualine_augroup", { clear = true }),
-  pattern = "LspProgressStatusUpdated",
-  callback = function()
-    if package.loaded["lualine"] then
-      require("lualine").refresh()
-    end
-  end,
-})
-
 -- enable lsp keymaps
 local keymaps = require("config.keymaps")
 vim.api.nvim_create_autocmd('LspAttach', {
