@@ -95,6 +95,10 @@
             "keys": "ctrl+shift+f"
         },
         {
+            "id": "Terminal.PasteFromClipboard",
+            "keys": "ctrl+v"
+        },
+        {
             "id": null,
             "keys": "ctrl+alt+down"
         },
@@ -243,6 +247,10 @@
             "keys": "ctrl+alt+5"
         },
         {
+            "id": "Terminal.CopyToClipboard",
+            "keys": "ctrl+shift+c"
+        },
+        {
             "id": null,
             "keys": "alt+shift+right"
         },
@@ -369,6 +377,10 @@
         {
             "id": "User.toggleFullscreen",
             "keys": "f12"
+        },
+        {
+            "id": null,
+            "keys": "ctrl+shift+v"
         }
     ],
     "launchMode": "maximized",
