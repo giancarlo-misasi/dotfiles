@@ -38,8 +38,6 @@ M.editing = {
   -- copy / paste
   { desc = "Copy",                mode = "x", lhs = "<C-c>",     rhs = '"+y' },
   { desc = "Cut",                 mode = "x", lhs = "<C-x>",     rhs = '"+x' },
-  { desc = "Paste",               mode = "i", lhs = "<C-v>",     rhs = '"+gP' },
-  { desc = "Paste",               mode = "c", lhs = "<C-v>",     rhs = "<C-r><C-r>+" },
   -- undo / redo
   { desc = "Undo",                mode = "n", lhs = "<C-z>",     rhs = "u" },
   { desc = "Undo",                mode = "i", lhs = "<C-z>",     rhs = "<C-o>u" },
