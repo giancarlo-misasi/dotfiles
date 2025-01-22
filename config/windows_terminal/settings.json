@@ -4,12 +4,12 @@
     "actions": 
     [
         {
-            "command": "toggleFullscreen",
-            "id": "User.toggleFullscreen"
-        },
-        {
             "command": "find",
             "id": "User.find"
+        },
+        {
+            "command": "toggleFullscreen",
+            "id": "User.toggleFullscreen"
         },
         {
             "command": 
@@ -21,15 +21,15 @@
             "id": "User.splitPane.A6751878"
         },
         {
+            "command": "paste",
+            "id": "User.paste"
+        },
+        {
             "command": 
             {
                 "action": "newTab"
             },
             "id": "User.newTab.5DEADB41"
-        },
-        {
-            "command": "paste",
-            "id": "User.paste"
         },
         {
             "command": 
@@ -41,18 +41,18 @@
         {
             "command": 
             {
-                "action": "copy",
-                "singleLine": false
-            },
-            "id": "User.copy.644BA8F2"
-        },
-        {
-            "command": 
-            {
                 "action": "splitPane",
                 "split": "down"
             },
             "id": "User.splitPane.D5151347"
+        },
+        {
+            "command": 
+            {
+                "action": "copy",
+                "singleLine": false
+            },
+            "id": "User.copy.644BA8F2"
         },
         {
             "command": 
@@ -87,20 +87,12 @@
             "keys": "ctrl+shift+w"
         },
         {
-            "id": "User.find",
-            "keys": "ctrl+shift+f"
-        },
-        {
             "id": null,
             "keys": "ctrl+comma"
         },
         {
-            "id": "User.paste",
-            "keys": "ctrl+v"
-        },
-        {
-            "id": null,
-            "keys": "win+sc(41)"
+            "id": "User.find",
+            "keys": "ctrl+shift+f"
         },
         {
             "id": null,
@@ -108,7 +100,7 @@
         },
         {
             "id": null,
-            "keys": "ctrl+insert"
+            "keys": "win+sc(41)"
         },
         {
             "id": null,
@@ -116,7 +108,7 @@
         },
         {
             "id": null,
-            "keys": "alt+shift+d"
+            "keys": "ctrl+insert"
         },
         {
             "id": null,
@@ -124,7 +116,23 @@
         },
         {
             "id": null,
+            "keys": "alt+shift+d"
+        },
+        {
+            "id": null,
+            "keys": "ctrl+minus"
+        },
+        {
+            "id": null,
+            "keys": "ctrl+plus"
+        },
+        {
+            "id": null,
             "keys": "ctrl+shift+1"
+        },
+        {
+            "id": null,
+            "keys": "ctrl+shift+tab"
         },
         {
             "id": null,
@@ -132,11 +140,7 @@
         },
         {
             "id": null,
-            "keys": "ctrl+shift+tab"
-        },
-        {
-            "id": "User.copy.644BA8F2",
-            "keys": "ctrl+c"
+            "keys": "ctrl+w"
         },
         {
             "id": null,
@@ -144,11 +148,11 @@
         },
         {
             "id": null,
-            "keys": "ctrl+w"
+            "keys": "ctrl+shift+comma"
         },
         {
             "id": null,
-            "keys": "ctrl+shift+2"
+            "keys": "ctrl+0"
         },
         {
             "id": null,
@@ -156,7 +160,11 @@
         },
         {
             "id": null,
-            "keys": "ctrl+shift+comma"
+            "keys": "ctrl+shift+2"
+        },
+        {
+            "id": null,
+            "keys": "ctrl+shift+t"
         },
         {
             "id": null,
@@ -168,15 +176,11 @@
         },
         {
             "id": null,
-            "keys": "ctrl+shift+t"
+            "keys": "ctrl+shift+home"
         },
         {
             "id": null,
             "keys": "ctrl+shift+7"
-        },
-        {
-            "id": null,
-            "keys": "ctrl+shift+home"
         },
         {
             "id": null,
@@ -188,7 +192,7 @@
         },
         {
             "id": null,
-            "keys": "ctrl+shift+n"
+            "keys": "ctrl+alt+7"
         },
         {
             "id": null,
@@ -196,7 +200,7 @@
         },
         {
             "id": null,
-            "keys": "ctrl+alt+7"
+            "keys": "ctrl+shift+n"
         },
         {
             "id": null,
@@ -208,11 +212,11 @@
         },
         {
             "id": null,
-            "keys": "alt+space"
+            "keys": "alt+shift+plus"
         },
         {
             "id": null,
-            "keys": "alt+shift+plus"
+            "keys": "alt+space"
         },
         {
             "id": null,
@@ -220,15 +224,11 @@
         },
         {
             "id": null,
-            "keys": "alt+shift+down"
-        },
-        {
-            "id": null,
             "keys": "ctrl+tab"
         },
         {
             "id": null,
-            "keys": "alt+shift+left"
+            "keys": "alt+shift+down"
         },
         {
             "id": null,
@@ -236,7 +236,7 @@
         },
         {
             "id": null,
-            "keys": "alt+shift+right"
+            "keys": "alt+shift+left"
         },
         {
             "id": null,
@@ -244,11 +244,11 @@
         },
         {
             "id": null,
-            "keys": "alt+shift+up"
+            "keys": "alt+shift+right"
         },
         {
             "id": null,
-            "keys": "ctrl+shift+down"
+            "keys": "alt+shift+up"
         },
         {
             "id": null,
@@ -256,11 +256,11 @@
         },
         {
             "id": null,
-            "keys": "ctrl+shift+pgdn"
+            "keys": "ctrl+shift+down"
         },
         {
             "id": null,
-            "keys": "ctrl+shift+pgup"
+            "keys": "ctrl+numpad0"
         },
         {
             "id": null,
@@ -268,15 +268,27 @@
         },
         {
             "id": null,
+            "keys": "ctrl+shift+period"
+        },
+        {
+            "id": null,
+            "keys": "ctrl+shift+pgup"
+        },
+        {
+            "id": null,
+            "keys": "ctrl+shift+pgdn"
+        },
+        {
+            "id": null,
             "keys": "ctrl+shift+up"
         },
         {
             "id": null,
-            "keys": "ctrl+alt+2"
+            "keys": "ctrl+alt+9"
         },
         {
             "id": null,
-            "keys": "ctrl+alt+9"
+            "keys": "ctrl+alt+2"
         },
         {
             "id": null,
@@ -337,10 +349,30 @@
         {
             "id": "User.globalSummon.51A3D78C",
             "keys": "alt+`"
+        },
+        {
+            "id": null,
+            "keys": "enter"
+        },
+        {
+            "id": null,
+            "keys": "ctrl+numpad_minus"
+        },
+        {
+            "id": null,
+            "keys": "ctrl+numpad_plus"
+        },
+        {
+            "id": null,
+            "keys": "ctrl+shift+a"
+        },
+        {
+            "id": "User.toggleFullscreen",
+            "keys": "f12"
         }
     ],
-    "launchMode": "default",
-    "minimizeToNotificationArea": false,
+    "launchMode": "maximized",
+    "minimizeToNotificationArea": true,
     "newTabMenu": 
     [
         {
@@ -364,29 +396,18 @@
                 "elevate": false,
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
                 "hidden": false,
-                "name": "Windows PowerShell"
+                "name": "PowerShell"
             },
             {
                 "guid": "{51855cb2-8cce-5362-8f54-464b92b32386}",
                 "hidden": false,
                 "name": "Ubuntu",
                 "source": "CanonicalGroupLimited.Ubuntu_79rhkp1fndgsc"
-            },
-            {
-                "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
-                "hidden": false,
-                "name": "Command Prompt"
-            },
-            {
-                "guid": "{2c4de342-38b7-51cf-b940-2309a097f518}",
-                "hidden": true,
-                "name": "Ubuntu",
-                "source": "Windows.Terminal.Wsl"
             }
         ]
     },
     "schemes": [],
-    "startOnUserLogin": false,
+    "startOnUserLogin": true,
     "theme": "system",
     "themes": [],
     "useAcrylicInTabRow": false,

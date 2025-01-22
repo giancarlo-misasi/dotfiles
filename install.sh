@@ -85,13 +85,14 @@ link_dotfiles() {
     ln -sf "$DOTFILES/config/tmux/tmux.conf" "$HOME/.tmux.conf"
     ln -sf "$DOTFILES/config/tmux" "$HOME/.tmux"
     ln -sf "$DOTFILES/nvim" "$HOME/.config/nvim"
+}
 
-    # output instructions for windows terminal settings link
+copy_windows_terminal_settings() {
+    # mklink doesnt work well with windows terminal, so just copy settings over
     dst=$(powershell.exe -Command "[System.Environment]::GetFolderPath('UserProfile')" | tr -d '\r')
     dst="$dst\AppData\Local\Packages\Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe\LocalState\settings.json"
     src="$(wslpath -w $DOTFILES/config/windows_terminal/settings.json)"
-    cmd="del $dst && mklink \"$dst\" \"$src\""
-    echo "run the following command from cmd.exe to link windows terminal settings"
+    cmd="copy \"$src\" \"$dst\""
     echo $cmd
 }
 
@@ -103,6 +104,7 @@ print_help() {
     echo "  install_mise"
     echo "  install_tools_and_languages"
     echo "  link_dotfiles"
+    echo "  copy_windows_terminal_settings"
     echo "If no function is specified, all steps will run."
 }
 
@@ -113,6 +115,7 @@ if [ $# -eq 0 ]; then
     install_mise
     install_tools_and_languages
     link_dotfiles
+    copy_windows_terminal_settings
 elif [ "$1" = "help" ] || [ "$1" = "--help" ]; then
     print_help
 elif declare -f "$1" > /dev/null; then
