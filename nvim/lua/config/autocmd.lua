@@ -74,3 +74,14 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
+-- hide and restore tmux
+vim.api.nvim_create_autocmd({"VimEnter","FocusGained"}, {
+  callback = function()
+    require("modules.tmux").hide_statusline()
+  end,
+})
+vim.api.nvim_create_autocmd({"VimLeave", "FocusLost"}, {
+  callback = function()
+     require("modules.tmux").show_statusline()
+  end,
+})

@@ -1,5 +1,6 @@
 local enable_ux_plugins = not vim.g.vscode
 local dap = require("modules.dap")
+local tmux = require("modules.tmux")
 
 local function get_relative_line_number()
   local current_line = vim.fn.line(".")
@@ -48,7 +49,8 @@ local function is_debug_ui_open()
 end
 
 local function show_tabline()
-  return has_tabs() or show_debug_icons()
+  -- return has_tabs() or show_debug_icons()
+  return show_debug_icons()
 end
 
 local show_tabline_fix = {
@@ -62,7 +64,8 @@ local colors = {
   green1 = "#243224",
   blue1 = "#242448",
   red1 = "#322424",
-  red2 = "#482424"
+  red2 = "#482424",
+  yellow1 = "#323224",
 }
 
 local filename = {
@@ -87,13 +90,24 @@ local encoding = {
   separator = { left = '', right = '' },
 }
 
+local tabs_icon = {
+  function() return [[  ]] end,
+  cond = has_tabs,
+}
+
 local tabs = {
   "tabs",
+  tabs_color = {
+    active = { bg = '#242424', fg = '#DEEEED' },
+    inactive = { bg = '#242424', fg = '#888888' },
+  },
   cond = has_tabs,
 }
 
 local branch = {
   "branch",
+  color = { bg = colors.yellow1, fg = colors.white1 },
+  separator = { right = '' },
   on_click = function() vim.cmd("Git") end,
 }
 
@@ -118,12 +132,6 @@ local close_window = {
   function() return has_wins() and [[]] or [[]] end,
   on_click = function() vim.cmd("close") end,
   color = { bg = colors.red1, fg = colors.white1 },
-}
-
-local close_tab = {
-  function() return has_tabs() and [[]] or [[]] end,
-  on_click = function() vim.cmd("tabclose") end,
-  color = { bg = colors.red2, fg = colors.white1 },
 }
 
 local debug_start = {
@@ -172,7 +180,7 @@ local lsp_toggle = {
 
 local lsp_status = {
   function() return package.loaded["lspconfig"] and [[  󱐋 ]] or [[]] end,
-  on_click = function() vim.cmd("LspInfo") end
+  on_click = function() vim.cmd("LspInfo") end,
 }
 
 return {
@@ -199,7 +207,7 @@ return {
         options = {
           theme = "lackluster",
           globalstatus = true,
-          component_separators = { left = '', right = '' },
+          component_separators = { left = '', right = '' }, -- { left = '', right = '' },
           section_separators = { left = '', right = '' },
         },
         tabline = {
@@ -207,8 +215,8 @@ return {
           lualine_x = {
             debug_start, debug_resume, debug_step_into, debug_step_out, debug_step_over, debug_stop,
           },
-          lualine_y = { tabs },
-          lualine_z = { close_tab },
+          lualine_y = {},
+          lualine_z = {},
         },
         winbar = {
           lualine_a = { filename },
@@ -217,12 +225,12 @@ return {
         },
         inactive_winbar = {
           lualine_a = { filename },
-          lualine_z = { close_window },
+          lualine_z = {},
         },
         sections = {
           lualine_a = { "mode" },
-          lualine_b = { branch, diagnostics },
-          lualine_c = { lsp_status },
+          lualine_b = { branch, diagnostics, lsp_status },
+          lualine_c = { tmux.icon, tmux.tabs, tabs_icon, tabs, },
           lualine_x = { debug_ui_toggle, filetype, lsp_toggle, encoding, fileformat },
           lualine_y = {},
           lualine_z = { "location" },
@@ -318,5 +326,11 @@ return {
     "stevearc/dressing.nvim",
     cond = enable_ux_plugins,
     event = "VeryLazy",
+  },
+  {
+    "NStefan002/screenkey.nvim",
+    cond = enable_ux_plugins,
+    lazy = false,
+    version = "*",
   },
 }

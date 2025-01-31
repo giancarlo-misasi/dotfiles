@@ -10,6 +10,8 @@ return {
   { "Terminal right",               "",              function() vim.cmd("vsplit | term") end },
   { "Terminal down",                "",              function() vim.cmd("split | term") end },
   { "Git",                          "Git",           function() vim.cmd("term lazygit") end },
+  { "Tmux",                         "",              function() require("modules.tmux").prompt_commands() end },
+  { "Toggle show keys",             "",              function() vim.cmd("Screenkey") end },
   { "Notifications",                "",              function() vim.cmd("Noice all") end },
   { "Start leetcode",               "",              function() vim.cmd("StartLeet") end },
 

@@ -46,8 +46,14 @@ actions=(
     "tmux detach-client"
 )
 
-# prompt with fzf and then execute the selected command
-selected_command=$(printf "%s\n" "${commands[@]}" | fzf --tmux --prompt="Pick an action: ")
+# prompt (or take the passed command)
+if [ "$#" -eq 1 ]; then
+    selected_command="$1"
+else
+    selected_command=$(printf "%s\n" "${commands[@]}" | fzf --tmux --prompt="Pick an action: ")
+fi
+
+# execute the selected command
 if [ -n "$selected_command" ]; then
     for i in "${!commands[@]}"; do
         if [ "${commands[$i]}" == "$selected_command" ]; then
