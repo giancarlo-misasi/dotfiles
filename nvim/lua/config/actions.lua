@@ -23,7 +23,7 @@ return {
 
   { "Find text",                    "FindText",      function() require("telescope.builtin").current_buffer_fuzzy_find { default_text = vim.fn.expand("<cword>") } end },
   { "Find files",                   "FindFiles",     function() require("telescope.builtin").find_files {} end },
-  { "Live grep",                    "LiveGrep",      function() require("telescope.builtin").live_grep {} end },
+  { "Live grep",                    "LiveGrep",      function() require("telescope").extensions.live_grep_args.live_grep_args {} end }, -- require("telescope.builtin").live_grep {}
   { "Recent files",                 "",              function() require("telescope.builtin").oldfiles {} end },
   { "Buffers",                      "Buffers",       function() require("telescope.builtin").buffers {} end },
   { "Commands",                     "",              function() require("telescope.builtin").commands {} end },

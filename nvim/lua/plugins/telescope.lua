@@ -26,6 +26,7 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope-fzf-native.nvim",
       "octarect/telescope-menu.nvim",
+      "nvim-telescope/telescope-live-grep-args.nvim",
     },
     config = function()
       local telescope = require("telescope")
@@ -42,8 +43,9 @@ return {
           },
         },
       })
-      telescope.load_extension('fzf')
+      telescope.load_extension("fzf")
       telescope.load_extension("menu")
+      telescope.load_extension("live_grep_args")
     end,
   },
 }
