@@ -64,19 +64,15 @@ end
 
 local function map_diagnostic(key, severity)
   local desc = string.lower(severity or 'diagnostic')
-  map(nxo, df .. key, center(diagnostic_jump({ forward = true, severity = severity })), { desc = 'next ' .. desc })
-  map(nxo, db .. key, center(diagnostic_jump({ forward = false, severity = severity })), { desc = 'previous ' .. desc })
+  map(nxo, df .. key, diagnostic_jump({ forward = true, severity = severity }), { desc = 'next ' .. desc })
+  map(nxo, db .. key, diagnostic_jump({ forward = false, severity = severity }), { desc = 'previous ' .. desc })
 end
 
--- set repeat keys
-map(nxo, ";", center(rm.repeat_last_move_next), { desc = "repeat forward" })
-map(nxo, ",", center(rm.repeat_last_move_previous), { desc = "repeat back" })
-
 -- make f, F, t, T repeatable
-map(nxo, "f", center(rm.builtin_f))
-map(nxo, "F", center(rm.builtin_F))
-map(nxo, "t", center(rm.builtin_t))
-map(nxo, "T", center(rm.builtin_T))
+map(nxo, "f", rm.builtin_f)
+map(nxo, "F", rm.builtin_F)
+map(nxo, "t", rm.builtin_t)
+map(nxo, "T", rm.builtin_T)
 
 -- make diagnostics repeatable
 map_diagnostic(keys.diagnostic, nil)
@@ -94,3 +90,6 @@ vim.api.nvim_create_autocmd("CmdlineLeave", {
   end
 })
 
+-- set repeat keys
+map(nxo, ";", center(rm.repeat_last_move_next), { desc = "repeat forward" })
+map(nxo, ",", center(rm.repeat_last_move_previous), { desc = "repeat back" })

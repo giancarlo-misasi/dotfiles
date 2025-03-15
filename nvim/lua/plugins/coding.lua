@@ -53,6 +53,10 @@ return {
       search = {
         mode = "fuzzy",
       },
+      label = {
+        after = false,
+        before = true,
+      },
       modes = {
         search = {
           enabled = true,

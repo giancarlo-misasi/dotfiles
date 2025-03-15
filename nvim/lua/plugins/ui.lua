@@ -278,6 +278,14 @@ return {
     end
   },
   {
+    "rcarriga/nvim-notify",
+    cond = enable_ux_plugins,
+    lazy = false,
+    opts = {
+      timeout = 100
+    }
+  },
+  {
     "folke/noice.nvim",
     cond = enable_ux_plugins,
     lazy = false,
