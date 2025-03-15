@@ -59,7 +59,7 @@ local options = {
   },
   foldlevel = 99,
   foldcolumn = "1",
-  timeoutlen = 350, -- don't wait as long for key combos (cs vs c then s)
+  timeoutlen = 1000, --350, -- don't wait as long for key combos (cs vs c then s)
 }
 
 local function setup_globals(opts)
