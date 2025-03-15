@@ -191,6 +191,7 @@ return {
     priority = 1000,
     init = function()
       vim.cmd.colorscheme("lackluster-mint")
+      vim.api.nvim_set_hl(0, 'FlashLabel', { fg = '#FF69B4', bg = 'none' })
     end
   },
   {

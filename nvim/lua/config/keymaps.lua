@@ -7,16 +7,12 @@ local M = {}
 --   command_mode = c
 
 M.nops = {
-  { lhs = "q",     rhs = "<Nop>" },
-  { lhs = "s",     rhs = "<Nop>" },
-  { lhs = "S",     rhs = "<Nop>" },
-  { lhs = "r",     rhs = "<Nop>" },
-  { lhs = "R",     rhs = "<Nop>" },
-  { lhs = "J",     rhs = "<Nop>" },
-  { lhs = "H",     rhs = "<Nop>" },
-  { lhs = "L",     rhs = "<Nop>" },
-  { lhs = "M",     rhs = "<Nop>" },
-  { lhs = "<C-b>", rhs = "<Nop>" },
+  { lhs = "q",     rhs = "<Nop>" }, -- I often hit q by accident and dont use macros
+  { lhs = "s",     rhs = "<Nop>" }, -- Remapped to be c + paste
+  { lhs = "S",     rhs = "<Nop>" }, -- Remapped to be C + paste
+  { lhs = "r",     rhs = "<Nop>" }, -- Remapped to be redo
+  { lhs = "R",     rhs = "<Nop>" }, -- I don't like replace mode
+  { lhs = "<C-b>", rhs = "<Nop>" }, -- I use C-f for find, so disable this pair
   { lhs = "<C-f>", rhs = "<Nop>" },
 }
 
@@ -26,6 +22,10 @@ M.editing = {
   { desc = "Escape terminal",     mode = "t", lhs = "<ESC>",     rhs = "<C-\\><C-n>" },
   -- clear highlighting on escape
   { desc = "Clear highlighting",  mode = "n", lhs = "<ESC>",     rhs = "<CMD>noh<CR><ESC>" },
+  -- remap s to c + paste
+  { desc = "Substitute",          mode = "n", lhs = "s",         rhs = "<CMD>lua require('substitute').operator()<CR>" },
+  { desc = "Substitute line",     mode = "n", lhs = "ss",        rhs = "<CMD>lua require('substitute').line()<CR>" },
+  { desc = "Substitute eol",      mode = "n", lhs = "S",         rhs = "<CMD>lua require('substitute').eol()<CR>" },
   -- jump movement
   { desc = "Jump list back",      mode = "n", lhs = "<A-Left>",  rhs = "<C-o>" },
   { desc = "Jump list forward",   mode = "n", lhs = "<A-Right>", rhs = "<C-i>" },
@@ -42,6 +42,7 @@ M.editing = {
   { desc = "Undo",                mode = "n", lhs = "<C-z>",     rhs = "u" },
   { desc = "Undo",                mode = "i", lhs = "<C-z>",     rhs = "<C-o>u" },
   { desc = "Undo",                mode = "x", lhs = "<C-z>",     rhs = "<ESC>u" },
+  { desc = "Redo",                mode = "n", lhs = "r",         rhs = "<C-r>" },
   { desc = "Redo",                mode = "n", lhs = "<C-y>",     rhs = "<C-r>" },
   { desc = "Redo",                mode = "i", lhs = "<C-y>",     rhs = "<C-o><C-r>" },
   { desc = "Redo",                mode = "x", lhs = "<C-y>",     rhs = "<ESC><C-r>" },
@@ -75,11 +76,6 @@ M.editing = {
   { desc = "Search file",         mode = "n", lhs = "<C-f>",     rhs = "<CMD>FindText<CR>" },
   { desc = "Replace text",        mode = "n", lhs = "<C-h>",     rhs = "<CMD>ReplaceText<CR>" },
   { desc = "Replace text",        mode = "x", lhs = "<C-h>",     rhs = "<CMD>ReplaceText<CR>" },
-  { desc = "Flash jump",          mode = "n", lhs = "s",         rhs = "<CMD>FlashJump<CR>" },
-  { desc = "Flash jump",          mode = "x", lhs = "s",         rhs = "<CMD>FlashJump<CR>" },
-  { desc = "Flash jump",          mode = "o", lhs = "s",         rhs = "<CMD>FlashJump<CR>" },
-  { desc = "Flash remote",        mode = "o", lhs = "r",         rhs = "<CMD>FlashRemote<CR>" },
-  { desc = "Flash toggle",        mode = "c", lhs = "<C-s>",     rhs = "<CMD>FlashToggle<CR>" },
   { desc = "Debug",               mode = "n", lhs = "<F5>",      rhs = "<CMD>StartDebug<CR>" },
   { desc = "Toggle debug ui",     mode = "n", lhs = "<F6>",      rhs = "<CMD>ToggleDebugUi<CR>" },
   { desc = "Toggle lsp",          mode = "n", lhs = "<F9>",      rhs = "<CMD>ToggleLsp<CR>" },

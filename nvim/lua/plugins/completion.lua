@@ -50,9 +50,9 @@ return {
           }
         },
       },
-      sources = {
-        cmdline = {}, -- disabling due to crashes
-      },
+      -- sources = {
+      --   cmdline = {}, -- disabling due to crashes
+      -- },
     },
   },
 }
