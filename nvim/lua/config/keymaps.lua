@@ -5,7 +5,6 @@ local M = {}
 --   insert_mode = i
 --   visual_mode = x
 --   command_mode = c
-
 M.nops = {
   { lhs = "q",     rhs = "<Nop>" }, -- I often hit q by accident and dont use macros
   { lhs = "s",     rhs = "<Nop>" }, -- Remapped to be c + paste
@@ -14,6 +13,7 @@ M.nops = {
   { lhs = "R",     rhs = "<Nop>" }, -- I don't like replace mode
   { lhs = "<C-b>", rhs = "<Nop>" }, -- I use C-f for find, so disable this pair
   { lhs = "<C-f>", rhs = "<Nop>" },
+  { lhs = "<C-v>", rhs = "<Nop>" }, -- I use this for pasting in insert mode
 }
 
 -- Note: All keymaps here use noremap=true so that we can map to things that I have no-opped
@@ -43,6 +43,8 @@ M.editing = {
   { desc = "Redo",                mode = "n", lhs = "<C-y>",     rhs = "<C-r>" },
   { desc = "Redo",                mode = "i", lhs = "<C-y>",     rhs = "<C-o><C-r>" },
   { desc = "Redo",                mode = "x", lhs = "<C-y>",     rhs = "<ESC><C-r>" },
+  -- paste
+  { desc = "Paste",               mode = "i", lhs = "<C-v>",     rhs = "<C-r>" },
   -- text movement
   { desc = "Move text down",      mode = "n", lhs = "<A-Down>",  rhs = "<CMD>m .+1<CR>==" },
   { desc = "Move text down",      mode = "i", lhs = "<A-Down>",  rhs = "<ESC><CMD>m .+1<CR>==gi" },
