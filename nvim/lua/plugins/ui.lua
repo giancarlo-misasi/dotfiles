@@ -283,7 +283,8 @@ return {
     cond = enable_ux_plugins,
     lazy = false,
     opts = {
-      timeout = 100
+      timeout = 100,
+      max_width = 40,
     }
   },
   {

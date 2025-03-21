@@ -35,9 +35,6 @@ M.editing = {
   { desc = "Select all",          mode = "n", lhs = "<C-a>",     rhs = "ggVG" },
   { desc = "Select all",          mode = "i", lhs = "<C-a>",     rhs = "<ESC>ggVG" },
   { desc = "Select all",          mode = "x", lhs = "<C-a>",     rhs = "<ESC>ggVG" },
-  -- copy / paste
-  { desc = "Copy",                mode = "x", lhs = "<C-c>",     rhs = '"+y' },
-  { desc = "Cut",                 mode = "x", lhs = "<C-x>",     rhs = '"+x' },
   -- undo / redo
   { desc = "Undo",                mode = "n", lhs = "<C-z>",     rhs = "u" },
   { desc = "Undo",                mode = "i", lhs = "<C-z>",     rhs = "<C-o>u" },
@@ -46,9 +43,6 @@ M.editing = {
   { desc = "Redo",                mode = "n", lhs = "<C-y>",     rhs = "<C-r>" },
   { desc = "Redo",                mode = "i", lhs = "<C-y>",     rhs = "<C-o><C-r>" },
   { desc = "Redo",                mode = "x", lhs = "<C-y>",     rhs = "<ESC><C-r>" },
-  { desc = "Save",                mode = "n", lhs = "<C-s>",     rhs = "<CMD>update<CR>" },
-  { desc = "Save",                mode = "i", lhs = "<C-s>",     rhs = "<ESC><CMD>update<CR>gi" },
-  { desc = "Save",                mode = "x", lhs = "<C-s>",     rhs = "<ESC><CMD>update<CR>" },
   -- text movement
   { desc = "Move text down",      mode = "n", lhs = "<A-Down>",  rhs = "<CMD>m .+1<CR>==" },
   { desc = "Move text down",      mode = "i", lhs = "<A-Down>",  rhs = "<ESC><CMD>m .+1<CR>==gi" },

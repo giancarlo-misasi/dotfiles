@@ -16,6 +16,7 @@ return {
     dependencies = {
       "WhoIsSethDaniel/mason-tool-installer.nvim",
     },
+    opts = {},
     lazy = true,
   },
   {
