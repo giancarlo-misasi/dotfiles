@@ -42,7 +42,7 @@ local options = {
   keymodel = "startsel",
   backspace = "indent,eol,start",
   whichwrap = "b,s,<,>,[,]",
-  completeopt = { "menu", "menuone", "noinsert" },   -- autocomplete always select first item
+  completeopt = { "fuzzy", "menu", "menuone", "noinsert" },   -- autocomplete always select first item
   updatetime = 300,                                  -- faster completion (4000ms default)
   pumheight = 6,
   fillchars = {
@@ -86,6 +86,8 @@ end
 
 local function setup_diagnostics()
   vim.diagnostic.config({
+    virtual_text = true,
+    -- virtual_lines = true,
     signs = {
       enable = true,
       text = {

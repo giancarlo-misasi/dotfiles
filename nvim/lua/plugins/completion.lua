@@ -5,7 +5,7 @@ return {
   {
     'saghen/blink.cmp',
     dependencies = { 'rafamadriz/friendly-snippets' },
-    version = '*',
+    version = '1.*',
     event = "VeryLazy",
     opts = {
       keymap = {

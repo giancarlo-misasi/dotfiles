@@ -1,8 +1,4 @@
-local M = {}
-
-local lsp_utils = require("modules.lsp")
-lsp_utils.default_setup("ruff", {})
-lsp_utils.default_setup("pyright", {
+return {
   settings = {
     pyright = {
       -- Using Ruff's import organizer
@@ -15,11 +11,4 @@ lsp_utils.default_setup("pyright", {
       },
     },
   },
-})
-
-M.start = function()
-  lsp_utils.default_start("ruff")
-  lsp_utils.default_start("pyright")
-end
-
-return M
+}

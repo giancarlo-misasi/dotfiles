@@ -68,13 +68,15 @@ M.editing = {
   { desc = "LiveGrep",            mode = "n", lhs = "<leader>g", rhs = "<CMD>LiveGrep<CR>" },
   { desc = "FindFiles",           mode = "n", lhs = "<leader>f", rhs = "<CMD>FindFiles<CR>" },
   { desc = "FileTree",            mode = "n", lhs = "<leader>t", rhs = "<CMD>FileTree<CR>" },
-  { desc = "CodeActions",         mode = "n", lhs = "<leader>a", rhs = "<CMD>CodeActions<CR>" },
   { desc = "Search file",         mode = "n", lhs = "<C-f>",     rhs = "<CMD>FindText<CR>" },
   { desc = "Replace text",        mode = "n", lhs = "<C-h>",     rhs = "<CMD>ReplaceText<CR>" },
   { desc = "Replace text",        mode = "x", lhs = "<C-h>",     rhs = "<CMD>ReplaceText<CR>" },
   { desc = "Debug",               mode = "n", lhs = "<F5>",      rhs = "<CMD>StartDebug<CR>" },
   { desc = "Toggle debug ui",     mode = "n", lhs = "<F6>",      rhs = "<CMD>ToggleDebugUi<CR>" },
   { desc = "Toggle lsp",          mode = "n", lhs = "<F9>",      rhs = "<CMD>ToggleLsp<CR>" },
+
+  { desc = "Flash search",        mode = "n", lhs = "<leader>/", rhs = "<CMD>lua require('flash').jump({ search = { multi_window = false }})<CR>" },
+  { desc = "Flash search back",   mode = "n", lhs = "<leader>?", rhs = "<CMD>lua require('flash').jump({ search = { forward = false, multi_window = false }})<CR>" },
 }
 
 M.autocomplete = {
@@ -165,13 +167,18 @@ M.textobjects_move_repeat = {
 }
 
 M.lsp = {
-  { desc = "Hover",           mode = "n", lhs = "K",  rhs = "<CMD>LspHover<CR>" },
-  { desc = "Show references", mode = "n", lhs = "gr", rhs = "<CMD>LspRef<CR>" },
-  { desc = "Show signature",  mode = "n", lhs = "gs", rhs = "<CMD>LspSig<CR>" },
   { desc = "Goto defn",       mode = "n", lhs = "gd", rhs = "<CMD>LspDefn<CR>" },
   { desc = "Goto decl",       mode = "n", lhs = "gD", rhs = "<CMD>LspDecl<CR>" },
-  { desc = "Goto impl",       mode = "n", lhs = "gi", rhs = "<CMD>LspImpl<CR>" },
   { desc = "Goto type",       mode = "n", lhs = "gy", rhs = "<CMD>LspTypeDef<CR>" },
+  { desc = "Goto type",       mode = "n", lhs = "grf", rhs = "<CMD>FormatCode<CR>" },
+
+  -- https://neovim.io/doc/user/lsp.html#lsp-defaults
+  -- rename           grn
+  -- code actions     gra
+  -- references       grr
+  -- implementation   gri
+  -- hover            K
+  -- signature help   CTRL-S
 }
 
 return M

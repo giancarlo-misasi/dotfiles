@@ -180,7 +180,7 @@ local lsp_toggle = {
 
 local lsp_status = {
   function() return package.loaded["lspconfig"] and [[  󱐋 ]] or [[]] end,
-  on_click = function() vim.cmd("LspInfo") end,
+  on_click = function() vim.cmd("vertical checkhealth vim.lsp") end,
 }
 
 return {
@@ -274,9 +274,9 @@ return {
     dependencies = { "nvim-tree/nvim-web-devicons" },
     lazy = false,
     priority = 997,
-    config = function()
-      require("oil").setup()
-    end
+    opts = {
+      cleanup_delay_ms = false,
+    },
   },
   {
     "rcarriga/nvim-notify",

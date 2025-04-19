@@ -33,6 +33,25 @@ return {
       telescope.setup({
         defaults = {
           path_display = { "smart" },
+          file_ignore_patterns = {
+            "%.git/.*",
+            "build/.*",
+            "target/.*",
+            "bin/.*",
+            "out/.*",
+            "dist/.*",
+            "%.cache/.*",
+            "%.idea/.*",
+            "%.class",
+            "%.jar",
+            "%.gradle/.*",
+            "gradle/.*",
+            "node_modules/.*",
+            "__pycache__/.*",
+            "venv/.*",
+            "env/.*",
+            ".env/.*",
+          },
         },
         pickers = {
           find_files = { find_command = external_commands.find_command },
@@ -49,4 +68,3 @@ return {
     end,
   },
 }
-

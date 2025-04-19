@@ -6,16 +6,15 @@ local tools = {
   "lua-language-server",
   "gopls",
   "pyright",
-  -- "jdtls", -- installed by nvim-java
+  "ruff",
+  "jdtls",
   "marksman",
+  "zls",
 }
 
 return {
   {
     "williamboman/mason.nvim",
-    dependencies = {
-      "WhoIsSethDaniel/mason-tool-installer.nvim",
-    },
     opts = {},
     lazy = true,
   },
@@ -25,7 +24,7 @@ return {
       "williamboman/mason.nvim",
     },
     lazy = true,
-    cmd = { "MasonToolsUpdate" },
+    cmd = { "Mason", "MasonToolsUpdate" },
     opts = {
       ensure_installed = tools,
       run_on_start = false,
