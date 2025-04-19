@@ -43,6 +43,9 @@ M.editing = {
   { desc = "Redo",                mode = "n", lhs = "<C-y>",     rhs = "<C-r>" },
   { desc = "Redo",                mode = "i", lhs = "<C-y>",     rhs = "<C-o><C-r>" },
   { desc = "Redo",                mode = "x", lhs = "<C-y>",     rhs = "<ESC><C-r>" },
+  -- visual cut and copy
+  { desc = "Visual copy",         mode = "x", lhs = "<C-c>",     rhs = "y" },
+  { desc = "Visual cut",          mode = "x", lhs = "<C-x>",     rhs = "d" },
   -- paste
   { desc = "Paste",               mode = "i", lhs = "<C-v>",     rhs = "<C-r>" },
   -- text movement
