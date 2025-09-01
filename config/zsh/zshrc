@@ -16,14 +16,3 @@ if [[ -d "$HOME/.zshrc.d" ]]; then
     [[ -f $config_file ]] && source $config_file
   done
 fi
-
-# tmux
-alias tmux="tmux_session_picker"
-tmux_session_picker() {
-    if [ $# -eq 0 ]; then
-        TMUX_SESSION=$(tmux ls | cut -d: -f1 | fzf --prompt="Pick a session: " --print-query | tail -n1)
-        tmux new-session -A -s "$TMUX_SESSION"
-    else
-        command tmux "$@"
-    fi
-}

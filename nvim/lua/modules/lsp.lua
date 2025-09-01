@@ -5,8 +5,8 @@ local servers_by_filetype = {
   cpp = { "clangd" },
   lua = { "lua_ls" },
   python = { "pyright", "ruff" },
-  typescript = { "ts_ls" },
   kotlin = { "kotlin_lsp" },
+  typescript = { "ts_ls" },
   markdown = { "marksman" },
 }
 

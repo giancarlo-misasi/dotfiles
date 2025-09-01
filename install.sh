@@ -12,7 +12,24 @@ else
     exit 1
 fi
 
-install_required_system_packages() {
+link_dotfiles() {
+    # delete existing config or links
+    rm -f $HOME/.zshrc
+    rm -f $HOME/.tmux.conf
+    rm -rf $HOME/.tmux
+    rm -rf $HOME/.config/nvim
+
+    # create directories that need to exist
+    mkdir -p $HOME/.config/
+
+    # create links
+    ln -sf "$DOTFILES/config/zsh/zshrc" "$HOME/.zshrc"
+    ln -sf "$DOTFILES/config/tmux/tmux.conf" "$HOME/.tmux.conf"
+    ln -sf "$DOTFILES/config/tmux" "$HOME/.tmux"
+    ln -sf "$DOTFILES/nvim" "$HOME/.config/nvim"
+}
+
+install_system() {
     echo "Installing packages using $PACKAGE_MANAGER"
     if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
         # Preconfigure tzdata to avoid prompts
@@ -62,61 +79,22 @@ install_tools_and_languages() {
     # install tools
     mise_use tmux fzf ripgrep fd tree-sitter neovim lazygit
 
-    # install languages
-    mise_use lua rust go python java gradle node
-
-    # install additional language tools
-    pip install hatch debugpy # python debugging
-    go install github.com/go-delve/delve/cmd/dlv@latest # go debugging
-}
-
-link_dotfiles() {
-    # delete existing config or links
-    rm -f $HOME/.zshrc
-    rm -f $HOME/.tmux.conf
-    rm -rf $HOME/.tmux
-    rm -rf $HOME/.config/nvim
-
-    # create directories that need to exist
-    mkdir -p $HOME/.config/
-
-    # create links
-    ln -sf "$DOTFILES/config/zsh/zshrc" "$HOME/.zshrc"
-    ln -sf "$DOTFILES/config/tmux/tmux.conf" "$HOME/.tmux.conf"
-    ln -sf "$DOTFILES/config/tmux" "$HOME/.tmux"
-    ln -sf "$DOTFILES/nvim" "$HOME/.config/nvim"
-}
-
-copy_windows_terminal_settings() {
-    # mklink doesnt work well with windows terminal, so just copy settings over
-    dst=$(powershell.exe -Command "[System.Environment]::GetFolderPath('UserProfile')" | tr -d '\r')
-    dst="$dst\AppData\Local\Packages\Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe\LocalState\settings.json"
-    src="$(wslpath -w $DOTFILES/config/windows_terminal/settings.json)"
-    cmd="copy \"$src\" \"$dst\""
-    echo $cmd
+    # install languages + language tools
+    mise_use lua python kotlin gradle node
 }
 
 print_help() {
     echo "Usage: $0 [function_name]"
     echo "Available functions:"
-    echo "  install_required_system_packages"
+    echo "  link_dotfiles"
+    echo "  install_system"
     echo "  install_ohmyzsh"
     echo "  install_mise"
     echo "  install_tools_and_languages"
-    echo "  link_dotfiles"
-    echo "  copy_windows_terminal_settings"
     echo "If no function is specified, all steps will run."
 }
 
-if [ $# -eq 0 ]; then
-    echo "No arguments provided. Running all steps..."
-    install_required_system_packages
-    install_ohmyzsh
-    install_mise
-    install_tools_and_languages
-    link_dotfiles
-    copy_windows_terminal_settings
-elif [ "$1" = "help" ] || [ "$1" = "--help" ]; then
+if [ "$1" = "help" ] || [ "$1" = "--help" ]; then
     print_help
 elif declare -f "$1" > /dev/null; then
     # Run the specified function if it exists
@@ -127,4 +105,3 @@ else
     print_help
     exit 1
 fi
-
