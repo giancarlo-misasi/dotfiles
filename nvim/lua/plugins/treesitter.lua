@@ -2,16 +2,13 @@ local keymaps = require("config.keymaps")
 local languages = {
   "c",
   "cpp",
-  "rust",
   "lua",
-  "go",
   "python",
   "java",
+  "kotlin",
+  "typescript",
+  "dockerfile",
   "markdown",
-  "html",
-  "regex",
-  "json",
-  "ruby",
 }
 
 return {

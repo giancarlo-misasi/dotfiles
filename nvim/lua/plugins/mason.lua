@@ -1,27 +1,40 @@
 -- https://mason-registry.dev/
 local tools = {
+  -- c++
+  -- includes clang-tidy and clang-format for linting and formatting
   "clangd",
-  "rust-analyzer",
-  "codelldb",
+
+  -- lua
+  -- includes EmmyLuaCodeStyle for linting and formatting
   "lua-language-server",
-  "gopls",
+
+  -- python
+  -- uses ruff for linting and formatting
   "pyright",
   "ruff",
-  "jdtls",
+
+  -- typescript
+  -- using eslint and prettier for linting and formatting
+  "typescript-language-server",
+  "prettierd",
+
+  -- kotlin
+  "kotlin-lsp",
+
+  -- markdown
   "marksman",
-  "zls",
 }
 
 return {
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     opts = {},
     lazy = true,
   },
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     dependencies = {
-      "williamboman/mason.nvim",
+      "mason-org/mason.nvim",
     },
     lazy = true,
     cmd = { "Mason", "MasonToolsUpdate" },

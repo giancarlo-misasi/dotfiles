@@ -1,5 +1,5 @@
 local enable_ux_plugins = not vim.g.vscode
-local dap = require("modules.dap")
+--local dap = require("modules.dap")
 local tmux = require("modules.tmux")
 
 local function get_relative_line_number()
@@ -36,21 +36,22 @@ local function has_lsp()
   return require("modules.lsp").is_running()
 end
 
-local function show_debug_icons()
-  return dap.is_running() or dap.is_ui_open()
-end
-
-local function is_debugging()
-  return dap.is_running()
-end
-
-local function is_debug_ui_open()
-  return dap.is_ui_open()
-end
+-- local function show_debug_icons()
+--   return dap.is_running() or dap.is_ui_open()
+-- end
+--
+-- local function is_debugging()
+--   return dap.is_running()
+-- end
+--
+-- local function is_debug_ui_open()
+--   return dap.is_ui_open()
+-- end
 
 local function show_tabline()
   -- return has_tabs() or show_debug_icons()
-  return show_debug_icons()
+  -- return show_debug_icons()
+  return false
 end
 
 local show_tabline_fix = {
@@ -134,42 +135,42 @@ local close_window = {
   color = { bg = colors.red1, fg = colors.white1 },
 }
 
-local debug_start = {
-  function() return (show_debug_icons() and not is_debugging()) and [[  ]] or [[]] end,
-  on_click = function() dap.start() end,
-}
+-- local debug_start = {
+--   function() return (show_debug_icons() and not is_debugging()) and [[  ]] or [[]] end,
+--   on_click = function() dap.start() end,
+-- }
+--
+-- local debug_resume = {
+--   function() return (show_debug_icons() and is_debugging()) and [[  ]] or [[]] end,
+--   on_click = function() vim.cmd("DapContinue") end,
+-- }
+--
+-- local debug_step_into = {
+--   function() return show_debug_icons() and [[ 󰆹 ]] or [[]] end,
+--   on_click = function() vim.cmd("DapStepInto") end,
+-- }
+--
+-- local debug_step_out = {
+--   function() return show_debug_icons() and [[ 󰆸 ]] or [[]] end,
+--   on_click = function() vim.cmd("DapStepOut") end,
+-- }
+--
+-- local debug_step_over = {
+--   function() return show_debug_icons() and [[ 󰆷  ]] or [[]] end,
+--   on_click = function() vim.cmd("DapStepOver") end,
+-- }
+--
+-- local debug_stop = {
+--   function() return show_debug_icons() and [[  ]] or [[]] end,
+--   on_click = function() vim.cmd("DapTerminate") end,
+-- }
 
-local debug_resume = {
-  function() return (show_debug_icons() and is_debugging()) and [[  ]] or [[]] end,
-  on_click = function() vim.cmd("DapContinue") end,
-}
-
-local debug_step_into = {
-  function() return show_debug_icons() and [[ 󰆹 ]] or [[]] end,
-  on_click = function() vim.cmd("DapStepInto") end,
-}
-
-local debug_step_out = {
-  function() return show_debug_icons() and [[ 󰆸 ]] or [[]] end,
-  on_click = function() vim.cmd("DapStepOut") end,
-}
-
-local debug_step_over = {
-  function() return show_debug_icons() and [[ 󰆷  ]] or [[]] end,
-  on_click = function() vim.cmd("DapStepOver") end,
-}
-
-local debug_stop = {
-  function() return show_debug_icons() and [[  ]] or [[]] end,
-  on_click = function() vim.cmd("DapTerminate") end,
-}
-
-local debug_ui_toggle = {
-  function() return is_debug_ui_open() and [[  ]] or [[  ]] end,
-  separator = { left = '' },
-  color = function() return { bg = is_debug_ui_open() and colors.red1 or colors.blue1, fg = colors.white1 } end,
-  on_click = function() require("modules.dap").toggle_ui() end,
-}
+-- local debug_ui_toggle = {
+--   function() return is_debug_ui_open() and [[  ]] or [[  ]] end,
+--   separator = { left = '' },
+--   color = function() return { bg = is_debug_ui_open() and colors.red1 or colors.blue1, fg = colors.white1 } end,
+--   on_click = function() require("modules.dap").toggle_ui() end,
+-- }
 
 local lsp_toggle = {
   function() return has_lsp() and [[  󱐋 ]] or [[  󱐋 ]] end,
@@ -213,9 +214,9 @@ return {
         },
         tabline = {
           lualine_a = { show_tabline_fix },
-          lualine_x = {
-            debug_start, debug_resume, debug_step_into, debug_step_out, debug_step_over, debug_stop,
-          },
+          -- lualine_x = {
+          --   debug_start, debug_resume, debug_step_into, debug_step_out, debug_step_over, debug_stop,
+          -- },
           lualine_y = {},
           lualine_z = {},
         },
@@ -232,7 +233,8 @@ return {
           lualine_a = { "mode" },
           lualine_b = { branch, diagnostics, lsp_status },
           lualine_c = { tmux.icon, tmux.tabs, tabs_icon, tabs, },
-          lualine_x = { debug_ui_toggle, filetype, lsp_toggle, encoding, fileformat },
+          -- lualine_x = { debug_ui_toggle, filetype, lsp_toggle, encoding, fileformat },
+          lualine_x = { filetype, lsp_toggle, encoding, fileformat },
           lualine_y = {},
           lualine_z = { "location" },
         },
@@ -276,6 +278,9 @@ return {
     priority = 997,
     opts = {
       cleanup_delay_ms = false,
+      view_options = {
+        show_hidden = true,
+      },
     },
   },
   {
