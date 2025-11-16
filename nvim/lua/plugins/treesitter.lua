@@ -40,11 +40,14 @@ return {
           select = {
             enable = true,
             lookahead = true,
-            include_surrounding_whitespace = true,
+            include_surrounding_whitespace = false,
             keymaps = keymaps.textobjects_select,
             selection_modes = {
-              ["@parameter.outer"] = "v", -- charwise
-              ["@function.outer"] = "V",  -- linewise
+              -- default is charwise
+              ["@function.inner"] = "V", -- linewise
+              ["@function.outer"] = "V", -- linewise
+              ["@block.inner"] = "V",    -- linewise
+              ["@block.outer"] = "V",    -- linewise
             },
           },
           move = {

@@ -1,6 +1,4 @@
 local enable_ux_plugins = not vim.g.vscode
---local dap = require("modules.dap")
-local tmux = require("modules.tmux")
 
 local function get_relative_line_number()
   local current_line = vim.fn.line(".")
@@ -36,21 +34,7 @@ local function has_lsp()
   return require("modules.lsp").is_running()
 end
 
--- local function show_debug_icons()
---   return dap.is_running() or dap.is_ui_open()
--- end
---
--- local function is_debugging()
---   return dap.is_running()
--- end
---
--- local function is_debug_ui_open()
---   return dap.is_ui_open()
--- end
-
 local function show_tabline()
-  -- return has_tabs() or show_debug_icons()
-  -- return show_debug_icons()
   return false
 end
 
@@ -62,11 +46,8 @@ local show_tabline_fix = {
 
 local colors = {
   white1 = "#DEEEED",
-  green1 = "#243224",
-  blue1 = "#242448",
-  red1 = "#322424",
-  red2 = "#482424",
-  yellow1 = "#323224",
+  green1 = "#506070",
+  red1 = "#444444",
 }
 
 local filename = {
@@ -78,18 +59,17 @@ local filename = {
 local filetype = {
   "filetype",
   separator = { left = '' },
-  on_click = function() vim.cmd("SetLanguage") end,
 }
 
-local fileformat = {
-  "fileformat",
-  separator = { left = '' },
-}
-
-local encoding = {
-  "encoding",
-  separator = { left = '', right = '' },
-}
+-- local fileformat = {
+--   "fileformat",
+--   separator = { left = '' },
+-- }
+--
+-- local encoding = {
+--   "encoding",
+--   separator = { left = '', right = '' },
+-- }
 
 local tabs_icon = {
   function() return [[  ]] end,
@@ -105,12 +85,11 @@ local tabs = {
   cond = has_tabs,
 }
 
-local branch = {
-  "branch",
-  color = { bg = colors.yellow1, fg = colors.white1 },
-  separator = { right = '' },
-  on_click = function() vim.cmd("Git") end,
-}
+-- local branch = {
+--   "branch",
+--   color = { bg = colors.yellow1, fg = colors.white1 },
+--   separator = { right = '' },
+-- }
 
 local diagnostics = {
   "diagnostics",
@@ -134,43 +113,6 @@ local close_window = {
   on_click = function() vim.cmd("close") end,
   color = { bg = colors.red1, fg = colors.white1 },
 }
-
--- local debug_start = {
---   function() return (show_debug_icons() and not is_debugging()) and [[  ]] or [[]] end,
---   on_click = function() dap.start() end,
--- }
---
--- local debug_resume = {
---   function() return (show_debug_icons() and is_debugging()) and [[  ]] or [[]] end,
---   on_click = function() vim.cmd("DapContinue") end,
--- }
---
--- local debug_step_into = {
---   function() return show_debug_icons() and [[ 󰆹 ]] or [[]] end,
---   on_click = function() vim.cmd("DapStepInto") end,
--- }
---
--- local debug_step_out = {
---   function() return show_debug_icons() and [[ 󰆸 ]] or [[]] end,
---   on_click = function() vim.cmd("DapStepOut") end,
--- }
---
--- local debug_step_over = {
---   function() return show_debug_icons() and [[ 󰆷  ]] or [[]] end,
---   on_click = function() vim.cmd("DapStepOver") end,
--- }
---
--- local debug_stop = {
---   function() return show_debug_icons() and [[  ]] or [[]] end,
---   on_click = function() vim.cmd("DapTerminate") end,
--- }
-
--- local debug_ui_toggle = {
---   function() return is_debug_ui_open() and [[  ]] or [[  ]] end,
---   separator = { left = '' },
---   color = function() return { bg = is_debug_ui_open() and colors.red1 or colors.blue1, fg = colors.white1 } end,
---   on_click = function() require("modules.dap").toggle_ui() end,
--- }
 
 local lsp_toggle = {
   function() return has_lsp() and [[  󱐋 ]] or [[  󱐋 ]] end,
@@ -209,14 +151,11 @@ return {
         options = {
           theme = "lackluster",
           globalstatus = true,
-          component_separators = { left = '', right = '' }, -- { left = '', right = '' },
+          component_separators = { left = '', right = '' },
           section_separators = { left = '', right = '' },
         },
         tabline = {
           lualine_a = { show_tabline_fix },
-          -- lualine_x = {
-          --   debug_start, debug_resume, debug_step_into, debug_step_out, debug_step_over, debug_stop,
-          -- },
           lualine_y = {},
           lualine_z = {},
         },
@@ -231,10 +170,9 @@ return {
         },
         sections = {
           lualine_a = { "mode" },
-          lualine_b = { branch, diagnostics, lsp_status },
-          lualine_c = { tmux.icon, tmux.tabs, tabs_icon, tabs, },
-          -- lualine_x = { debug_ui_toggle, filetype, lsp_toggle, encoding, fileformat },
-          lualine_x = { filetype, lsp_toggle, encoding, fileformat },
+          lualine_b = { diagnostics, lsp_status },
+          lualine_c = { tabs_icon, tabs, },
+          lualine_x = { filetype, lsp_toggle },
           lualine_y = {},
           lualine_z = { "location" },
         },
@@ -307,40 +245,12 @@ return {
     },
   },
   {
-    "dstein64/nvim-scrollview",
-    cond = enable_ux_plugins,
-    event = "VeryLazy",
-    config = function()
-      vim.g.scrollview_signs_max_per_row = 1
-      vim.g.scrollview_cursor_symbol = ""
-      vim.g.scrollview_diagnostics_hint_symbol = ""
-      vim.g.scrollview_diagnostics_info_symbol = ""
-      vim.g.scrollview_diagnostics_warn_symbol = ""
-      vim.g.scrollview_diagnostics_errror_symbol = ""
-      vim.g.scrollview_trail_symbol = ""
-      require("scrollview").setup({
-        signs_on_startup = { 'cursor', 'search', 'diagnostics', 'trail' },
-        diagnostics_severities = {
-          vim.diagnostic.severity.HINT,
-          vim.diagnostic.severity.INFO,
-          vim.diagnostic.severity.WARN,
-          vim.diagnostic.severity.ERROR,
-        },
-      })
-    end
-  },
-  {
     "sphamba/smear-cursor.nvim",
     cond = enable_ux_plugins,
     event = "VeryLazy",
     opts = {
       cursor_color = "#00AA00",
     },
-  },
-  {
-    "stevearc/dressing.nvim",
-    cond = enable_ux_plugins,
-    event = "VeryLazy",
   },
   {
     "NStefan002/screenkey.nvim",

@@ -15,8 +15,6 @@ fi
 link_dotfiles() {
     # delete existing config or links
     rm -f $HOME/.zshrc
-    rm -f $HOME/.tmux.conf
-    rm -rf $HOME/.tmux
     rm -rf $HOME/.config/nvim
 
     # create directories that need to exist
@@ -24,8 +22,6 @@ link_dotfiles() {
 
     # create links
     ln -sf "$DOTFILES/config/zsh/zshrc" "$HOME/.zshrc"
-    ln -sf "$DOTFILES/config/tmux/tmux.conf" "$HOME/.tmux.conf"
-    ln -sf "$DOTFILES/config/tmux" "$HOME/.tmux"
     ln -sf "$DOTFILES/nvim" "$HOME/.config/nvim"
 }
 
@@ -77,7 +73,7 @@ mise_use() {
 
 install_tools_and_languages() {
     # install tools
-    mise_use tmux fzf ripgrep fd tree-sitter neovim lazygit
+    mise_use fzf ripgrep fd tree-sitter neovim
 
     # install languages + language tools
     mise_use lua python kotlin gradle node

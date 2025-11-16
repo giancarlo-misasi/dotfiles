@@ -1,29 +1,5 @@
--- https://mason-registry.dev/
-local tools = {
-  -- c++
-  -- includes clang-tidy and clang-format for linting and formatting
-  "clangd",
-
-  -- lua
-  -- includes EmmyLuaCodeStyle for linting and formatting
-  "lua-language-server",
-
-  -- python
-  -- uses ruff for linting and formatting
-  "pyright",
-  "ruff",
-
-  -- typescript
-  -- using eslint and prettier for linting and formatting
-  "typescript-language-server",
-  "prettierd",
-
-  -- kotlin
-  "kotlin-lsp",
-
-  -- markdown
-  "marksman",
-}
+local lsp = require("modules.lsp")
+local tools = lsp.get_mason_packages()
 
 return {
   {

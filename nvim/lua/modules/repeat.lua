@@ -9,6 +9,13 @@ if not unpack then
   unpack = table.unpack
 end
 
+local function with_center(func, ...)
+  local success, _ = pcall(func, ...)
+  if success then
+    vim.cmd('normal! zz')
+  end
+end
+
 local function repeatably_do(func, opts, additional_args)
   opts = opts or {}
   additional_args = additional_args or {}
@@ -17,14 +24,7 @@ local function repeatably_do(func, opts, additional_args)
     opts = opts,
     additional_args = additional_args,
   }
-  func(opts, unpack(additional_args))
-end
-
-local function center(func)
-  return function()
-    func()
-    vim.cmd('normal! zz')
-  end
+  with_center(func, opts, unpack(additional_args))
 end
 
 local function search(opts)
@@ -68,11 +68,17 @@ local function map_diagnostic(key, severity)
   map(nxo, db .. key, diagnostic_jump({ forward = false, severity = severity }), { desc = 'previous ' .. desc })
 end
 
+local function center(func)
+  return function()
+    with_center(func)
+  end
+end
+
 -- make f, F, t, T repeatable
-map(nxo, "f", rm.builtin_f)
-map(nxo, "F", rm.builtin_F)
-map(nxo, "t", rm.builtin_t)
-map(nxo, "T", rm.builtin_T)
+map(nxo, "f", center(rm.builtin_f))
+map(nxo, "F", center(rm.builtin_F))
+map(nxo, "t", center(rm.builtin_t))
+map(nxo, "T", center(rm.builtin_T))
 
 -- make diagnostics repeatable
 map_diagnostic(keys.diagnostic, nil)
@@ -86,7 +92,7 @@ vim.api.nvim_create_autocmd("CmdlineLeave", {
   pattern = { "/", "?" },
   callback = function()
     local opts = { forward = true }
-    rm.set_last_move(center(search(opts)), opts)
+    rm.set_last_move(search(opts), opts)
   end
 })
 

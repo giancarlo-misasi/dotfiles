@@ -1,31 +1,57 @@
 local M = {}
 
-local servers_by_filetype = {
-  c = { "clangd" },
-  cpp = { "clangd" },
-  lua = { "lua_ls" },
-  python = { "pyright", "ruff" },
-  kotlin = { "kotlin_lsp" },
-  typescript = { "ts_ls" },
-  markdown = { "marksman" },
+-- https://mason-registry.dev/
+local cfg = {
+  c = {
+    lsp_servers = { "clangd" },
+    mason_packages = { "clangd" }
+  },
+  cpp = {
+    lsp_servers = { "clangd" },
+    mason_packages = { "clangd" }
+    -- includes clang-tidy and clang-format for linting and formatting
+  },
+  lua = {
+    lsp_servers = { "lua_ls" },
+    mason_packages = { "lua-language-server" }
+    -- includes EmmyLuaCodeStyle for linting and formatting
+  },
+  python = {
+    lsp_servers = { "ty", "ruff" },   -- pyright
+    mason_packages = { "ty", "ruff" } -- pyright
+    -- using ruff for linting and formatting
+  },
+  typescript = {
+    lsp_servers = { "ts_ls" },
+    mason_packages = { "typescript-language-server", "prettierd" }
+    -- using eslint for linting and prettier for formatting
+  },
+  kotlin = {
+    lsp_servers = { "kotlin_lsp" },
+    mason_packages = { "kotlin-lsp" }
+  },
+  markdown = {
+    lsp_servers = { "marksman" },
+    mason_packages = { "marksman" }
+    -- using prettier for formatting
+  },
 }
 
-local excluded_servers = {
-  rust = true,
-}
+local function get_lsp_servers(ft)
+  return cfg[ft] and cfg[ft].lsp_servers
+end
 
 local function start()
-  if not excluded_servers[vim.bo.filetype] then
-    local servers = servers_by_filetype[vim.bo.filetype]
-    if servers then
-      vim.lsp.enable(servers_by_filetype[vim.bo.filetype], true)
-    end
+  local servers = get_lsp_servers(vim.bo.filetype)
+  if servers then
+    vim.lsp.enable(servers, true)
   end
 end
 
 local function stop()
-  if not excluded_servers[vim.bo.filetype] then
-    vim.lsp.enable(servers_by_filetype[vim.bo.filetype], false)
+  local servers = get_lsp_servers(vim.bo.filetype)
+  if servers then
+    vim.lsp.enable(servers, false)
     vim.lsp.stop_client(vim.lsp.get_clients())
   end
 end
@@ -46,6 +72,16 @@ M.toggle = function()
   end
 
   vim.cmd("edit") -- reload the buffer
+end
+
+M.get_mason_packages = function()
+  local packages = {}
+  for _, config in pairs(cfg) do
+    for _, package in ipairs(config.mason_packages) do
+      table.insert(packages, package)
+    end
+  end
+  return packages
 end
 
 return M

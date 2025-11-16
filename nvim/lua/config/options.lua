@@ -7,7 +7,7 @@ local globals = {
   loaded_node_provider = 0,
   loaded_netrw = 1,
   loaded_netrwPlugin = 1,
-  loaded_matchit = 1,   -- turn off matchit extensions
+  loaded_matchit = 1, -- turn off matchit extensions
 }
 
 local options = {
@@ -16,7 +16,7 @@ local options = {
   swapfile = false,
   undofile = true,
   number = true,
-  relativenumber = false,   -- using statuscol to show both
+  relativenumber = false, -- using statuscol to show both
   wrap = false,
   cursorline = true,
   termguicolors = true,
@@ -42,8 +42,8 @@ local options = {
   keymodel = "startsel",
   backspace = "indent,eol,start",
   whichwrap = "b,s,<,>,[,]",
-  completeopt = { "fuzzy", "menu", "menuone", "noinsert" },   -- autocomplete always select first item
-  updatetime = 300,                                  -- faster completion (4000ms default)
+  completeopt = { "fuzzy", "menu", "menuone", "noinsert" }, -- autocomplete always select first item
+  updatetime = 300,                                         -- faster completion (4000ms default)
   pumheight = 6,
   fillchars = {
     horiz = "━",
@@ -113,15 +113,27 @@ local function setup_diagnostics()
   })
 end
 
-local function setup_debug_symbols()
-  vim.fn.sign_define('DapBreakpoint', { text = '' })
-  vim.fn.sign_define('DapBreakpointCondition', { text = '' })
-  vim.fn.sign_define('DapBreakpointRejected', { text = '' })
-  vim.fn.sign_define('DapLogPoint', { text = '' })
-  vim.fn.sign_define('DapStopped', { text = '' })
+local function setup_clipboard()
+  -- Force OSC52 for copy operations
+  -- Use default for paste given paste support doesn't always work
+  vim.g.clipboard = {
+    name = 'OSC52 Copy + Default Paste',
+    copy = {
+      ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+      ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+    },
+    paste = {
+      ['+'] = function()
+        return vim.fn.getreg("+", 1, true)
+      end,
+      ['*'] = function()
+        return vim.fn.getreg("*", 1, true)
+      end,
+    },
+  }
 end
 
 setup_globals(globals)
 setup_options(options)
 setup_diagnostics()
-setup_debug_symbols()
+setup_clipboard()

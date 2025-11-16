@@ -7,13 +7,11 @@ local M = {}
 --   command_mode = c
 M.nops = {
   { lhs = "q",     rhs = "<Nop>" }, -- I often hit q by accident and dont use macros
-  { lhs = "s",     rhs = "<Nop>" }, -- Remapped to be c + paste
-  { lhs = "S",     rhs = "<Nop>" }, -- Remapped to be C + paste
   { lhs = "r",     rhs = "<Nop>" }, -- Remapped to be redo
   { lhs = "R",     rhs = "<Nop>" }, -- I don't like replace mode
   { lhs = "<C-b>", rhs = "<Nop>" }, -- I use C-f for find, so disable this pair
   { lhs = "<C-f>", rhs = "<Nop>" },
-  { lhs = "<C-v>", rhs = "<Nop>" }, -- I use this for pasting in insert mode
+  { lhs = "<C-z>", rhs = "<Nop>" }, -- I use this for undo
 }
 
 -- Note: All keymaps here use noremap=true so that we can map to things that I have no-opped
@@ -22,10 +20,6 @@ M.editing = {
   { desc = "Escape terminal",     mode = "t", lhs = "<ESC>",     rhs = "<C-\\><C-n>" },
   -- clear highlighting on escape
   { desc = "Clear highlighting",  mode = "n", lhs = "<ESC>",     rhs = "<CMD>noh<CR><ESC>" },
-  -- remap s to c + paste
-  { desc = "Substitute",          mode = "n", lhs = "s",         rhs = "<CMD>lua require('substitute').operator()<CR>" },
-  { desc = "Substitute line",     mode = "n", lhs = "ss",        rhs = "<CMD>lua require('substitute').line()<CR>" },
-  { desc = "Substitute eol",      mode = "n", lhs = "S",         rhs = "<CMD>lua require('substitute').eol()<CR>" },
   -- jump movement
   { desc = "Jump list back",      mode = "n", lhs = "<A-Left>",  rhs = "<C-o>" },
   { desc = "Jump list forward",   mode = "n", lhs = "<A-Right>", rhs = "<C-i>" },
@@ -46,8 +40,6 @@ M.editing = {
   -- visual cut and copy
   { desc = "Visual copy",         mode = "x", lhs = "<C-c>",     rhs = "y" },
   { desc = "Visual cut",          mode = "x", lhs = "<C-x>",     rhs = "d" },
-  -- paste
-  { desc = "Paste",               mode = "i", lhs = "<C-v>",     rhs = "<C-r>" },
   -- text movement
   { desc = "Move text down",      mode = "n", lhs = "<A-Down>",  rhs = "<CMD>m .+1<CR>==" },
   { desc = "Move text down",      mode = "i", lhs = "<A-Down>",  rhs = "<ESC><CMD>m .+1<CR>==gi" },
@@ -67,15 +59,12 @@ M.editing = {
   { desc = "Move to right split", mode = "n", lhs = "<C-Right>", rhs = "<C-w>l" },
   -- commands
   { desc = "Actions",             mode = "n", lhs = "<F1>",      rhs = "<CMD>Actions<CR>" },
-  { desc = "Buffers",             mode = "n", lhs = "<leader>b", rhs = "<CMD>Buffers<CR>" },
   { desc = "LiveGrep",            mode = "n", lhs = "<leader>g", rhs = "<CMD>LiveGrep<CR>" },
   { desc = "FindFiles",           mode = "n", lhs = "<leader>f", rhs = "<CMD>FindFiles<CR>" },
   { desc = "FileTree",            mode = "n", lhs = "<leader>t", rhs = "<CMD>FileTree<CR>" },
   { desc = "Search file",         mode = "n", lhs = "<C-f>",     rhs = "<CMD>FindText<CR>" },
   { desc = "Replace text",        mode = "n", lhs = "<C-h>",     rhs = "<CMD>ReplaceText<CR>" },
   { desc = "Replace text",        mode = "x", lhs = "<C-h>",     rhs = "<CMD>ReplaceText<CR>" },
-  { desc = "Debug",               mode = "n", lhs = "<F5>",      rhs = "<CMD>StartDebug<CR>" },
-  { desc = "Toggle debug ui",     mode = "n", lhs = "<F6>",      rhs = "<CMD>ToggleDebugUi<CR>" },
   { desc = "Toggle lsp",          mode = "n", lhs = "<F9>",      rhs = "<CMD>ToggleLsp<CR>" },
 
   { desc = "Flash search",        mode = "n", lhs = "<leader>/", rhs = "<CMD>lua require('flash').jump({ search = { multi_window = false }})<CR>" },
@@ -103,8 +92,8 @@ M.surround = {
   change = "cs",
   change_line = "cS",
   delete = "ds",
-  insert = false,        -- "<C-g>s",
-  insert_line = false,   -- "<C-g>S"
+  insert = false,      -- "<C-g>s",
+  insert_line = false, -- "<C-g>S"
 }
 
 M.comment_operator = {
@@ -122,8 +111,8 @@ M.textobjects_select = {
   ["ia"] = "@parameter.inner",
   ["af"] = "@function.outer",
   ["if"] = "@function.inner",
-  ["as"] = "@block.outer",
-  ["is"] = "@block.inner",
+  ["ab"] = "@block.outer",
+  ["ib"] = "@block.inner",
 }
 
 M.textobjects_move = {
@@ -132,32 +121,32 @@ M.textobjects_move = {
     ["]ia"] = "@parameter.inner",
     ["]af"] = "@function.outer",
     ["]if"] = "@function.inner",
-    ["]as"] = "@block.outer",
-    ["]is"] = "@block.inner",
+    ["]ab"] = "@block.outer",
+    ["]ib"] = "@block.inner",
   },
   goto_next_end = {
     ["]aA"] = "@parameter.outer",
     ["]iA"] = "@parameter.inner",
     ["]aF"] = "@function.outer",
     ["]iF"] = "@function.inner",
-    ["]aS"] = "@block.outer",
-    ["]iS"] = "@block.inner",
+    ["]aB"] = "@block.outer",
+    ["]iB"] = "@block.inner",
   },
   goto_previous_start = {
     ["[aa"] = "@parameter.outer",
     ["[ia"] = "@parameter.inner",
     ["[af"] = "@function.outer",
     ["[if"] = "@function.inner",
-    ["[as"] = "@block.outer",
-    ["[is"] = "@block.inner",
+    ["[ab"] = "@block.outer",
+    ["[ib"] = "@block.inner",
   },
   goto_previous_end = {
     ["[aA"] = "@parameter.outer",
     ["[iA"] = "@parameter.inner",
     ["[aF"] = "@function.outer",
     ["[iF"] = "@function.inner",
-    ["[aS"] = "@block.outer",
-    ["[iS"] = "@block.inner",
+    ["[aB"] = "@block.outer",
+    ["[iB"] = "@block.inner",
   },
 }
 
@@ -170,10 +159,10 @@ M.textobjects_move_repeat = {
 }
 
 M.lsp = {
-  { desc = "Goto defn",       mode = "n", lhs = "gd", rhs = "<CMD>LspDefn<CR>" },
-  { desc = "Goto decl",       mode = "n", lhs = "gD", rhs = "<CMD>LspDecl<CR>" },
-  { desc = "Goto type",       mode = "n", lhs = "gy", rhs = "<CMD>LspTypeDef<CR>" },
-  { desc = "Goto type",       mode = "n", lhs = "grf", rhs = "<CMD>FormatCode<CR>" },
+  { desc = "Goto defn", mode = "n", lhs = "gd",  rhs = "<CMD>LspDefn<CR>" },
+  { desc = "Goto decl", mode = "n", lhs = "gD",  rhs = "<CMD>LspDecl<CR>" },
+  { desc = "Goto type", mode = "n", lhs = "gy",  rhs = "<CMD>LspTypeDef<CR>" },
+  { desc = "Goto type", mode = "n", lhs = "grf", rhs = "<CMD>FormatCode<CR>" },
 
   -- https://neovim.io/doc/user/lsp.html#lsp-defaults
   -- rename           grn
