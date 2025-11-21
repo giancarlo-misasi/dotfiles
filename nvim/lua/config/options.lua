@@ -11,7 +11,7 @@ local globals = {
 }
 
 local options = {
-  clipboard = "unnamedplus",
+  clipboard = nil,
   writebackup = false,
   swapfile = false,
   undofile = true,
@@ -114,21 +114,17 @@ local function setup_diagnostics()
 end
 
 local function setup_clipboard()
-  -- Force OSC52 for copy operations
-  -- Use default for paste given paste support doesn't always work
+  -- Force OSC52 for copy operations, disable paste
+  -- We set clipboard=nil, so we don't need paste from clipboard
   vim.g.clipboard = {
-    name = 'OSC52 Copy + Default Paste',
+    name = 'OSC52 Copy + No Paste',
     copy = {
-      ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
-      ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+      ["+"] = require('vim.ui.clipboard.osc52').copy('+'),
+      ["*"] = require('vim.ui.clipboard.osc52').copy('*'),
     },
     paste = {
-      ['+'] = function()
-        return vim.fn.getreg("+", 1, true)
-      end,
-      ['*'] = function()
-        return vim.fn.getreg("*", 1, true)
-      end,
+      ['+'] = function() return { {}, 'v' } end,
+      ['*'] = function() return { {}, 'v' } end,
     },
   }
 end

@@ -1,6 +1,7 @@
--- highlight on yank
+-- send unamed yanks to system clipboard an highlight on yank
 vim.api.nvim_create_autocmd('TextYankPost', {
-  callback = function()
+  callback = function(event)
+    vim.fn.setreg("+", vim.fn.getreg('"'), event.regtype)
     vim.highlight.on_yank()
   end
 })

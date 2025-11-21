@@ -3,61 +3,77 @@ local M = {}
 -- https://mason-registry.dev/
 local cfg = {
   c = {
-    lsp_servers = { "clangd" },
+    lsp_clients = { "clangd" },
     mason_packages = { "clangd" }
   },
   cpp = {
-    lsp_servers = { "clangd" },
+    lsp_clients = { "clangd" },
     mason_packages = { "clangd" }
     -- includes clang-tidy and clang-format for linting and formatting
   },
   lua = {
-    lsp_servers = { "lua_ls" },
+    lsp_clients = { "lua_ls" },
     mason_packages = { "lua-language-server" }
     -- includes EmmyLuaCodeStyle for linting and formatting
   },
   python = {
-    lsp_servers = { "ty", "ruff" },   -- pyright
+    lsp_clients = { "ty", "ruff" },   -- pyright
     mason_packages = { "ty", "ruff" } -- pyright
     -- using ruff for linting and formatting
   },
   typescript = {
-    lsp_servers = { "ts_ls" },
+    lsp_clients = { "ts_ls" },
     mason_packages = { "typescript-language-server", "prettierd" }
     -- using eslint for linting and prettier for formatting
   },
   kotlin = {
-    lsp_servers = { "kotlin_lsp" },
+    lsp_clients = { "kotlin_lsp" },
     mason_packages = { "kotlin-lsp" }
   },
   markdown = {
-    lsp_servers = { "marksman" },
+    lsp_clients = { "marksman" },
     mason_packages = { "marksman" }
     -- using prettier for formatting
   },
 }
 
-local function get_lsp_servers(ft)
-  return cfg[ft] and cfg[ft].lsp_servers
+local function get_lsp_clients(ft)
+  return cfg[ft] and cfg[ft].lsp_clients
 end
 
 local function start()
-  local servers = get_lsp_servers(vim.bo.filetype)
-  if servers then
-    vim.lsp.enable(servers, true)
+  local clients = get_lsp_clients(vim.bo.filetype)
+  if clients then
+    vim.lsp.enable(clients, true)
   end
 end
 
 local function stop()
-  local servers = get_lsp_servers(vim.bo.filetype)
-  if servers then
-    vim.lsp.enable(servers, false)
+  local clients = get_lsp_clients(vim.bo.filetype)
+  if clients then
+    vim.lsp.enable(clients, false)
     vim.lsp.stop_client(vim.lsp.get_clients())
   end
 end
 
 M.is_running = function()
-  return #vim.lsp.get_clients() > 0
+  local clients = get_lsp_clients(vim.bo.filetype)
+  if not clients then
+    return false
+  end
+
+  local running_clients = {}
+  for _, client in ipairs(vim.lsp.get_clients()) do
+    running_clients[client.name] = true
+  end
+
+  for _, client in ipairs(clients) do
+    if running_clients[client] then
+      return true
+    end
+  end
+
+  return false
 end
 
 M.toggle = function()

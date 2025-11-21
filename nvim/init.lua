@@ -1,4 +1,4 @@
-local keymaps = require("config.keymaps")
+local km = require("modules.keymap")
 
 local function setup_plugin_manager()
   local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -19,25 +19,16 @@ local function setup_plugins()
   require("lazy").setup("plugins")
 end
 
-local function setup_nops(opts)
-  for _, r in pairs(opts) do
-    vim.keymap.set("n", r.lhs, r.rhs, { silent = true, noremap = true, desc = "nop" })
-  end
-end
-
-local function setup_keymaps(opts)
-  for _, k in pairs(opts) do
-    vim.keymap.set(k.mode, k.lhs, k.rhs, { desc = k.desc, silent = true, noremap = true })
-  end
-end
-
+-- register configuration first
 require("config.options")
 require("config.autocmd")
 require("config.rightclick")
+km.setup_keymaps()
+
+-- setup plugins
 setup_plugin_manager()
-setup_nops(keymaps.nops)
-setup_keymaps(keymaps.editing)
 setup_plugins()
+km.setup_plugin_keymaps()
 
 -- register these last to make sure they take precedence
 require("config.commands")

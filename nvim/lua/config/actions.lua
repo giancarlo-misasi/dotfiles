@@ -25,11 +25,10 @@ return {
   { "Live grep",                    "LiveGrep",    function() require("telescope").extensions.live_grep_args.live_grep_args {} end },
   { "Recent files",                 "",            function() require("telescope.builtin").oldfiles {} end },
   { "Buffers",                      "Buffers",     function() require("telescope.builtin").buffers {} end },
+  { "Registers",                    "Registers",   function() require("telescope.builtin").registers {} end },
+  { "Clear registers",              "",            function() for i = 34, 122 do pcall(vim.fn.setreg, string.char(i), " ") end end },
   { "Commands",                     "",            function() require("telescope.builtin").commands {} end },
   { "Diagnostics",                  "Diagnostics", function() require("telescope.builtin").diagnostics {} end },
-  { "Flash jump",                   "FlashJump",   function() require("flash").jump({ search = { mode = "fuzzy" } }) end },
-  { "Flash remote",                 "FlashRemote", function() require("flash").remote() end },
-  { "Flash toggle",                 "FlashToggle", function() require("flash").toggle() end },
   { "Replace text",                 "ReplaceText", function() require("rip-substitute").sub() end },
 
   { "Set language",                 "",            function() require("telescope.builtin").filetypes {} end },

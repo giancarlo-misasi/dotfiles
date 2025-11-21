@@ -7,11 +7,13 @@ local M = {}
 --   command_mode = c
 M.nops = {
   { lhs = "q",     rhs = "<Nop>" }, -- I often hit q by accident and dont use macros
-  { lhs = "r",     rhs = "<Nop>" }, -- Remapped to be redo
-  { lhs = "R",     rhs = "<Nop>" }, -- I don't like replace mode
-  { lhs = "<C-b>", rhs = "<Nop>" }, -- I use C-f for find, so disable this pair
+  { lhs = "s",     rhs = "<Nop>" }, -- Used for flash
+  { lhs = "S",     rhs = "<Nop>" }, -- Used for flash
+  { lhs = "r",     rhs = "<Nop>" }, -- Used for flash
+  { lhs = "<C-b>", rhs = "<Nop>" }, -- Used for find, so disable this pair
   { lhs = "<C-f>", rhs = "<Nop>" },
-  { lhs = "<C-z>", rhs = "<Nop>" }, -- I use this for undo
+  { lhs = "<C-h>", rhs = "<Nop>" }, -- Used for replace
+  { lhs = "<C-z>", rhs = "<Nop>" }, -- Used this for undo
 }
 
 -- Note: All keymaps here use noremap=true so that we can map to things that I have no-opped
@@ -33,20 +35,16 @@ M.editing = {
   { desc = "Undo",                mode = "n", lhs = "<C-z>",     rhs = "u" },
   { desc = "Undo",                mode = "i", lhs = "<C-z>",     rhs = "<C-o>u" },
   { desc = "Undo",                mode = "x", lhs = "<C-z>",     rhs = "<ESC>u" },
-  { desc = "Redo",                mode = "n", lhs = "r",         rhs = "<C-r>" },
   { desc = "Redo",                mode = "n", lhs = "<C-y>",     rhs = "<C-r>" },
   { desc = "Redo",                mode = "i", lhs = "<C-y>",     rhs = "<C-o><C-r>" },
   { desc = "Redo",                mode = "x", lhs = "<C-y>",     rhs = "<ESC><C-r>" },
-  -- visual cut and copy
-  { desc = "Visual copy",         mode = "x", lhs = "<C-c>",     rhs = "y" },
-  { desc = "Visual cut",          mode = "x", lhs = "<C-x>",     rhs = "d" },
   -- text movement
   { desc = "Move text down",      mode = "n", lhs = "<A-Down>",  rhs = "<CMD>m .+1<CR>==" },
   { desc = "Move text down",      mode = "i", lhs = "<A-Down>",  rhs = "<ESC><CMD>m .+1<CR>==gi" },
-  { desc = "Move text down",      mode = "x", lhs = "<A-Down>",  rhs = "<CMD>m '>+1<CR>gv=gv" },
+  { desc = "Move text down",      mode = "x", lhs = "<A-Down>",  rhs = ":m '>+1<CR>gv=gv" },
   { desc = "Move text up",        mode = "n", lhs = "<A-Up>",    rhs = "<CMD>m .-2<CR>==" },
   { desc = "Move text up",        mode = "i", lhs = "<A-Up>",    rhs = "<ESC><CMD>m .-2<CR>==gi" },
-  { desc = "Move text up",        mode = "x", lhs = "<A-Up>",    rhs = "<CMD>m '<-2<CR>gv=gv" },
+  { desc = "Move text up",        mode = "x", lhs = "<A-Up>",    rhs = ":m '<-2<CR>gv=gv" },
   { desc = "Indent",              mode = "n", lhs = "<Tab>",     rhs = ">>" },
   { desc = "Indent",              mode = "x", lhs = "<Tab>",     rhs = ">gv" },
   { desc = "Reverse indent",      mode = "n", lhs = "<S-Tab>",   rhs = "<<" },
@@ -66,9 +64,20 @@ M.editing = {
   { desc = "Replace text",        mode = "n", lhs = "<C-h>",     rhs = "<CMD>ReplaceText<CR>" },
   { desc = "Replace text",        mode = "x", lhs = "<C-h>",     rhs = "<CMD>ReplaceText<CR>" },
   { desc = "Toggle lsp",          mode = "n", lhs = "<F9>",      rhs = "<CMD>ToggleLsp<CR>" },
+}
 
-  { desc = "Flash search",        mode = "n", lhs = "<leader>/", rhs = "<CMD>lua require('flash').jump({ search = { multi_window = false }})<CR>" },
-  { desc = "Flash search back",   mode = "n", lhs = "<leader>?", rhs = "<CMD>lua require('flash').jump({ search = { forward = false, multi_window = false }})<CR>" },
+M.repeat_move = {
+  repeat_forward = ";",
+  repeat_backward = ",",
+  move_forward = "]",
+  move_backward = "[",
+  diagnostic_keys = {
+    { key = "d", severity = nil },
+    { key = "e", severity = "error" },
+    { key = "w", severity = "warn" },
+    { key = "i", severity = "info" },
+    { key = "h", severity = "hint" },
+  },
 }
 
 M.autocomplete = {
@@ -83,17 +92,17 @@ M.autocomplete = {
 }
 
 M.surround = {
-  normal = "ys",
-  normal_cur = "yss",
-  normal_line = "yS",
-  normal_cur_line = "ySS",
-  visual = "S",
-  visual_line = "gS",
-  change = "cs",
-  change_line = "cS",
-  delete = "ds",
-  insert = false,      -- "<C-g>s",
-  insert_line = false, -- "<C-g>S"
+  normal = "gsy",
+  normal_cur = "gsyy",
+  change = "gsc",
+  delete = "gsd",
+  insert = false,
+  insert_line = false,
+  visual = false,
+  visual_line = false,
+  normal_line = false,
+  normal_cur_line = false,
+  change_line = false,
 }
 
 M.comment_operator = {
@@ -106,6 +115,13 @@ M.comment_toggler = {
   block = "gbc",
 }
 
+M.flash = {
+  { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end,                                   desc = "Flash Jump" },
+  { "S", mode = { "n" },           function() require("flash").treesitter({ jump = { pos = "start" } }) end, desc = "Flash Treesitter" },
+  { "S", mode = { "x", "o" },      function() require("flash").treesitter() end,                             desc = "Flash Treesitter (Visual)" },
+  { "r", mode = { "o" },           function() require("flash").remote() end,                                 desc = "Remote Flash" },
+}
+
 M.textobjects_select = {
   ["aa"] = "@parameter.outer",
   ["ia"] = "@parameter.inner",
@@ -113,49 +129,6 @@ M.textobjects_select = {
   ["if"] = "@function.inner",
   ["ab"] = "@block.outer",
   ["ib"] = "@block.inner",
-}
-
-M.textobjects_move = {
-  goto_next_start = {
-    ["]aa"] = "@parameter.outer",
-    ["]ia"] = "@parameter.inner",
-    ["]af"] = "@function.outer",
-    ["]if"] = "@function.inner",
-    ["]ab"] = "@block.outer",
-    ["]ib"] = "@block.inner",
-  },
-  goto_next_end = {
-    ["]aA"] = "@parameter.outer",
-    ["]iA"] = "@parameter.inner",
-    ["]aF"] = "@function.outer",
-    ["]iF"] = "@function.inner",
-    ["]aB"] = "@block.outer",
-    ["]iB"] = "@block.inner",
-  },
-  goto_previous_start = {
-    ["[aa"] = "@parameter.outer",
-    ["[ia"] = "@parameter.inner",
-    ["[af"] = "@function.outer",
-    ["[if"] = "@function.inner",
-    ["[ab"] = "@block.outer",
-    ["[ib"] = "@block.inner",
-  },
-  goto_previous_end = {
-    ["[aA"] = "@parameter.outer",
-    ["[iA"] = "@parameter.inner",
-    ["[aF"] = "@function.outer",
-    ["[iF"] = "@function.inner",
-    ["[aB"] = "@block.outer",
-    ["[iB"] = "@block.inner",
-  },
-}
-
-M.textobjects_move_repeat = {
-  diagnostic = "d",
-  error = "e",
-  warn = "w",
-  info = "i",
-  hint = "h",
 }
 
 M.lsp = {

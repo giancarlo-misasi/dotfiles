@@ -48,6 +48,16 @@ return {
     end,
   },
   {
+    "chrisgrieser/nvim-rip-substitute",
+    lazy = true,
+    opts = {},
+    keys = {}, -- keybinds set in keymaps
+  },
+  {
+    "lewis6991/gitsigns.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+  },
+  {
     "folke/flash.nvim",
     event = "VeryLazy",
     opts = {
@@ -59,25 +69,11 @@ return {
         before = true,
       },
       modes = {
-        search = {
-          enabled = true,
-          highlight = {
-            backdrop = true
-          },
+        char = {
+          enabled = false
         },
-        char = { enabled = false } -- conflicts with repeatable_move
-      },
+      }
     },
-    keys = {}, -- keybinds set in keymaps
-  },
-  {
-    "chrisgrieser/nvim-rip-substitute",
-    lazy = true,
-    opts = {},
-    keys = {}, -- keybinds set in keymaps
-  },
-  {
-    "lewis6991/gitsigns.nvim",
-    event = { "BufReadPre", "BufNewFile" },
+    keys = keymaps.flash,
   },
 }
