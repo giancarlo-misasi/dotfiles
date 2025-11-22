@@ -1,7 +1,8 @@
 local M = {}
 
--- https://mason-registry.dev/
+local running = false
 local cfg = {
+  -- https://mason-registry.dev/
   c = {
     lsp_clients = { "clangd" },
     mason_packages = { "clangd" }
@@ -37,43 +38,23 @@ local cfg = {
   },
 }
 
-local function get_lsp_clients(ft)
-  return cfg[ft] and cfg[ft].lsp_clients
-end
-
 local function start()
-  local clients = get_lsp_clients(vim.bo.filetype)
-  if clients then
-    vim.lsp.enable(clients, true)
+  for _, config in pairs(cfg) do
+    vim.lsp.enable(config.lsp_clients, true)
   end
+  running = true
 end
 
 local function stop()
-  local clients = get_lsp_clients(vim.bo.filetype)
-  if clients then
-    vim.lsp.enable(clients, false)
-    vim.lsp.stop_client(vim.lsp.get_clients())
+  for _, lang in pairs(cfg) do
+    vim.lsp.enable(lang.lsp_clients, false)
   end
+  vim.lsp.stop_client(vim.lsp.get_clients())
+  running = false
 end
 
 M.is_running = function()
-  local clients = get_lsp_clients(vim.bo.filetype)
-  if not clients then
-    return false
-  end
-
-  local running_clients = {}
-  for _, client in ipairs(vim.lsp.get_clients()) do
-    running_clients[client.name] = true
-  end
-
-  for _, client in ipairs(clients) do
-    if running_clients[client] then
-      return true
-    end
-  end
-
-  return false
+  return running
 end
 
 M.toggle = function()
@@ -81,7 +62,7 @@ M.toggle = function()
   require("lspconfig")            -- use default lsp configs
   -- NOTE: lsp config overrides are in nvim/lsp/*
 
-  if M.is_running() then
+  if running then
     stop()
   else
     start()

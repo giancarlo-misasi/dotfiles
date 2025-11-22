@@ -10,9 +10,6 @@ M.nops = {
   { lhs = "s",     rhs = "<Nop>" }, -- Used for flash
   { lhs = "S",     rhs = "<Nop>" }, -- Used for flash
   { lhs = "r",     rhs = "<Nop>" }, -- Used for flash
-  { lhs = "<C-b>", rhs = "<Nop>" }, -- Used for find, so disable this pair
-  { lhs = "<C-f>", rhs = "<Nop>" },
-  { lhs = "<C-h>", rhs = "<Nop>" }, -- Used for replace
   { lhs = "<C-z>", rhs = "<Nop>" }, -- Used this for undo
 }
 
@@ -38,6 +35,8 @@ M.editing = {
   { desc = "Redo",                mode = "n", lhs = "<C-y>",     rhs = "<C-r>" },
   { desc = "Redo",                mode = "i", lhs = "<C-y>",     rhs = "<C-o><C-r>" },
   { desc = "Redo",                mode = "x", lhs = "<C-y>",     rhs = "<ESC><C-r>" },
+  -- visual cut
+  { desc = "Visual cut",          mode = "x", lhs = "<C-x>",     rhs = "d" },
   -- text movement
   { desc = "Move text down",      mode = "n", lhs = "<A-Down>",  rhs = "<CMD>m .+1<CR>==" },
   { desc = "Move text down",      mode = "i", lhs = "<A-Down>",  rhs = "<ESC><CMD>m .+1<CR>==gi" },
@@ -60,9 +59,7 @@ M.editing = {
   { desc = "LiveGrep",            mode = "n", lhs = "<leader>g", rhs = "<CMD>LiveGrep<CR>" },
   { desc = "FindFiles",           mode = "n", lhs = "<leader>f", rhs = "<CMD>FindFiles<CR>" },
   { desc = "FileTree",            mode = "n", lhs = "<leader>t", rhs = "<CMD>FileTree<CR>" },
-  { desc = "Search file",         mode = "n", lhs = "<C-f>",     rhs = "<CMD>FindText<CR>" },
-  { desc = "Replace text",        mode = "n", lhs = "<C-h>",     rhs = "<CMD>ReplaceText<CR>" },
-  { desc = "Replace text",        mode = "x", lhs = "<C-h>",     rhs = "<CMD>ReplaceText<CR>" },
+  { desc = "Replace text",        mode = "n", lhs = "<leader>r", rhs = "<CMD>ReplaceText<CR>" },
   { desc = "Toggle lsp",          mode = "n", lhs = "<F9>",      rhs = "<CMD>ToggleLsp<CR>" },
 }
 

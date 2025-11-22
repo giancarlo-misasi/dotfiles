@@ -20,7 +20,6 @@ return {
   { "Load cwd to buffers",          "",            function() vim.cmd("args **/*") end },
   { "Close other buffers",          "",            function() vim.cmd("w|%bd|e#") end },
 
-  { "Find text",                    "FindText",    function() require("telescope.builtin").current_buffer_fuzzy_find { default_text = vim.fn.expand("<cword>") } end },
   { "Find files",                   "FindFiles",   function() require("telescope.builtin").find_files {} end },
   { "Live grep",                    "LiveGrep",    function() require("telescope").extensions.live_grep_args.live_grep_args {} end },
   { "Recent files",                 "",            function() require("telescope.builtin").oldfiles {} end },

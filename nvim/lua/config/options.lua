@@ -23,6 +23,7 @@ local options = {
   signcolumn = "yes",
   showmode = true,
   showcmd = true,
+  showtabline = 0,
   ignorecase = true,
   smartcase = true,
   incsearch = true,
