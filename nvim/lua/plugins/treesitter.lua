@@ -9,6 +9,9 @@ local languages = {
   "typescript",
   "dockerfile",
   "markdown",
+  "bash",
+  "yaml",
+  "regex",
 }
 
 return {

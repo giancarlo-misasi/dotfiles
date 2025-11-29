@@ -55,6 +55,7 @@ M.editing = {
   { desc = "Move to lower split", mode = "n", lhs = "<A-Down>",  rhs = "<C-w>j" },
   { desc = "Move to left split",  mode = "n", lhs = "<A-Left>",  rhs = "<C-w>h" },
   { desc = "Move to right split", mode = "n", lhs = "<A-Right>", rhs = "<C-w>l" },
+  { desc = "Cycle split mode",    mode = "n", lhs = "<F12>",     rhs = "<CMD>CycleSplitMode<CR>" },
   -- commands
   { desc = "Actions",             mode = "n", lhs = "<F1>",      rhs = "<CMD>Actions<CR>" },
   { desc = "LiveGrep",            mode = "n", lhs = "<leader>g", rhs = "<CMD>LiveGrep<CR>" },
@@ -132,10 +133,10 @@ M.textobjects_select = {
 }
 
 M.lsp = {
-  { desc = "Goto defn", mode = "n", lhs = "gd",  rhs = "<CMD>LspDefn<CR>" },
-  { desc = "Goto decl", mode = "n", lhs = "gD",  rhs = "<CMD>LspDecl<CR>" },
-  { desc = "Goto type", mode = "n", lhs = "gy",  rhs = "<CMD>LspTypeDef<CR>" },
-  { desc = "Goto type", mode = "n", lhs = "grf", rhs = "<CMD>FormatCode<CR>" },
+  { desc = "Goto defn",   mode = "n", lhs = "gd",  rhs = "<CMD>LspDefn<CR>" },
+  { desc = "Goto decl",   mode = "n", lhs = "gD",  rhs = "<CMD>LspDecl<CR>" },
+  { desc = "Goto type",   mode = "n", lhs = "gy",  rhs = "<CMD>LspTypeDef<CR>" },
+  { desc = "Format code", mode = "n", lhs = "grf", rhs = "<CMD>FormatCode<CR>" },
 
   -- https://neovim.io/doc/user/lsp.html#lsp-defaults
   -- rename           grn

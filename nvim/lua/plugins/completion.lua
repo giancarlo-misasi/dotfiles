@@ -30,7 +30,6 @@ return {
       enabled = function()
         return vim.bo.buftype ~= "prompt"
             and vim.bo.filetype ~= "TelescopePrompt"
-            and vim.bo.filetype ~= "DressingInput"
             and vim.b.completion ~= false
       end,
       completion = {
@@ -49,9 +48,6 @@ return {
             },
           }
         },
-      },
-      cmdline = {
-        sources = {},
       },
     },
   },

@@ -76,4 +76,9 @@ return {
     },
     keys = keymaps.flash,
   },
+  {
+    'nvim-focus/focus.nvim',
+    version = false,
+    opts = {},
+  },
 }
