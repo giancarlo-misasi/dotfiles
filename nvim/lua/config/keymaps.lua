@@ -20,8 +20,6 @@ M.editing = {
   -- clear highlighting on escape
   { desc = "Clear highlighting",  mode = "n", lhs = "<ESC>",     rhs = "<CMD>noh<CR><ESC>" },
   -- jump movement
-  { desc = "Jump list back",      mode = "n", lhs = "<A-Left>",  rhs = "<C-o>" },
-  { desc = "Jump list forward",   mode = "n", lhs = "<A-Right>", rhs = "<C-i>" },
   { desc = "Jump down & center",  mode = "n", lhs = "<C-d>",     rhs = "<C-d>zz" },
   { desc = "Jump up & center",    mode = "n", lhs = "<C-u>",     rhs = "<C-u>zz" },
   -- selection
@@ -49,11 +47,14 @@ M.editing = {
   { desc = "Reverse indent",      mode = "n", lhs = "<S-Tab>",   rhs = "<<" },
   { desc = "Reverse indent",      mode = "i", lhs = "<S-Tab>",   rhs = "<C-D>" },
   { desc = "Reverse indent",      mode = "x", lhs = "<S-Tab>",   rhs = "<gv" },
+  -- tab movement
+  { desc = "Move to prev tab",    mode = "n", lhs = "<C-Left>",  rhs = "gt" },
+  { desc = "Move to next tab",    mode = "n", lhs = "<C-Right>", rhs = "gT" },
   -- split movement
-  { desc = "Move to upper split", mode = "n", lhs = "<C-Up>",    rhs = "<C-w>k" },
-  { desc = "Move to lower split", mode = "n", lhs = "<C-Down>",  rhs = "<C-w>j" },
-  { desc = "Move to left split",  mode = "n", lhs = "<C-Left>",  rhs = "<C-w>h" },
-  { desc = "Move to right split", mode = "n", lhs = "<C-Right>", rhs = "<C-w>l" },
+  { desc = "Move to upper split", mode = "n", lhs = "<A-Up>",    rhs = "<C-w>k" },
+  { desc = "Move to lower split", mode = "n", lhs = "<A-Down>",  rhs = "<C-w>j" },
+  { desc = "Move to left split",  mode = "n", lhs = "<A-Left>",  rhs = "<C-w>h" },
+  { desc = "Move to right split", mode = "n", lhs = "<A-Right>", rhs = "<C-w>l" },
   -- commands
   { desc = "Actions",             mode = "n", lhs = "<F1>",      rhs = "<CMD>Actions<CR>" },
   { desc = "LiveGrep",            mode = "n", lhs = "<leader>g", rhs = "<CMD>LiveGrep<CR>" },
@@ -68,6 +69,8 @@ M.repeat_move = {
   repeat_backward = ",",
   move_forward = "]",
   move_backward = "[",
+  jump_list_forward = "]]",
+  jump_list_backward = "[[",
   diagnostic_keys = {
     { key = "d", severity = nil },
     { key = "e", severity = "error" },
