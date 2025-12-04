@@ -31,9 +31,9 @@ local function jump(opts)
     repeatably_do(function(o)
       o = o or {}
       if o.forward then
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc><C-i>", true, false, true), "n", true)
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-i>", true, false, true), "n", false)
       else
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc><C-o>", true, false, true), "n", true)
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-o>", true, false, true), "n", false)
       end
     end, opts)
   end

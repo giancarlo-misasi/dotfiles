@@ -25,6 +25,8 @@ return {
   { "Live grep",                    "LiveGrep",       function() require("telescope").extensions.live_grep_args.live_grep_args {} end },
   { "Recent files",                 "",               function() require("telescope.builtin").oldfiles {} end },
   { "Buffers",                      "Buffers",        function() require("telescope.builtin").buffers {} end },
+  { "Marks",                        "Marks",          function() require("telescope.builtin").marks {} end },
+  { "Jumps",                        "Jumps",          function() require("telescope.builtin").jumplist {} end },
   { "Registers",                    "Registers",      function() require("telescope.builtin").registers {} end },
   { "Clear registers",              "",               function() for i = 34, 122 do pcall(vim.fn.setreg, string.char(i)," ") end end },
   { "Commands",                     "",               function() require("telescope.builtin").commands {} end },
